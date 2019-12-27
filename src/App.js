@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 import Dashboard from "./views/Dashboard";
 import Auth from "./views/Auth";
 import Header from "./layout/Header";
 
 function App() {
-  return (
+  const [isAuthorized, setAuth] = useState(false);
+  return isAuthorized ? (
     <>
-      {/* <Header /> */}
+      <Header />
+      <Router>
+        <Switch>
+          <Route path="/" exact component={Dashboard} />
+          <Route path="/" default component={Dashboard} />
+        </Switch>
+      </Router>
+    </>
+  ) : (
+    <>
       <Router>
         <Switch>
           <Route path="/" exact component={Auth} />
-          <Route path="/" exact component={Dashboard} />
+          <Route path="/" default component={Auth} />
         </Switch>
       </Router>
     </>

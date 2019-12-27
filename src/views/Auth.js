@@ -9,7 +9,7 @@ const Auth = () => {
           <span role="img" aria-label="hand waving">
             👋
           </span>{" "}
-          Hey there
+          Hey, welcome back!
         </Title>
       </AuthContainer>
     </Container>
@@ -27,14 +27,12 @@ const AuthContainer = styled.div`
   height: 60vh;
   min-width: 300px;
   background: white;
-  -webkit-box-shadow: 0px 0px 3px 2px rgba(145, 145, 145, 0.1);
-  -moz-box-shadow: 0px 0px 3px 2px rgba(145, 145, 145, 0.1);
-  box-shadow: 0px 0px 3px 2px rgba(145, 145, 145, 0.1);
+  ${p => p.theme.boxShadow}
   padding: 50px 10px;
 `;
 
 const Title = styled.p`
-  font-size: 2em;
+  font-size: 1.5em;
   font-family: "Avenir";
   font-weight: bold;
   text-align: center;
