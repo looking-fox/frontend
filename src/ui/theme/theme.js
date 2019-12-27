@@ -1,6 +1,8 @@
 const theme = {
   primaryColor: "black",
   primaryText: "white",
+  green: "#00b88b",
+  purple: "#7b16ff",
   flexAllCenter: {
     display: "flex",
     alignItems: "center",
