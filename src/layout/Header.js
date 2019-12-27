@@ -11,10 +11,14 @@ const Header = () => {
       </LogoContainer>
 
       <Navigation>
-        <Text link>Home</Text>
+        <Text link>Dashboard</Text>
         <Text link>Stats</Text>
         <Text link>Settings</Text>
       </Navigation>
+
+      <AvatarContainer>
+        <Avatar src={null} alt="user avatar" />
+      </AvatarContainer>
     </Container>
   );
 };
@@ -27,17 +31,34 @@ const Container = styled.div`
 `;
 
 const LogoContainer = styled.div`
-  width: 20%;
+  width: 15%;
   ${p => p.theme.flexAllCenter}
 `;
 
 const Navigation = styled.nav`
-  width: 80%;
+  width: 70%;
+  padding: 0px 15vw;
   ${p => p.theme.flexEvenly}
 `;
 
 const Image = styled.img`
   height: 50%;
+`;
+
+const AvatarContainer = styled.div`
+  width: 15%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 50px;
+`;
+
+const Avatar = styled.div`
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  background: #777777;
+  cursor: pointer;
 `;
 
 export default Header;
