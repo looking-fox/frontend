@@ -1,12 +1,19 @@
 import React from "react";
-import { Button, Container } from "./ui/StyledComponents";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import Dashboard from "./views/Dashboard";
+import Header from "./layout/Header";
 
 function App() {
   return (
-    <Container>
-      <p>Hello</p>
-      <Button>Hey, there</Button>
-    </Container>
+    <>
+      <Header />
+      <Router>
+        <Switch>
+          <Route path="/" exact component={Dashboard} />
+        </Switch>
+      </Router>
+    </>
   );
 }
 
