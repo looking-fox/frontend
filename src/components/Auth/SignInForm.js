@@ -42,7 +42,7 @@ class SignInForm extends Component {
       const { user } = await firebaseAuth
         .auth()
         .signInWithEmailAndPassword(email, password);
-      this.props.login(user.uid);
+      await this.props.login(user.uid);
     } catch (err) {
       this.handleError(err.message);
       this.setState({ isLoggingIn: false });
@@ -64,7 +64,12 @@ class SignInForm extends Component {
   };
 
   handleError = (errorMessage = "Oops. Something went wrong.") => {
-    this.setState({ error: true, errorMessage });
+    this.setState({
+      error: true,
+      errorMessage,
+      isLoggingIn: false,
+      isLoggingInWithFacebook: false
+    });
   };
 
   handleSignUpStatus() {
