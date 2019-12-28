@@ -26,7 +26,7 @@ const Header = () => {
 const Container = styled.div`
   height: 8vh;
   min-height: 60px;
-  background: #ededed;
+  background: ${p => p.theme.lightGrey}
   display: flex;
 `;
 
