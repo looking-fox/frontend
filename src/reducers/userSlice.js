@@ -40,6 +40,6 @@ const login = () => async dispatch => {
 };
 //--Thunks--//
 
-export const { loginSuccess, loginFail } = userSlice.actions; // Actions
+export const { loginSuccess, loginFail, logout } = userSlice.actions; // Actions
 export { login }; // Thunks
 export default userSlice.reducer;
