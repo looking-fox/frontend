@@ -10,10 +10,9 @@ const Input = styled.input`
   font-size: 1em;
   outline: 1px solid #ededed;
   ${props =>
-    props.primary &&
+    props.error &&
     css`
-      background: palevioletred;
-      color: white;
+      outline: 1px solid #e65f5c;
     `};
 `;
 
