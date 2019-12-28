@@ -20,8 +20,16 @@ function App() {
     <>
       <Router>
         <Switch>
-          <Route path="/" exact component={Auth} />
-          <Route path="/" default component={Auth} />
+          <Route
+            path="/"
+            exact
+            render={props => <Auth {...props} setAuth={setAuth} />}
+          />
+          <Route
+            path="/"
+            default
+            render={props => <Auth {...props} setAuth={setAuth} />}
+          />
         </Switch>
       </Router>
     </>

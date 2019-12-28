@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import SignInForm from "../components/Auth/SignInForm";
 
-const Auth = () => {
+const Auth = props => {
   return (
     <Container>
-      <SignInForm />
+      <SignInForm setAuth={props.setAuth} />
     </Container>
   );
 };

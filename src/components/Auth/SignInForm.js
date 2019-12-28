@@ -12,41 +12,52 @@ class SignInForm extends Component {
     password: "",
     confirmPassword: "",
     error: false,
-    errorMessage: ""
+    errorMessage: "",
+    isLoggingIn: false,
+    isLoggingInWithFacebook: false
   };
 
   signUp = async () => {
     try {
+      this.setState({ isLoggingIn: true });
       const { email, password, confirmPassword } = this.state;
       const { user } = await firebaseAuth
         .auth()
         .createUserWithEmailAndPassword(email, password);
       console.log("New User: ", user);
+      this.setState({ isLoggingIn: false });
     } catch (err) {
       this.handleError(err.message);
+      this.setState({ isLoggingIn: false });
     }
   };
 
   signIn = async () => {
+    this.setState({ isLoggingIn: true });
     try {
       const { email, password } = this.state;
       const { user } = await firebaseAuth
         .auth()
         .signInWithEmailAndPassword(email, password);
       console.log("New User: ", user);
+      this.setState({ isLoggingIn: false }, () => this.props.setAuth(true));
     } catch (err) {
       this.handleError(err.message);
+      this.setState({ isLoggingIn: false });
     }
   };
 
   signInWithFacebook = async () => {
+    this.setState({ isLoggingInWithFacebook: true });
     try {
       const { user } = await firebaseAuth
         .auth()
         .signInWithPopup(facebookProvider);
       console.log("New Facebook User: ", user);
+      this.setState({ isLoggingInWithFacebook: false });
     } catch (err) {
       this.handleError(err.message);
+      this.setState({ isLoggingInWithFacebook: false });
     }
   };
 
@@ -112,11 +123,16 @@ class SignInForm extends Component {
           <ErrorMessage>{this.state.errorMessage}</ErrorMessage>
         )}
 
-        <Button fullWidth onClick={isSignUpForm ? this.signUp : this.signIn}>
+        <Button
+          fullWidth
+          onClick={isSignUpForm ? this.signUp : this.signIn}
+          isLoading={this.state.isLoggingIn}
+        >
           {isSignUpForm ? "Sign Up" : "Log In"}
         </Button>
         <Button
           fullWidth
+          isLoading={this.state.isLoggingInWithFacebook}
           style={{ background: "#3b5998" }}
           onClick={this.signInWithFacebook}
         >
