@@ -5,6 +5,9 @@ import { Input, Button, Text } from "../../ui/StyledComponents";
 import Logo from "../../assets/images/logo.png";
 import { IoLogoFacebook } from "react-icons/io";
 import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { login } from "../../reducers/userSlice";
 
 class SignInForm extends Component {
   state = {
@@ -39,8 +42,7 @@ class SignInForm extends Component {
       const { user } = await firebaseAuth
         .auth()
         .signInWithEmailAndPassword(email, password);
-      console.log("New User: ", user);
-      this.setState({ isLoggingIn: false }, () => this.props.setAuth(true));
+      this.props.login(user.uid);
     } catch (err) {
       this.handleError(err.message);
       this.setState({ isLoggingIn: false });
@@ -83,6 +85,7 @@ class SignInForm extends Component {
   render() {
     const { email, password, confirmPassword } = this.state;
     const isSignUpForm = this.handleSignUpStatus();
+
     return (
       <AuthContainer>
         <Image src={Logo} alt="logo" />
@@ -201,4 +204,6 @@ const ErrorMessage = styled(Text)`
   margin-bottom: 25px;
 `;
 
-export default withRouter(SignInForm);
+const mapDispatch = { login };
+
+export default compose(withRouter, connect(null, mapDispatch))(SignInForm);

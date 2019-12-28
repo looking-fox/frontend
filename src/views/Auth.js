@@ -5,7 +5,7 @@ import SignInForm from "../components/Auth/SignInForm";
 const Auth = props => {
   return (
     <Container>
-      <SignInForm setAuth={props.setAuth} />
+      <SignInForm />
     </Container>
   );
 };
