@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "./views/Dashboard";
-import Auth from "./views/Auth";
+import SignInForm from "./components/Auth/SignInForm";
+import PasswordReset from "./components/Auth/PasswordReset";
 import Header from "./layout/Header";
 import { checkAuthStatus } from "./thunks/userThunks";
 import { connect } from "react-redux";
@@ -29,8 +30,8 @@ class App extends Component {
       <>
         <Router>
           <Switch>
-            <Route path="/" exact component={Auth} />
-            <Route path="/" default component={Auth} />
+            <Route path="/password-reset" exact component={PasswordReset} />
+            <Route path="/" default component={SignInForm} />
           </Switch>
         </Router>
       </>

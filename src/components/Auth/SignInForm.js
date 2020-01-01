@@ -100,64 +100,78 @@ class SignInForm extends Component {
     const isSignUpForm = this.handleSignUpStatus();
 
     return (
-      <AuthContainer>
-        <Image src={Logo} alt="logo" />
-        <Title>Hey, welcome back!</Title>
-        <Input
-          placeholder="Email"
-          type="email"
-          value={email}
-          name="email"
-          onChange={this.handleInput}
-        />
-        <Input
-          placeholder="Password"
-          type="password"
-          value={password}
-          style={{ marginBottom: 10 }}
-          name="password"
-          onChange={this.handleInput}
-          onKeyPress={this.handleKeyPress}
-        />
-        {isSignUpForm && (
+      <Container>
+        <AuthContainer>
+          <Image src={Logo} alt="logo" />
+          <Title>Hey, welcome back!</Title>
           <Input
-            placeholder="Confirm Password"
-            type="password"
-            value={confirmPassword}
-            style={{ marginBottom: 10 }}
-            name="confirmPassword"
+            placeholder="Email"
+            type="email"
+            value={email}
+            name="email"
             onChange={this.handleInput}
           />
-        )}
+          <Input
+            placeholder="Password"
+            type="password"
+            value={password}
+            style={{ marginBottom: 10 }}
+            name="password"
+            onChange={this.handleInput}
+            onKeyPress={this.handleKeyPress}
+          />
+          {isSignUpForm && (
+            <Input
+              placeholder="Confirm Password"
+              type="password"
+              value={confirmPassword}
+              style={{ marginBottom: 10 }}
+              name="confirmPassword"
+              onChange={this.handleInput}
+            />
+          )}
 
-        {this.state.error && (
-          <ErrorMessage>{this.state.errorMessage}</ErrorMessage>
-        )}
+          {this.state.error && (
+            <ErrorMessage>{this.state.errorMessage}</ErrorMessage>
+          )}
 
-        <Button
-          fullWidth
-          onClick={isSignUpForm ? this.signUp : this.signIn}
-          isLoading={this.state.isLoggingIn}
-        >
-          {isSignUpForm ? "Sign Up" : "Log In"}
-        </Button>
-        <Button
-          fullWidth
-          isLoading={this.state.isLoggingInWithFacebook}
-          style={{ background: "#3b5998" }}
-          onClick={this.signInWithFacebook}
-        >
-          <IoLogoFacebook /> {isSignUpForm ? "Sign Up" : "Log In"} with Facebook
-        </Button>
-        <StyledLink to={isSignUpForm ? "/" : "/signup"}>
-          <SignUpLink>
-            {isSignUpForm ? "Need to Sign In?" : "Need to Sign Up?"}
-          </SignUpLink>
-        </StyledLink>
-      </AuthContainer>
+          <Button
+            fullWidth
+            onClick={isSignUpForm ? this.signUp : this.signIn}
+            isLoading={this.state.isLoggingIn}
+          >
+            {isSignUpForm ? "Sign Up" : "Log In"}
+          </Button>
+          <Button
+            fullWidth
+            isLoading={this.state.isLoggingInWithFacebook}
+            style={{ background: "#3b5998" }}
+            onClick={this.signInWithFacebook}
+          >
+            <IoLogoFacebook /> {isSignUpForm ? "Sign Up" : "Log In"} with
+            Facebook
+          </Button>
+          <LinkContainer>
+            <StyledLink to={isSignUpForm ? "/" : "/signup"}>
+              <SignUpLink>
+                {isSignUpForm ? "Need to Sign In?" : "Need to Sign Up?"}
+              </SignUpLink>
+            </StyledLink>
+            <StyledLink to={"/password-reset"}>
+              <SignUpLink>Forgot Password?</SignUpLink>
+            </StyledLink>
+          </LinkContainer>
+        </AuthContainer>
+      </Container>
     );
   }
 }
+
+const Container = styled.div`
+  min-height: 100vh;
+  background: ${p => p.theme.lightGrey};
+  ${p => p.theme.flexAllCenter}
+`;
 
 const AuthContainer = styled.div`
   width: 25vw;
@@ -165,7 +179,8 @@ const AuthContainer = styled.div`
   min-width: 300px;
   background: white;
   ${p => p.theme.boxShadow}
-  padding: 10px 25px;
+  padding: 25px;
+  padding-bottom: 10px;
   border-radius: 3px;
 `;
 
@@ -196,6 +211,11 @@ const SignUpLink = styled(Text)`
   }
 `;
 
+const LinkContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   &:visited {
@@ -204,7 +224,7 @@ const StyledLink = styled(Link)`
 `;
 
 const ErrorMessage = styled(Text)`
-  color: #e65f5c;
+  color: ${p => p.theme.red};
   text-align: center;
   font-weight: bold;
   line-height: 150%;
