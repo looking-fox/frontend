@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import api from "../api/api";
 
 const initialState = {
   isAuthenticated: null,
@@ -8,7 +7,8 @@ const initialState = {
   uid: null,
   displayName: "",
   email: "",
-  profilePhotoUrl: "",
+  profilePhotoUrl:
+    "https://cdn3.iconfinder.com/data/icons/gray-toolbar-2/512/profile_user_account_human-512.png",
   error: false
 };
 
@@ -20,7 +20,9 @@ const userSlice = createSlice({
       state.isAuthenticated = action.payload;
     },
     loginSuccess(state, action) {
-      state.isAuthenticated = true;
+      const newState = { ...state, ...action.payload };
+      newState.isAuthenticated = true;
+      return newState;
     },
     loginFail(state, action) {
       state.error = true;
@@ -47,46 +49,5 @@ export const {
   signUpSuccess
 } = userSlice.actions;
 // Export actions for dispatch //
-
-//--Thunks--//
-const login = userId => async dispatch => {
-  try {
-    const { data } = await api.authentication.login(userId);
-    dispatch(loginSuccess(data));
-  } catch (err) {
-    dispatch(loginFail(err));
-  }
-};
-
-const checkAuthStatus = () => async dispatch => {
-  try {
-    const { data } = await api.authentication.checkAuthenticationStatus();
-    const authStatus = data.isAuthenticated || false;
-    dispatch(authStatusSuccess(authStatus));
-  } catch (err) {
-    // Handle Error
-  }
-};
-
-const logout = () => async dispatch => {
-  try {
-    await api.authentication.logout();
-    dispatch(logoutSuccess());
-  } catch (err) {
-    // Handle Error
-  }
-};
-
-const signUp = newUser => async dispatch => {
-  try {
-    const { data } = await api.authentication.signUp(newUser);
-    dispatch(signUpSuccess(data.user));
-  } catch (err) {
-    // Handle Error
-  }
-};
-//--Thunks--//
-
-export { login, logout, checkAuthStatus, signUp }; // Thunks
 
 export default userSlice.reducer;

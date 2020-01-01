@@ -7,7 +7,7 @@ import { IoLogoFacebook } from "react-icons/io";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { login, signUp } from "../../reducers/userSlice";
+import { login, signUp } from "../../thunks/userThunks";
 import { isValidEmail } from "../../utils/utils";
 
 class SignInForm extends Component {

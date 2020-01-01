@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { Text } from "../ui/StyledComponents";
 import Logo from "../assets/images/logo.png";
 import { connect } from "react-redux";
-import { logout } from "../reducers/userSlice";
+import { logout } from "../thunks/userThunks";
 
 const Header = props => {
+  console.log(props.user.profilePhotoUrl);
   return (
     <Container>
       <LogoContainer>
@@ -19,7 +20,11 @@ const Header = props => {
       </Navigation>
 
       <AvatarContainer>
-        <Avatar src={null} alt="user avatar" onClick={props.logout} />
+        <Avatar
+          src={props.user.profilePhotoUrl}
+          alt="user avatar"
+          onClick={props.logout}
+        />
       </AvatarContainer>
     </Container>
   );
@@ -55,14 +60,17 @@ const AvatarContainer = styled.div`
   padding-right: 50px;
 `;
 
-const Avatar = styled.div`
+const Avatar = styled.img`
   height: 30px;
   width: 30px;
   border-radius: 15px;
-  background: #777777;
   cursor: pointer;
 `;
 
 const mapDispatch = { logout };
 
-export default connect(null, mapDispatch)(Header);
+const mapState = state => {
+  return { user: state.user };
+};
+
+export default connect(mapState, mapDispatch)(Header);

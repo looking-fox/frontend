@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "./views/Dashboard";
 import Auth from "./views/Auth";
 import Header from "./layout/Header";
-import { checkAuthStatus } from "./reducers/userSlice";
+import { checkAuthStatus } from "./thunks/userThunks";
 import { connect } from "react-redux";
 
 class App extends Component {
