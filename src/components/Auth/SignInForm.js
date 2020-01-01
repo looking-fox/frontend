@@ -42,7 +42,6 @@ class SignInForm extends Component {
       await this.props.signUp({ uid, displayName, photoURL, email });
     } catch (err) {
       this.handleError(err.message);
-      this.setState({ isLoggingIn: false });
     }
   };
 
@@ -56,7 +55,6 @@ class SignInForm extends Component {
       await this.props.login(user.uid);
     } catch (err) {
       this.handleError(err.message);
-      this.setState({ isLoggingIn: false });
     }
   };
 
@@ -66,10 +64,10 @@ class SignInForm extends Component {
       const { user } = await firebaseAuth
         .auth()
         .signInWithPopup(facebookProvider);
-      await this.props.login(user.uid);
+      const { uid, displayName, photoURL, email } = user;
+      await this.props.signUp({ uid, displayName, photoURL, email });
     } catch (err) {
       this.handleError(err.message);
-      this.setState({ isLoggingInWithFacebook: false });
     }
   };
 
