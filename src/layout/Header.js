@@ -2,8 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Text } from "../ui/StyledComponents";
 import Logo from "../assets/images/logo.png";
+import { connect } from "react-redux";
+import { logout } from "../reducers/userSlice";
 
-const Header = () => {
+const Header = props => {
   return (
     <Container>
       <LogoContainer>
@@ -17,7 +19,7 @@ const Header = () => {
       </Navigation>
 
       <AvatarContainer>
-        <Avatar src={null} alt="user avatar" />
+        <Avatar src={null} alt="user avatar" onClick={props.logout} />
       </AvatarContainer>
     </Container>
   );
@@ -61,4 +63,6 @@ const Avatar = styled.div`
   cursor: pointer;
 `;
 
-export default Header;
+const mapDispatch = { logout };
+
+export default connect(null, mapDispatch)(Header);

@@ -19,14 +19,15 @@ const userSlice = createSlice({
       state.isAuthenticated = action.payload;
     },
     loginSuccess(state, action) {
-      console.log("ACTION: ", action);
       state.isAuthenticated = true;
     },
     loginFail(state, action) {
       state.error = true;
     },
-    logout(state, action) {
-      return initialState;
+    logoutSuccess(state, action) {
+      const loggedOutInitialState = { ...initialState };
+      loggedOutInitialState.isAuthenticated = false;
+      return loggedOutInitialState;
     }
   }
 });
@@ -36,7 +37,7 @@ export const {
   authStatusSuccess,
   loginSuccess,
   loginFail,
-  logout
+  logoutSuccess
 } = userSlice.actions;
 // Export actions for dispatch //
 
@@ -44,7 +45,6 @@ export const {
 const login = userId => async dispatch => {
   try {
     const { data } = await api.authentication.login(userId);
-    console.log("LOGIN DATA: ", data);
     dispatch(loginSuccess(data));
   } catch (err) {
     dispatch(loginFail(err));
@@ -60,8 +60,17 @@ const checkAuthStatus = () => async dispatch => {
     // Handle Error
   }
 };
+
+const logout = () => async dispatch => {
+  try {
+    await api.authentication.logout();
+    dispatch(logoutSuccess());
+  } catch (err) {
+    // Handle Error
+  }
+};
 //--Thunks--//
 
-export { login, checkAuthStatus }; // Thunks
+export { login, logout, checkAuthStatus }; // Thunks
 
 export default userSlice.reducer;
