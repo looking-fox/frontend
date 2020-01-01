@@ -7,7 +7,8 @@ import { IoLogoFacebook } from "react-icons/io";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { login } from "../../reducers/userSlice";
+import { login, signUp } from "../../reducers/userSlice";
+import { isValidEmail } from "../../utils/utils";
 
 class SignInForm extends Component {
   state = {
@@ -23,12 +24,22 @@ class SignInForm extends Component {
   signUp = async () => {
     try {
       this.setState({ isLoggingIn: true });
-      const { email, password, confirmPassword } = this.state;
+      const { email: inputEmail, password, confirmPassword } = this.state;
+      // Check Email
+      if (!isValidEmail(inputEmail)) {
+        throw new Error("Email is invalid. Please try again.");
+      }
+      // Check Passwords
+      if (password !== confirmPassword) {
+        throw new Error("Passwords do not match. Please try again.");
+      }
+      // Fetch New User Data from Firebase
       const { user } = await firebaseAuth
         .auth()
-        .createUserWithEmailAndPassword(email, password);
-      console.log("New User: ", user);
-      this.setState({ isLoggingIn: false });
+        .createUserWithEmailAndPassword(inputEmail, password);
+      const { uid, displayName, photoURL, email } = user;
+      // API Request to Create New User
+      await this.props.signUp({ uid, displayName, photoURL, email });
     } catch (err) {
       this.handleError(err.message);
       this.setState({ isLoggingIn: false });
@@ -55,8 +66,7 @@ class SignInForm extends Component {
       const { user } = await firebaseAuth
         .auth()
         .signInWithPopup(facebookProvider);
-      console.log("New Facebook User: ", user);
-      this.setState({ isLoggingInWithFacebook: false });
+      await this.props.login(user.uid);
     } catch (err) {
       this.handleError(err.message);
       this.setState({ isLoggingInWithFacebook: false });
@@ -94,12 +104,7 @@ class SignInForm extends Component {
     return (
       <AuthContainer>
         <Image src={Logo} alt="logo" />
-        <Title>
-          <span role="img" aria-label="hand waving">
-            👋
-          </span>{" "}
-          Hey, welcome back!
-        </Title>
+        <Title>Hey, welcome back!</Title>
         <Input
           placeholder="Email"
           type="email"
@@ -209,6 +214,6 @@ const ErrorMessage = styled(Text)`
   margin-bottom: 25px;
 `;
 
-const mapDispatch = { login };
+const mapDispatch = { login, signUp };
 
 export default compose(withRouter, connect(null, mapDispatch))(SignInForm);

@@ -11,7 +11,8 @@ const client = axios.create({
 export default {
   authentication: {
     checkAuthenticationStatus: () => client.get("/authentication/status"),
-    login: uid => client.post("/authentication/login", { userId: uid }),
-    logout: () => client.get("/authentication/logout")
+    login: uid => client.post("/authentication/login", { uid }),
+    logout: () => client.get("/authentication/logout"),
+    signUp: user => client.post("/authentication/signup", { user })
   }
 };

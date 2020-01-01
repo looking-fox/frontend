@@ -5,9 +5,10 @@ const initialState = {
   isAuthenticated: null,
   reachedFreemiumLimit: false,
   isPremiumUser: false,
+  uid: null,
   displayName: "",
   email: "",
-  userId: null,
+  profilePhotoUrl: "",
   error: false
 };
 
@@ -28,6 +29,11 @@ const userSlice = createSlice({
       const loggedOutInitialState = { ...initialState };
       loggedOutInitialState.isAuthenticated = false;
       return loggedOutInitialState;
+    },
+    signUpSuccess(state, action) {
+      const newState = { ...state, ...action.payload };
+      newState.isAuthenticated = true;
+      return newState;
     }
   }
 });
@@ -37,7 +43,8 @@ export const {
   authStatusSuccess,
   loginSuccess,
   loginFail,
-  logoutSuccess
+  logoutSuccess,
+  signUpSuccess
 } = userSlice.actions;
 // Export actions for dispatch //
 
@@ -69,8 +76,17 @@ const logout = () => async dispatch => {
     // Handle Error
   }
 };
+
+const signUp = newUser => async dispatch => {
+  try {
+    const { data } = await api.authentication.signUp(newUser);
+    dispatch(signUpSuccess(data.user));
+  } catch (err) {
+    // Handle Error
+  }
+};
 //--Thunks--//
 
-export { login, logout, checkAuthStatus }; // Thunks
+export { login, logout, checkAuthStatus, signUp }; // Thunks
 
 export default userSlice.reducer;
