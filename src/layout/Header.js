@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Text } from "../ui/StyledComponents";
 import Logo from "../assets/images/logo.png";
@@ -6,8 +6,33 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../thunks/userThunks";
 import { defaultProfileUrl } from "../config/config";
+import DropDownMenu from "./DropDownMenu";
 
 const Header = props => {
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const menuRef = useRef(null);
+  const handleToggleMenu = visible => setShowUserMenu(visible || !showUserMenu);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
+
+  const handleClickOutside = e => {
+    //Close menu if mouse clicked outside of Avatar Icon
+    if (
+      menuRef.current &&
+      !menuRef.current.contains(e.target) &&
+      showUserMenu
+    ) {
+      handleToggleMenu();
+    }
+  };
+
+  const handleSignOut = async () => await props.logout();
+
   return (
     <Container>
       <LogoContainer>
@@ -26,12 +51,13 @@ const Header = props => {
         </NavLink>
       </Navigation>
 
-      <AvatarContainer>
+      <AvatarContainer ref={menuRef}>
         <Avatar
           src={props.user.profilePhotoUrl || defaultProfileUrl}
           alt="user avatar"
-          onClick={props.logout}
+          onClick={handleToggleMenu}
         />
+        <DropDownMenu visible={showUserMenu} handleSignOut={handleSignOut} />
       </AvatarContainer>
     </Container>
   );
@@ -73,6 +99,7 @@ const AvatarContainer = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding-right: 50px;
+  position: relative;
 `;
 
 const Avatar = styled.img`
@@ -82,10 +109,10 @@ const Avatar = styled.img`
   cursor: pointer;
 `;
 
-const mapDispatch = { logout };
-
 const mapState = state => {
   return { user: state.user };
 };
+
+const mapDispatch = { logout };
 
 export default connect(mapState, mapDispatch)(Header);
