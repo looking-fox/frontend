@@ -218,6 +218,7 @@ const LinkContainer = styled.div`
 
 const StyledLink = styled(Link)`
   text-decoration: none;
+  &:link,
   &:visited {
     color: inherit;
   }

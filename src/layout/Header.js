@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Text } from "../ui/StyledComponents";
 import Logo from "../assets/images/logo.png";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { logout } from "../thunks/userThunks";
 import { defaultProfileUrl } from "../config/config";
 
@@ -14,9 +15,15 @@ const Header = props => {
       </LogoContainer>
 
       <Navigation>
-        <Text link>Dashboard</Text>
-        <Text link>Stats</Text>
-        <Text link>Settings</Text>
+        <NavLink to="/">
+          <Text link>Dashboard</Text>
+        </NavLink>
+        <NavLink to="/clients">
+          <Text link>Clients</Text>
+        </NavLink>
+        <NavLink to="/workflows">
+          <Text link>Workflows</Text>
+        </NavLink>
       </Navigation>
 
       <AvatarContainer>
@@ -44,8 +51,16 @@ const LogoContainer = styled.div`
 
 const Navigation = styled.nav`
   width: 70%;
-  padding: 0px 15vw;
+  padding: 0px 20%;
   ${p => p.theme.flexEvenly}
+`;
+
+const NavLink = styled(Link)`
+  text-decoration: none;
+  &:link,
+  &:visited {
+    color: inherit;
+  }
 `;
 
 const Image = styled.img`

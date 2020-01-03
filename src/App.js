@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { checkAuthStatus } from "./thunks/userThunks";
+import { connect } from "react-redux";
+
+import Header from "./layout/Header";
 import Dashboard from "./views/Dashboard";
 import SignInForm from "./components/Auth/SignInForm";
 import PasswordReset from "./components/Auth/PasswordReset";
-import Header from "./layout/Header";
-import { checkAuthStatus } from "./thunks/userThunks";
-import { connect } from "react-redux";
+import Clients from "./views/Clients";
+import Workflows from "./views/Workflows";
 
 class App extends Component {
   async componentDidMount() {
@@ -18,10 +21,12 @@ class App extends Component {
     //Show router based on auth status
     return this.props.user.isAuthenticated ? (
       <>
-        <Header />
         <Router>
+          <Header />
           <Switch>
             <Route path="/" exact component={Dashboard} />
+            <Route path="/clients" component={Clients} />
+            <Route path="/workflows" component={Workflows} />
             <Route path="/" default component={Dashboard} />
           </Switch>
         </Router>

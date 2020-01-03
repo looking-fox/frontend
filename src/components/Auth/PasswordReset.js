@@ -105,6 +105,7 @@ const PasswordResetContainer = styled.div`
 
 const BackLink = styled(Link)`
   text-decoration: none;
+  &:link,
   &:visited {
     color: inherit;
   }
