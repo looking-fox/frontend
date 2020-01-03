@@ -4,9 +4,9 @@ import { Text } from "../ui/StyledComponents";
 import Logo from "../assets/images/logo.png";
 import { connect } from "react-redux";
 import { logout } from "../thunks/userThunks";
+import { defaultProfileUrl } from "../config/config";
 
 const Header = props => {
-  console.log(props.user.profilePhotoUrl);
   return (
     <Container>
       <LogoContainer>
@@ -21,7 +21,7 @@ const Header = props => {
 
       <AvatarContainer>
         <Avatar
-          src={props.user.profilePhotoUrl}
+          src={props.user.profilePhotoUrl || defaultProfileUrl}
           alt="user avatar"
           onClick={props.logout}
         />
