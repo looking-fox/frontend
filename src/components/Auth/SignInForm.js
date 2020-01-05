@@ -91,7 +91,8 @@ class SignInForm extends Component {
 
   handleKeyPress = e => {
     if (e.key === "Enter") {
-      this.signIn();
+      const isSignUpForm = this.handleSignUpStatus();
+      isSignUpForm ? this.signUp() : this.signIn();
     }
   };
 
@@ -128,6 +129,7 @@ class SignInForm extends Component {
               style={{ marginBottom: 10 }}
               name="confirmPassword"
               onChange={this.handleInput}
+              onKeyPress={this.handleKeyPress}
             />
           )}
 
