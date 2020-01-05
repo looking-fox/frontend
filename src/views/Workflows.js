@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { Text } from "../ui/StyledComponents";
 import { connect } from "react-redux";
+import { getWorkflows } from "../thunks/workflowThunks";
 
 class Workflows extends Component {
   componentDidMount() {
     // Grab initial workflows
+    this.props.getWorkflows();
   }
 
   render() {
@@ -20,4 +22,6 @@ const mapState = state => {
   return { workflows: state.workflows };
 };
 
-export default connect(mapState, null)(Workflows);
+const mapDispatch = { getWorkflows };
+
+export default connect(mapState, mapDispatch)(Workflows);
