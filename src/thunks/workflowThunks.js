@@ -1,7 +1,9 @@
 import api from "../api/api";
 import {
   getWorkflowsSuccess,
-  getWorkflowsFail
+  getWorkflowsFail,
+  addWorkflowSuccess,
+  addWorkflowFail
 } from "../reducers/workflowSlice";
 
 const getWorkflows = () => async dispatch => {
@@ -13,4 +15,13 @@ const getWorkflows = () => async dispatch => {
   }
 };
 
-export { getWorkflows };
+const addWorkflow = newWorkflow => async dispatch => {
+  try {
+    const { data } = await api.workflow.addWorkflow(newWorkflow);
+    dispatch(addWorkflowSuccess(data.newWorkflow));
+  } catch (err) {
+    dispatch(addWorkflowFail(err));
+  }
+};
+
+export { getWorkflows, addWorkflow };

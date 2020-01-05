@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { logout } from "../thunks/userThunks";
 import { defaultProfileUrl } from "../config/config";
 import DropDownMenu from "./DropDownMenu";
+import { IoMdPaper, IoMdPeople, IoIosGitCompare } from "react-icons/io";
 
 const Header = props => {
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -41,13 +42,21 @@ const Header = props => {
 
       <Navigation>
         <NavLink to="/">
-          <Text link>Dashboard</Text>
+          <Text link withIcon>
+            <IoMdPaper /> Dashboard
+          </Text>
         </NavLink>
         <NavLink to="/clients">
-          <Text link>Clients</Text>
+          <Text link withIcon>
+            <IoMdPeople />
+            Clients
+          </Text>
         </NavLink>
         <NavLink to="/workflows">
-          <Text link>Workflows</Text>
+          <Text link withIcon>
+            <IoIosGitCompare />
+            Workflows
+          </Text>
         </NavLink>
       </Navigation>
 

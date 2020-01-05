@@ -8,6 +8,16 @@ const Text = styled.p`
     css`
       cursor: pointer;
     `};
+  ${props =>
+    props.withIcon &&
+    css`
+      display: flex;
+      align-items: center;
+      & svg {
+        margin-right: 5px;
+        font-size: 1.1em;
+      }
+    `};
 `;
 
 export default Text;
