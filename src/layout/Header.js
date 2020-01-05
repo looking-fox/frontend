@@ -57,7 +57,11 @@ const Header = props => {
           alt="user avatar"
           onClick={handleToggleMenu}
         />
-        <DropDownMenu visible={showUserMenu} handleSignOut={handleSignOut} />
+        <DropDownMenu
+          visible={showUserMenu}
+          handleToggleMenu={handleToggleMenu}
+          handleSignOut={handleSignOut}
+        />
       </AvatarContainer>
     </Container>
   );

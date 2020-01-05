@@ -1,18 +1,24 @@
 import React from "react";
 import { Text } from "../ui/StyledComponents";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const DropDownMenu = ({ visible = false, handleSignOut }) => {
+const DropDownMenu = ({ visible = false, handleToggleMenu, handleSignOut }) => {
+  const history = useHistory();
+  const handleRouteChange = async (route = "") => {
+    // Close drawer UI before pushing new route
+    await handleToggleMenu();
+    history.push(`/${route}`);
+  };
   return visible ? (
     <Menu aria-haspopup="true" aria-expanded="false">
-      <MenuLink to="/account">
-        <MenuItem role="menuitem">Account</MenuItem>
-      </MenuLink>
+      <MenuItem role="menuitem" onClick={() => handleRouteChange("account")}>
+        Account
+      </MenuItem>
 
-      <MenuLink to="/settings">
-        <MenuItem role="menuitem">Settings</MenuItem>
-      </MenuLink>
+      <MenuItem role="menuitem" onClick={() => handleRouteChange("settings")}>
+        Settings
+      </MenuItem>
 
       <MenuItem role="menuitem" onClick={handleSignOut}>
         Sign Out
@@ -34,14 +40,6 @@ const Menu = styled.div`
   justify-content: center;
   ${p => p.theme.darkBoxShadow}
   overflow: hidden;
-`;
-
-const MenuLink = styled(Link)`
-  text-decoration: none;
-  &:link,
-  &:visited {
-    color: inherit;
-  }
 `;
 
 const MenuItem = styled(Text)`
