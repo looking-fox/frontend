@@ -4,7 +4,6 @@ import { checkAuthStatus } from "./thunks/userThunks";
 import { connect } from "react-redux";
 
 import Header from "./layout/Header";
-import Dashboard from "./views/Dashboard";
 import SignInForm from "./components/Auth/SignInForm";
 import PasswordReset from "./components/Auth/PasswordReset";
 import Clients from "./views/Clients";
@@ -24,10 +23,9 @@ class App extends Component {
         <Router>
           <Header />
           <Switch>
-            <Route path="/" exact component={Dashboard} />
-            <Route path="/clients" component={Clients} />
+            <Route path="/" exact component={Clients} />
             <Route path="/workflows" component={Workflows} />
-            <Route path="/" default component={Dashboard} />
+            <Route path="/" default component={Clients} />
           </Switch>
         </Router>
       </>

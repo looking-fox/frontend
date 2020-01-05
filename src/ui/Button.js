@@ -8,7 +8,7 @@ const Button = styled.button`
   font-family: "Avenir";
   font-weight: bold;
   margin: 5px 1em;
-  padding: 0.25em 1em;
+  padding: 0.25em 0.5em;
   border: none;
   cursor: pointer;
   transition: all 200ms;
@@ -16,10 +16,11 @@ const Button = styled.button`
   align-items: center;
   justify-content: center;
   &:hover {
-    opacity: 0.9;
+    opacity: 0.7;
+    ${p => p.theme.boxShadow};
   }
   & svg {
-    margin: 0em 0.25em;
+    margin-right: 0.25em;
     font-size: 1.2em;
   }
 
