@@ -14,5 +14,9 @@ export default {
     login: uid => client.post("/authentication/login", { uid }),
     logout: () => client.get("/authentication/logout"),
     signUp: user => client.post("/authentication/signup", { user })
+  },
+  workflow: {
+    getWorkflows: () => client.get("/workflow/"),
+    addWorkflow: workflow => client.post("/workflow/new", workflow)
   }
 };

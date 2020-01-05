@@ -1,11 +1,23 @@
-import React from "react";
+import React, { Component } from "react";
+import { Text } from "../ui/StyledComponents";
+import { connect } from "react-redux";
 
-const Workflows = () => {
-  return (
-    <div>
-      <p>Workflows</p>
-    </div>
-  );
+class Workflows extends Component {
+  componentDidMount() {
+    // Grab initial workflows
+  }
+
+  render() {
+    return (
+      <div>
+        <Text>Workflows</Text>
+      </div>
+    );
+  }
+}
+
+const mapState = state => {
+  return { workflows: state.workflows };
 };
 
-export default Workflows;
+export default connect(mapState, null)(Workflows);
