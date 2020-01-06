@@ -4,7 +4,7 @@ const Button = styled.button`
   background: ${props => props.theme.primaryColor};
   color: #fff;
   border-radius: 3px;
-  font-size: 1em;
+  font-size: 0.9em;
   font-family: "Avenir";
   font-weight: bold;
   margin: 5px 1em;
@@ -29,7 +29,7 @@ const Button = styled.button`
     css`
       background: transparent;
       color: black;
-      border: 2px solid black;
+      border: 1.2px solid black;
     `};
 
   ${props =>
