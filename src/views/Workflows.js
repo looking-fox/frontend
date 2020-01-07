@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import ViewWorkflows from "../components/Workflow/ViewWorkflows";
-import NewWorkflow from "../components/Workflow/NewWorkflow";
+import NewWorkflow from "../components/Workflow/NewWorkflow/NewWorkflow";
 
 class Workflows extends React.Component {
   render() {

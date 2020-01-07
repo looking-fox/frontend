@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { Input, Button, Text } from "../../ui/StyledComponents";
+import { Input, Button, Text } from "../../../ui/StyledComponents";
 import styled, { css } from "styled-components";
 import { IoIosAdd, IoIosGitCompare, IoMdColorFilter } from "react-icons/io";
-import { actionTagColors } from "../../config/config";
+import { actionTagColors } from "../../../config/config";
 import Action from "./Action";
 import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
-import { addWorkflow } from "../../thunks/workflowThunks";
+import { addWorkflow } from "../../../thunks/workflowThunks";
 
 class NewWorkflow extends Component {
   state = {

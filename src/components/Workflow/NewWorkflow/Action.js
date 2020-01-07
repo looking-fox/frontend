@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import { Text, Input } from "../../ui/StyledComponents";
+import { Text, Input } from "../../../ui/StyledComponents";
 import { IoIosCheckboxOutline, IoMdTrash } from "react-icons/io";
-import DragIcon from "../../assets/images/drag-indicator.svg";
+import DragIcon from "../../../assets/images/drag-indicator.svg";
 import { useDrag, useDrop } from "react-dnd";
 import ItemTypes from "./ItemTypes";
 
