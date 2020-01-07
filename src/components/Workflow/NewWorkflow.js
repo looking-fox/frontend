@@ -1,20 +1,22 @@
 import React, { Component } from "react";
 import { Input, Button, Text } from "../../ui/StyledComponents";
 import styled, { css } from "styled-components";
-import {
-  IoIosAdd,
-  IoIosGitCompare,
-  IoMdColorFilter,
-  IoIosBookmark
-} from "react-icons/io";
+import { IoIosAdd, IoIosGitCompare, IoMdColorFilter } from "react-icons/io";
 import { actionTagColors } from "../../config/config";
 import Action from "./Action";
+import { DndProvider } from "react-dnd";
+import Backend from "react-dnd-html5-backend";
 
 class NewWorkflow extends Component {
   state = {
     workflowName: "",
     workflowTagColor: "#c17258",
-    workflowActions: [{ wfActionName: "New Inquiry", wfActionType: "task" }],
+    workflowActions: [
+      { wfActionName: "New Inquiry", wfActionType: "task" },
+      { wfActionName: "Send Info Guide", wfActionType: "task" },
+      { wfActionName: "Send Contract", wfActionType: "task" },
+      { wfActionName: "Get Paid", wfActionType: "task" }
+    ],
     currentActionToEditIndex: null
   };
 
@@ -38,7 +40,10 @@ class NewWorkflow extends Component {
   handleDeleteAction = idx => {
     const newActionList = [...this.state.workflowActions];
     newActionList.splice(idx, 1);
-    this.setState({ workflowActions: newActionList });
+    this.setState({
+      workflowActions: newActionList,
+      currentActionToEditIndex: null
+    });
   };
 
   handleToggleActionMode = idx => {
@@ -48,6 +53,14 @@ class NewWorkflow extends Component {
   handleSelectNewColor = (newColor = "#000") => {
     console.log("New Color: ", newColor);
     this.setState({ workflowTagColor: newColor });
+  };
+
+  moveAction = (dragIndex, hoverIndex) => {
+    const newActionList = [...this.state.workflowActions];
+    const dragActionCard = newActionList[dragIndex];
+    newActionList.splice(dragIndex, 1);
+    newActionList.splice(hoverIndex, 0, dragActionCard);
+    this.setState({ workflowActions: newActionList });
   };
 
   render() {
@@ -117,26 +130,35 @@ class NewWorkflow extends Component {
                 </EmpyText>
               </EmptyDisplayContainer>
             )}
-            {workflowActions.map((action, idx) => {
-              const isInEditMode = idx === currentActionToEditIndex;
-              return (
-                <Action
-                  idx={idx}
-                  stepNumber={idx + 1}
-                  text={action.wfActionName}
-                  key={idx}
-                  isInEditMode={isInEditMode}
-                  handleToggleActionMode={this.handleToggleActionMode}
-                  handleSaveActionName={this.handleSaveActionName}
-                  handleDeleteAction={this.handleDeleteAction}
-                />
-              );
-            })}
+
+            <DndProvider backend={Backend}>
+              {workflowActions.map((action, idx) => {
+                const isInEditMode = idx === currentActionToEditIndex;
+                return (
+                  <Action
+                    idx={idx}
+                    stepNumber={idx + 1}
+                    text={action.wfActionName}
+                    key={idx}
+                    isInEditMode={isInEditMode}
+                    handleToggleActionMode={this.handleToggleActionMode}
+                    handleSaveActionName={this.handleSaveActionName}
+                    handleDeleteAction={this.handleDeleteAction}
+                    moveAction={this.moveAction}
+                  />
+                );
+              })}
+            </DndProvider>
 
             <Button
               outline
               withIcon
-              style={{ marginLeft: "auto", marginRight: "15%", marginTop: 25 }}
+              style={{
+                marginLeft: "auto",
+                marginRight: "15%",
+                marginTop: 25,
+                marginBottom: 50
+              }}
               onClick={this.handleAddNewAction}
             >
               <IoIosAdd />
@@ -150,17 +172,18 @@ class NewWorkflow extends Component {
 }
 
 const Container = styled.div`
-  height: calc(100vh - 60px);
+  height: 100%;
   background: ${p => p.theme.lightGrey};
-  overflow-y: auto;
   box-sizing: border-box;
+  overflow: hidden;
 `;
 
 const HeaderSection = styled.div`
   background: white;
-  padding: 1.5em 0em;
+  height: 60px;
   display: flex;
   align-items: center;
+  border-bottom: 0.5px solid #ebebeb;
 `;
 
 const HeaderTitle = styled(Text)`
@@ -180,9 +203,10 @@ const InnerContainer = styled.div`
 
 const LeftPanel = styled.div`
   width: 40vw;
+  height: calc(100vh - 120px),
+  box-sizing: border-box;
   padding: 0px 50px;
   padding-top: 25px;
-  box-sizing: border-box;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -230,12 +254,14 @@ const PreviewSteps = styled(Text)`
 
 const RightPanel = styled.div`
   width: 60vw;
-  padding-top: 25px;
+  height: calc(100vh - 120px);
+  box-sizing: border-box;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: auto;
-  padding-bottom: 50px;
+  padding-top: 25px;
+  padding-left: 25px;
 `;
 
 const WorkflowInput = styled(Input)`
@@ -253,7 +279,7 @@ const ColorPickerContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-width: fit-content;
-  width: 80%;
+  width: 90%;
   box-sizing: border-box;
   ${p => p.theme.sideBoxShadow};
 `;
@@ -299,7 +325,7 @@ const ColorIcon = styled.div`
 `;
 
 const EmptyDisplayContainer = styled.div`
-  margin-bottom: 50px;
+  margin: 50px 0px;
   ${p => p.theme.flexAllCenter};
   flex-direction: column;
 `;
