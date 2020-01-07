@@ -47,7 +47,7 @@ const Header = props => {
             Clients
           </Text>
         </NavLink>
-        <NavLink to="/workflows">
+        <NavLink to="/workflows/">
           <Text link withIcon>
             <IoIosGitCompare />
             Workflows
@@ -75,6 +75,7 @@ const Container = styled.div`
   height: 60px;
   background: white;
   display: flex;
+  border-bottom: 0.5px solid #ebebeb;
 `;
 
 const LogoContainer = styled.div`
