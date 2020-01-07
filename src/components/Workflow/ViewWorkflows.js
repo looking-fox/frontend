@@ -9,7 +9,7 @@ import { IoMdCreate, IoMdTrash, IoIosAdd } from "react-icons/io";
 class ViewWorkflows extends Component {
   componentDidMount() {
     // Grab initial workflows
-    // this.props.getWorkflows();
+    this.props.getWorkflows();
   }
 
   handleAddNewWorkflow = () => {
@@ -33,7 +33,7 @@ class ViewWorkflows extends Component {
           Create and edit workflows that are available for each of your clients.
           Streamline your process and build an organized workflow.
         </SubTitle>
-        {/* {this.props.workflows.map((item, idx) => {
+        {this.props.workflows.map((item, idx) => {
           return (
             <WorkflowContainer key={item.wfId || idx}>
               <WorkflowBubble bubbleColor={item.wfTagColor}>
@@ -57,7 +57,7 @@ class ViewWorkflows extends Component {
               </div>
             </WorkflowContainer>
           );
-        })} */}
+        })}
         <LinkButton to="/workflows/new">
           <NewButton outline>
             <IoIosAdd />
@@ -116,6 +116,7 @@ const Icon = styled.button`
   border: none;
   cursor: pointer;
   padding: 3px 5px;
+  font-size: 1em;
 `;
 
 const NewButton = styled(Button)`
@@ -138,4 +139,4 @@ const mapState = state => {
 
 const mapDispatch = { getWorkflows, addWorkflow };
 
-export default ViewWorkflows;
+export default connect(mapState, mapDispatch)(ViewWorkflows);

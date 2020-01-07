@@ -31,6 +31,7 @@ const Action = ({
           ref={textRef}
           value={text}
           onChange={e => handleSaveActionName(e, idx)}
+          onBlur={() => handleToggleActionMode(idx)}
         />
       ) : (
         <ActionText>{text}</ActionText>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Input, Button } from "../../ui/StyledComponents";
+import { Input, Button, Text } from "../../ui/StyledComponents";
 import styled from "styled-components";
-import { IoIosAdd } from "react-icons/io";
+import { IoIosAdd, IoIosGitCompare } from "react-icons/io";
 import Action from "./Action";
 
 class NewWorkflow extends Component {
@@ -40,6 +40,7 @@ class NewWorkflow extends Component {
 
   render() {
     const { workflowActions, currentActionToEditIndex } = this.state;
+    const noActions = workflowActions.length === 0;
     return (
       <Container>
         <WorkflowInput
@@ -47,6 +48,15 @@ class NewWorkflow extends Component {
           name="workflowName"
           onChange={this.handleInput}
         />
+        {noActions && (
+          <EmptyDisplayContainer>
+            <EmptyIcon />
+            <EmpyText>
+              No steps in your new workflow. Please click <span>add task</span>{" "}
+              to begin.
+            </EmpyText>
+          </EmptyDisplayContainer>
+        )}
         {workflowActions.map((action, idx) => {
           const isInEditMode = idx === currentActionToEditIndex;
           return (
@@ -93,6 +103,25 @@ const WorkflowInput = styled(Input)`
   background: #fff;
   width: 300px;
   margin-bottom: 25px;
+`;
+
+const EmptyDisplayContainer = styled.div`
+  margin-bottom: 50px;
+  ${p => p.theme.flexAllCenter};
+  flex-direction: column;
+`;
+
+const EmpyText = styled(Text)`
+  font-size: 1.2em;
+  & span {
+    font-weight: bold;
+  }
+`;
+
+const EmptyIcon = styled(IoIosGitCompare)`
+  margin: 10px auto;
+  margin-bottom: 25px;
+  font-size: 2.5em;
 `;
 
 export default NewWorkflow;

@@ -10,6 +10,7 @@ class Workflows extends React.Component {
         <Switch>
           <Route exact path="/workflows" component={ViewWorkflows} />
           <Route path="/workflows/new" component={NewWorkflow} />
+          <Route default path="/workflows" component={ViewWorkflows} />
         </Switch>
       </Router>
     );
