@@ -3,6 +3,7 @@ import { Input, Button, Text } from "../../../ui/StyledComponents";
 import styled, { css } from "styled-components";
 import { IoIosAdd, IoIosGitCompare, IoMdColorFilter } from "react-icons/io";
 import { actionTagColors } from "../../../config/config";
+import NewWorkflowHeader from "./NewWorkflowHeader";
 import Action from "./Action";
 import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
@@ -112,15 +113,10 @@ class NewWorkflow extends Component {
 
     return (
       <Container>
-        <HeaderSection>
-          <HeaderTitle>Your New Workflow</HeaderTitle>
-          <SaveButton
-            backgroundColor={wfTagColor}
-            onClick={this.handleAddWorkflow}
-          >
-            Save Workflow
-          </SaveButton>
-        </HeaderSection>
+        <NewWorkflowHeader
+          wfTagColor={wfTagColor}
+          handleAddWorkflow={this.handleAddWorkflow}
+        />
         <InnerContainer>
           <LeftPanel>
             <WorkflowInput
@@ -217,25 +213,6 @@ const Container = styled.div`
   background: ${p => p.theme.lightGrey};
   box-sizing: border-box;
   overflow: hidden;
-`;
-
-const HeaderSection = styled.div`
-  background: white;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  border-bottom: 0.5px solid #ebebeb;
-`;
-
-const HeaderTitle = styled(Text)`
-  font-size: 1.5em;
-  font-weight: bold;
-  padding-left: 50px;
-`;
-
-const SaveButton = styled(Button)`
-  margin-left: auto;
-  margin-right: 50px;
 `;
 
 const InnerContainer = styled.div`
