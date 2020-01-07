@@ -6,12 +6,14 @@ import { actionTagColors } from "../../config/config";
 import Action from "./Action";
 import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
+import { connect } from "react-redux";
+import { addWorkflow } from "../../thunks/workflowThunks";
 
 class NewWorkflow extends Component {
   state = {
-    workflowName: "",
-    workflowTagColor: "#c17258",
-    workflowActions: [
+    wfName: "",
+    wfTagColor: "#c17258",
+    wfActions: [
       { wfActionName: "New Inquiry", wfActionType: "task" },
       { wfActionName: "Send Info Guide", wfActionType: "task" },
       { wfActionName: "Send Contract", wfActionType: "task" },
@@ -20,71 +22,110 @@ class NewWorkflow extends Component {
     currentActionToEditIndex: null
   };
 
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
+
+  handleClickOutside = e => {
+    if (!e.target.draggable) {
+      this.setState({ currentActionToEditIndex: null });
+    }
+  };
+
   handleInput = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   handleAddNewAction = () => {
-    const newActionList = this.state.workflowActions.concat([
+    const newActionList = this.state.wfActions.concat([
       { wfActionName: "", wfActionType: "task" }
     ]);
-    this.setState({ workflowActions: newActionList });
+    this.setState({ wfActions: newActionList });
   };
 
   handleSaveActionName = (e, idx) => {
-    const newActionList = [...this.state.workflowActions];
+    const newActionList = [...this.state.wfActions];
     newActionList[idx]["wfActionName"] = e.target.value;
-    this.setState({ workflowActions: newActionList });
+    this.setState({ wfActions: newActionList });
   };
 
   handleDeleteAction = idx => {
-    const newActionList = [...this.state.workflowActions];
+    const newActionList = [...this.state.wfActions];
     newActionList.splice(idx, 1);
     this.setState({
-      workflowActions: newActionList,
+      wfActions: newActionList,
       currentActionToEditIndex: null
     });
   };
 
-  handleToggleActionMode = idx => {
+  handleToggleActionMode = (idx = 0) => {
     this.setState({ currentActionToEditIndex: idx });
   };
 
+  handleToggleOffActions = () => {
+    this.setState({ currentActionToEditIndex: null });
+  };
+
   handleSelectNewColor = (newColor = "#000") => {
-    console.log("New Color: ", newColor);
-    this.setState({ workflowTagColor: newColor });
+    this.setState({ wfTagColor: newColor });
   };
 
   moveAction = (dragIndex, hoverIndex) => {
-    const newActionList = [...this.state.workflowActions];
+    const newActionList = [...this.state.wfActions];
     const dragActionCard = newActionList[dragIndex];
     newActionList.splice(dragIndex, 1);
     newActionList.splice(hoverIndex, 0, dragActionCard);
-    this.setState({ workflowActions: newActionList });
+    this.setState({ wfActions: newActionList });
+  };
+
+  handleAddWorkflow = e => {
+    e.preventDefault();
+    try {
+      const { wfActions, wfName, wfTagColor } = this.state;
+      if (!wfActions.length || !wfName.length || !wfTagColor.length) {
+        // Create Toast UI ?
+        return;
+      } else {
+        // Add new workflow
+        this.props.addWorkflow({ wfName, wfTagColor, wfActions });
+        this.props.history.push("/workflows");
+      }
+    } catch (err) {
+      console.log("Error: ", err);
+      // Handle Error
+    }
   };
 
   render() {
     const {
-      workflowActions,
+      wfActions,
       currentActionToEditIndex,
-      workflowName,
-      workflowTagColor
+      wfName,
+      wfTagColor
     } = this.state;
-    const noActions = workflowActions.length === 0;
-    const activePreview = workflowName.length || workflowActions.length > 1;
+    const noActions = wfActions.length === 0;
+    const activePreview = wfName.length || wfActions.length > 1;
+
     return (
       <Container>
         <HeaderSection>
           <HeaderTitle>Your New Workflow</HeaderTitle>
-          <SaveButton backgroundColor={workflowTagColor}>
+          <SaveButton
+            backgroundColor={wfTagColor}
+            onClick={this.handleAddWorkflow}
+          >
             Save Workflow
           </SaveButton>
         </HeaderSection>
         <InnerContainer>
           <LeftPanel>
             <WorkflowInput
-              placeholder="Wedding"
-              name="workflowName"
+              placeholder="Type Workflow Name..."
+              name="wfName"
               onChange={this.handleInput}
             />
 
@@ -95,7 +136,7 @@ class NewWorkflow extends Component {
               </ColorText>
               <ColorSelector>
                 {Object.keys(actionTagColors).map((item, idx) => {
-                  const selected = actionTagColors[item] === workflowTagColor;
+                  const selected = actionTagColors[item] === wfTagColor;
                   return (
                     <ColorIcon
                       color={actionTagColors[item]}
@@ -112,10 +153,10 @@ class NewWorkflow extends Component {
             <PreviewContainer>
               <PreviewTitle>Workflow Preview:</PreviewTitle>
               <PreviewBar activePreview={activePreview}>
-                <PreviewTagColor color={workflowTagColor}>
-                  {workflowName || "Preview"}
+                <PreviewTagColor color={wfTagColor}>
+                  {wfName || "Preview"}
                 </PreviewTagColor>
-                <PreviewSteps>{workflowActions.length} Steps</PreviewSteps>
+                <PreviewSteps>{wfActions.length} Steps</PreviewSteps>
               </PreviewBar>
             </PreviewContainer>
           </LeftPanel>
@@ -132,7 +173,7 @@ class NewWorkflow extends Component {
             )}
 
             <DndProvider backend={Backend}>
-              {workflowActions.map((action, idx) => {
+              {wfActions.map((action, idx) => {
                 const isInEditMode = idx === currentActionToEditIndex;
                 return (
                   <Action
@@ -343,4 +384,6 @@ const EmptyIcon = styled(IoIosGitCompare)`
   font-size: 2.5em;
 `;
 
-export default NewWorkflow;
+const mapDispatch = { addWorkflow };
+
+export default connect(null, mapDispatch)(NewWorkflow);

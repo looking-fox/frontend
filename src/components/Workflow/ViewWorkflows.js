@@ -8,8 +8,8 @@ import { IoMdCreate, IoMdTrash, IoIosAdd } from "react-icons/io";
 
 class ViewWorkflows extends Component {
   componentDidMount() {
-    // Grab initial workflows
-    this.props.getWorkflows();
+    //Grab workflows if initially loading
+    this.props.workflows.length === 0 && this.props.getWorkflows();
   }
 
   handleAddNewWorkflow = () => {
@@ -39,14 +39,7 @@ class ViewWorkflows extends Component {
               <WorkflowBubble bubbleColor={item.wfTagColor}>
                 {item.wfName}
               </WorkflowBubble>
-              <div
-                style={{
-                  width: "20%",
-                  opacity: 0.5,
-                  display: "flex",
-                  justifyContent: "space-between"
-                }}
-              >
+              <DetailsContainer>
                 <Text>{item.actions.length} Steps</Text>
                 <Icon>
                   <IoMdCreate />
@@ -54,7 +47,7 @@ class ViewWorkflows extends Component {
                 <Icon>
                   <IoMdTrash />
                 </Icon>
-              </div>
+              </DetailsContainer>
             </WorkflowContainer>
           );
         })}
@@ -112,6 +105,13 @@ const WorkflowBubble = styled(Text)`
   border-radius: 3px;
 `;
 
+const DetailsContainer = styled.div`
+  width: 20%;
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 const Icon = styled.button`
   border: none;
   cursor: pointer;
@@ -122,6 +122,7 @@ const Icon = styled.button`
 const NewButton = styled(Button)`
   margin-left: auto;
   margin-top: 25px;
+  margin-bottom: 100px;
 `;
 
 const LinkButton = styled(Link)`
