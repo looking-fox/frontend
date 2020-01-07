@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import { Text, Input } from "../../ui/StyledComponents";
 import { IoIosCheckboxOutline, IoMdTrash } from "react-icons/io";
+import DragIcon from "../../assets/images/drag-indicator.svg";
 
 const Action = ({
   idx,
@@ -24,6 +25,7 @@ const Action = ({
   return (
     <ActionContainer onClick={toggleAction}>
       <StepText>Step {stepNumber}</StepText>
+      <IconImage src={DragIcon} />
       <IoIosCheckboxOutline />
       {showInputBox ? (
         <ActionInput
@@ -76,6 +78,12 @@ const ActionInput = styled(Input)`
 
 const ActionText = styled(Text)`
   cursor: edit;
+`;
+
+const IconImage = styled.img`
+  padding-right: 10px;
+  opacity: 0.2;
+  cursor: move;
 `;
 
 const TrashIcon = styled(IoMdTrash)`

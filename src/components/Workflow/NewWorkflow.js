@@ -54,15 +54,18 @@ class NewWorkflow extends Component {
     const {
       workflowActions,
       currentActionToEditIndex,
+      workflowName,
       workflowTagColor
     } = this.state;
     const noActions = workflowActions.length === 0;
-
+    const activePreview = workflowName.length || workflowActions.length > 1;
     return (
       <Container>
         <HeaderSection>
           <HeaderTitle>Your New Workflow</HeaderTitle>
-          <SaveButton>Save Workflow</SaveButton>
+          <SaveButton backgroundColor={workflowTagColor}>
+            Save Workflow
+          </SaveButton>
         </HeaderSection>
         <InnerContainer>
           <LeftPanel>
@@ -93,6 +96,15 @@ class NewWorkflow extends Component {
                 })}
               </ColorSelector>
             </ColorPickerContainer>
+            <PreviewContainer>
+              <PreviewTitle>Workflow Preview:</PreviewTitle>
+              <PreviewBar activePreview={activePreview}>
+                <PreviewTagColor color={workflowTagColor}>
+                  {workflowName || "Preview"}
+                </PreviewTagColor>
+                <PreviewSteps>{workflowActions.length} Steps</PreviewSteps>
+              </PreviewBar>
+            </PreviewContainer>
           </LeftPanel>
 
           <RightPanel>
@@ -176,6 +188,46 @@ const LeftPanel = styled.div`
   flex-direction: column;
 `;
 
+const PreviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  box-sizing: border-box;
+  margin-top: 25px;
+`;
+
+const PreviewTitle = styled(Text)`
+  text-align: center;
+  margin: 25px 0px;
+  font-size: 1.1em;
+`;
+
+const PreviewBar = styled.div`
+  background: white;
+  border-radius: 3px;
+  ${p => p.theme.sideBoxShadow};
+  opacity: ${p => (p.activePreview ? 1 : 0.6)};
+  display: flex;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  width: 90%;
+`;
+
+const PreviewTagColor = styled(Text)`
+  background: ${p => (p.color ? p.color : p.theme.primaryColor)};
+  color: white;
+  font-weight: bold;
+  border-radius: 3px;
+  margin: 0em 0.25em;
+  padding: 0.25em 0.5em;
+`;
+
+const PreviewSteps = styled(Text)`
+  margin-left: auto;
+  margin-right: 10px;
+`;
+
 const RightPanel = styled.div`
   width: 60vw;
   padding-top: 25px;
@@ -189,13 +241,14 @@ const RightPanel = styled.div`
 const WorkflowInput = styled(Input)`
   background: white;
   width: 90%;
+  margin-top: 25px;
 `;
 
 const ColorPickerContainer = styled.div`
   background: white;
   border-radius: 3px;
   padding: 1em;
-  margin-top: 10px;
+  margin-top: 25px;
   margin-bottom: 25px;
   display: flex;
   flex-direction: column;
