@@ -22,9 +22,11 @@ const workflowSlice = createSlice({
     },
     deleteWorkflowSuccess(state, action) {
       const indexToRemove = state.workflows.findIndex(
-        item => item.id === action.payload
+        item => item.wfId == action.payload
       );
-      state.workflows.splice(indexToRemove, 1);
+      if (indexToRemove >= 0) {
+        state.workflows.splice(indexToRemove, 1);
+      }
     },
     deleteWorkflowFail(state, action) {
       console.log("Redux Delete Workflow Failed");

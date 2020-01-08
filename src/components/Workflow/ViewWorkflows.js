@@ -32,8 +32,10 @@ class ViewWorkflows extends Component {
     try {
       const { wfId } = this.state.workFlowToDelete;
       this.props.deleteWorkflow(wfId);
+      this.handleToggleModal();
     } catch (err) {
       console.log("Delete Error: ", err);
+      this.handleToggleModal();
     }
   };
 
