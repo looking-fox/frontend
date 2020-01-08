@@ -8,6 +8,7 @@ import SignInForm from "./components/Auth/SignInForm";
 import PasswordReset from "./components/Auth/PasswordReset";
 import Clients from "./views/Clients";
 import Workflows from "./views/Workflows";
+import { Toast } from "./ui/StyledComponents";
 
 class App extends Component {
   async componentDidMount() {
@@ -28,6 +29,12 @@ class App extends Component {
             <Route path="/" default component={Clients} />
           </Switch>
         </Router>
+        <Toast
+          show={this.props.toast.showToast}
+          success={this.props.toast.success}
+          error={this.props.toast.error}
+          message={this.props.toast.message}
+        />
       </>
     ) : (
       <>
@@ -43,7 +50,7 @@ class App extends Component {
 }
 
 const mapState = state => {
-  return { user: state.user };
+  return { user: state.user, toast: state.toast };
 };
 
 const mapDispatch = { checkAuthStatus };

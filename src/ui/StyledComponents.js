@@ -1,21 +1,23 @@
 import React from "react";
 import loadingWhite from "../assets/images/loading-white.svg";
 import styled from "styled-components";
-import InitialButton from "./Button";
+import SimpleButton from "./Button";
 import Container from "./Container";
 import Text from "./Text";
 import Input from "./Input";
+import Toast from "./Toast";
+import Modal from "./Modal";
 
 const Button = props => {
   const { isLoading, children } = props;
   return (
-    <InitialButton {...props}>
+    <SimpleButton {...props}>
       {isLoading ? (
         <Image src={loadingWhite} alt="loading spinner" />
       ) : (
         children
       )}
-    </InitialButton>
+    </SimpleButton>
   );
 };
 
@@ -23,4 +25,4 @@ const Image = styled.img`
   height: 1.3em;
 `;
 
-export { Button, Container, Text, Input };
+export { Button, SimpleButton, Container, Text, Input, Toast, Modal };

@@ -9,6 +9,7 @@ import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
 import { addWorkflow } from "../../../thunks/workflowThunks";
+import { toastSuccess } from "../../../reducers/toastSlice";
 
 class NewWorkflow extends Component {
   state = {
@@ -94,6 +95,7 @@ class NewWorkflow extends Component {
         // Add new workflow
         this.props.addWorkflow({ wfName, wfTagColor, wfActions });
         this.props.history.push("/workflows");
+        this.props.toastSuccess("Workflow added");
       }
     } catch (err) {
       console.log("Error: ", err);
@@ -217,6 +219,6 @@ const EmptyIcon = styled(IoIosGitCompare)`
   font-size: 2.5em;
 `;
 
-const mapDispatch = { addWorkflow };
+const mapDispatch = { addWorkflow, toastSuccess };
 
 export default connect(null, mapDispatch)(NewWorkflow);

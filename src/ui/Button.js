@@ -29,8 +29,19 @@ const Button = styled.button`
     props.outline &&
     css`
       background: transparent;
-      color: black;
-      border: 1.2px solid black;
+      color: ${p =>
+        p.success
+          ? p.theme.green
+          : p.error
+          ? p.theme.red
+          : p.theme.primaryColor};
+      border: 1.2px solid
+        ${p =>
+          p.success
+            ? p.theme.green
+            : p.error
+            ? p.theme.red
+            : p.theme.primaryColor};
     `};
 
   ${props =>
