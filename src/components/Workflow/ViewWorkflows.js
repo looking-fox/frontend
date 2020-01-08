@@ -1,16 +1,41 @@
 import React, { Component } from "react";
-import { Text, Button } from "../../ui/StyledComponents";
+import { Text, Button, Modal } from "../../ui/StyledComponents";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getWorkflows, addWorkflow } from "../../thunks/workflowThunks";
+import {
+  getWorkflows,
+  addWorkflow,
+  deleteWorkflow
+} from "../../thunks/workflowThunks";
 import { IoMdCreate, IoMdTrash, IoIosAdd } from "react-icons/io";
 
 class ViewWorkflows extends Component {
+  state = { showModal: false, workFlowToDelete: {} };
+
   componentDidMount() {
     //Grab workflows if initially loading
     this.props.workflows.length === 0 && this.props.getWorkflows();
   }
+
+  handleToggleModal = workflow => {
+    this.setState(state => {
+      return {
+        showModal: !state.showModal,
+        workFlowToDelete: workflow ? workflow : {}
+      };
+    });
+  };
+
+  handleConfirmModal = () => {
+    if (!this.state.workFlowToDelete) return;
+    try {
+      const { wfId } = this.state.workFlowToDelete;
+      this.props.deleteWorkflow(wfId);
+    } catch (err) {
+      console.log("Delete Error: ", err);
+    }
+  };
 
   handleAddNewWorkflow = () => {
     try {
@@ -44,7 +69,7 @@ class ViewWorkflows extends Component {
                 <Icon>
                   <IoMdCreate />
                 </Icon>
-                <Icon>
+                <Icon onClick={() => this.handleToggleModal(item)}>
                   <IoMdTrash />
                 </Icon>
               </DetailsContainer>
@@ -57,6 +82,14 @@ class ViewWorkflows extends Component {
             Add Workflow
           </NewButton>
         </LinkButton>
+        <Modal
+          showModal={this.state.showModal}
+          simpleModal
+          title={`Are you sure you want to delete ${this.state.workFlowToDelete.wfName}?`}
+          description="Previous clients will not be affected."
+          onConfirm={this.handleConfirmModal}
+          onClose={this.handleToggleModal}
+        />
       </Container>
     );
   }
@@ -138,6 +171,6 @@ const mapState = state => {
   return { workflows };
 };
 
-const mapDispatch = { getWorkflows, addWorkflow };
+const mapDispatch = { getWorkflows, addWorkflow, deleteWorkflow };
 
 export default connect(mapState, mapDispatch)(ViewWorkflows);

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Text } from "../../../ui/StyledComponents";
+import { Button, Text, Modal } from "../../../ui/StyledComponents";
 import styled from "styled-components";
 import { IoIosAdd, IoIosGitCompare } from "react-icons/io";
 import NewWorkflowHeader from "./NewWorkflowHeader";

@@ -3,36 +3,51 @@ import styled from "styled-components";
 import { Text, SimpleButton } from "./StyledComponents";
 import { IoMdClose } from "react-icons/io";
 
-const Modal = ({ children, showModal, simpleModal, onClose, onConfirm }) => {
+const Modal = ({
+  children,
+  showModal,
+  simpleModal,
+  onClose,
+  onConfirm,
+  title = "Are you sure?",
+  description = null
+}) => {
   return (
-    <ModalContainer show={showModal} simpleModal={simpleModal}>
-      <ModalHeader>
-        <CloseIcon onClick={onClose} />
-      </ModalHeader>
-      {simpleModal ? (
-        <>
-          <ModalBody>
-            <ModalTitle>Are you sure?</ModalTitle>
-            <ModalDescription>
-              This action cannot be undone. Even if you like, really want to
-              undo it.{" "}
-            </ModalDescription>
-          </ModalBody>
-          <ModalActions>
-            <ModalButton outline error onClick={onClose}>
-              Cancel
-            </ModalButton>
-            <ModalButton outline success onClick={onConfirm}>
-              Confirm
-            </ModalButton>
-          </ModalActions>
-        </>
-      ) : (
-        children
-      )}
-    </ModalContainer>
+    <ModalBackground show={showModal}>
+      <ModalContainer simpleModal={simpleModal}>
+        <ModalHeader>
+          <CloseIcon onClick={onClose} />
+        </ModalHeader>
+        {simpleModal ? (
+          <>
+            <ModalBody>
+              <ModalTitle>{title}</ModalTitle>
+              <ModalDescription>{description}</ModalDescription>
+            </ModalBody>
+            <ModalActions>
+              <ModalButton fullWidth error onClick={onConfirm}>
+                Yes
+              </ModalButton>
+            </ModalActions>
+          </>
+        ) : (
+          children
+        )}
+      </ModalContainer>
+    </ModalBackground>
   );
 };
+
+const ModalBackground = styled.div`
+  background: rgba(0, 0, 0, 0.2);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  display: ${p => (p.show ? "inherit" : "none")};
+`;
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -42,8 +57,7 @@ const ModalContainer = styled.div`
   background: white;
   border-radius: 3px;
   ${p => p.theme.boxShadow};
-  display: ${p => (p.show ? "inherit" : "none")};
-  max-width: ${p => (p.simpleModal ? "400px" : "80vw")};
+  max-width: ${p => (p.simpleModal ? "350px" : "80vw")};
   min-width: 300px;
   min-height: 20vh;
   padding: 10px 25px;
@@ -67,14 +81,14 @@ const ModalHeader = styled.div`
 `;
 
 const ModalBody = styled.div`
-  padding: 10px 0px;
+  padding-bottom: 10px;
 `;
 
 const ModalActions = styled.div`
   display: flex;
   justify-content: flex-end;
   justify-self: flex-end;
-  padding-top: 25px;
+  padding-top: 10px;
   padding-bottom: 10px;
 `;
 
@@ -86,22 +100,28 @@ const CloseIcon = styled(IoMdClose)`
 
 const ModalTitle = styled(Text)`
   text-align: center;
-  font-size: 1.5em;
+  font-size: 1.4em;
   font-weight: bold;
-  padding-bottom: 0.25em;
   line-height: 125%;
+  width: 80%;
+  margin: 0 auto;
 `;
 
 const ModalDescription = styled(Text)`
-  font-size: 1.1em;
+  font-size: 1em;
   text-align: center;
   line-height: 125%;
   color: #777777;
+  padding-top: 10px;
+  width: 80%;
+  margin: 0 auto;
 `;
 
 const ModalButton = styled(SimpleButton)`
-  margin: 0;
-  margin-left: 1em;
+  min-width: 50px;
+  max-width: 80%;
+  margin: 0 auto;
+  margin-bottom: 10px;
 `;
 
 export default Modal;

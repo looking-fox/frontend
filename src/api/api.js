@@ -17,6 +17,7 @@ export default {
   },
   workflow: {
     getWorkflows: () => client.get("/workflow/"),
-    addWorkflow: workflow => client.post("/workflow/new", workflow)
+    addWorkflow: workflow => client.post("/workflow/new", workflow),
+    deleteWorkflow: wfId => client.delete(`/workflow/${wfId}`)
   }
 };

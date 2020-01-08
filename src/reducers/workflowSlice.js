@@ -19,6 +19,15 @@ const workflowSlice = createSlice({
     },
     addWorkflowFail(state, action) {
       console.log("Redux Add Workflow Failed");
+    },
+    deleteWorkflowSuccess(state, action) {
+      const indexToRemove = state.workflows.findIndex(
+        item => item.id === action.payload
+      );
+      state.workflows.splice(indexToRemove, 1);
+    },
+    deleteWorkflowFail(state, action) {
+      console.log("Redux Delete Workflow Failed");
     }
   }
 });
@@ -28,7 +37,9 @@ export const {
   getWorkflowsSuccess,
   getWorkflowsFail,
   addWorkflowSuccess,
-  addWorkflowFail
+  addWorkflowFail,
+  deleteWorkflowSuccess,
+  deleteWorkflowFail
 } = workflowSlice.actions;
 // Export actions for dispatch //
 
