@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 import {
   getWorkflows,
   addWorkflow,
-  deleteWorkflow
+  archiveWorkflow
 } from "../../thunks/workflowThunks";
 import { IoMdCreate, IoMdTrash, IoIosAdd } from "react-icons/io";
 
 class ViewWorkflows extends Component {
-  state = { showModal: false, workFlowToDelete: {} };
+  state = { showModal: false, workFlowToArchive: {} };
 
   componentDidMount() {
     //Grab workflows if initially loading
@@ -22,16 +22,17 @@ class ViewWorkflows extends Component {
     this.setState(state => {
       return {
         showModal: !state.showModal,
-        workFlowToDelete: workflow ? workflow : {}
+        workFlowToArchive: workflow ? workflow : {}
       };
     });
   };
 
   handleConfirmModal = () => {
-    if (!this.state.workFlowToDelete) return;
+    // Archive existing workflow
+    if (!this.state.workFlowToArchive) return;
     try {
-      const { wfId } = this.state.workFlowToDelete;
-      this.props.deleteWorkflow(wfId);
+      const { wfId } = this.state.workFlowToArchive;
+      this.props.archiveWorkflow(wfId);
       this.handleToggleModal();
     } catch (err) {
       console.log("Delete Error: ", err);
@@ -87,7 +88,7 @@ class ViewWorkflows extends Component {
         <Modal
           showModal={this.state.showModal}
           simpleModal
-          title={`Are you sure you want to delete ${this.state.workFlowToDelete.wfName}?`}
+          title={`Are you sure you want to delete ${this.state.workFlowToArchive.wfName}?`}
           description="Previous clients will not be affected."
           onConfirm={this.handleConfirmModal}
           onClose={this.handleToggleModal}
@@ -173,6 +174,6 @@ const mapState = state => {
   return { workflows };
 };
 
-const mapDispatch = { getWorkflows, addWorkflow, deleteWorkflow };
+const mapDispatch = { getWorkflows, addWorkflow, archiveWorkflow };
 
 export default connect(mapState, mapDispatch)(ViewWorkflows);

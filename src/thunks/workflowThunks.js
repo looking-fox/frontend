@@ -4,8 +4,8 @@ import {
   getWorkflowsFail,
   addWorkflowSuccess,
   addWorkflowFail,
-  deleteWorkflowSuccess,
-  deleteWorkflowFail
+  archiveWorkflowSuccess,
+  archiveWorkflowFail
 } from "../reducers/workflowSlice";
 
 const getWorkflows = () => async dispatch => {
@@ -26,14 +26,14 @@ const addWorkflow = newWorkflow => async dispatch => {
   }
 };
 
-const deleteWorkflow = wfId => async dispatch => {
+const archiveWorkflow = wfId => async dispatch => {
   try {
-    const res = await api.workflow.deleteWorkflow(wfId);
+    const res = await api.workflow.archiveWorkflow(wfId);
     console.log("Res: ", res);
-    dispatch(deleteWorkflowSuccess(wfId));
+    dispatch(archiveWorkflowSuccess(wfId));
   } catch (err) {
-    dispatch(deleteWorkflowFail(err));
+    dispatch(archiveWorkflowFail(err));
   }
 };
 
-export { getWorkflows, addWorkflow, deleteWorkflow };
+export { getWorkflows, addWorkflow, archiveWorkflow };
