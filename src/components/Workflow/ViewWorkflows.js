@@ -69,9 +69,11 @@ class ViewWorkflows extends Component {
               </WorkflowBubble>
               <DetailsContainer>
                 <Text>{item.actions.length} Steps</Text>
-                <Icon>
-                  <IoMdCreate />
-                </Icon>
+                <Link to={`/workflows/edit/${item.wfId}`}>
+                  <Icon>
+                    <IoMdCreate />
+                  </Icon>
+                </Link>
                 <Icon onClick={() => this.handleToggleModal(item)}>
                   <IoMdTrash />
                 </Icon>

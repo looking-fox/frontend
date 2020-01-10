@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Text, Modal } from "../../../ui/StyledComponents";
+import { Button, Text } from "../../../ui/StyledComponents";
 import styled from "styled-components";
 import { IoIosAdd, IoIosGitCompare } from "react-icons/io";
 import NewWorkflowHeader from "./NewWorkflowHeader";
@@ -8,6 +8,7 @@ import DetailPanel from "./DetailPanel";
 import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
+import { checkForEmptyObject } from "../../../utils/utils";
 import { addWorkflow } from "../../../thunks/workflowThunks";
 import { toastSuccess } from "../../../reducers/toastSlice";
 
@@ -26,6 +27,12 @@ class NewWorkflow extends Component {
 
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
+    const editingExistingWorkflow = !checkForEmptyObject(
+      this.props.match.params
+    );
+    if (editingExistingWorkflow) {
+      // Handle Edit Workflow Logic
+    }
   }
 
   componentWillUnmount() {

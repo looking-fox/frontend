@@ -4,3 +4,10 @@ export function isValidEmail(emailString) {
   );
   return emailConditions.test(emailString);
 }
+
+export function checkForEmptyObject(objectToTest) {
+  return (
+    Object.entries(objectToTest).length === 0 &&
+    objectToTest.constructor === Object
+  );
+}
