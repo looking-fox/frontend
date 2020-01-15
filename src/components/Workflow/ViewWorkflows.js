@@ -40,19 +40,6 @@ class ViewWorkflows extends Component {
     }
   };
 
-  handleAddNewWorkflow = () => {
-    try {
-      const newWorkflow = {
-        wfName: "Adventure Session",
-        wfTagColor: "blue",
-        wfSteps: ["New Inquiry", "Send Questionnaire", "Book within 1 week"]
-      };
-      this.props.addWorkflow(newWorkflow);
-    } catch (err) {
-      // Handle Error
-    }
-  };
-
   render() {
     return (
       <Container>
@@ -68,7 +55,7 @@ class ViewWorkflows extends Component {
                 {item.wfName}
               </WorkflowBubble>
               <DetailsContainer>
-                <Text>{item.actions.length} Steps</Text>
+                <Text>{item.wfActions.length} Steps</Text>
                 <Link to={`/workflows/edit/${item.wfId}`}>
                   <Icon>
                     <IoMdCreate />

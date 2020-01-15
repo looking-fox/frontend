@@ -9,29 +9,40 @@ import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
 import { checkForEmptyObject } from "../../../utils/utils";
-import { addWorkflow } from "../../../thunks/workflowThunks";
+import { addWorkflow, updateWorkflow } from "../../../thunks/workflowThunks";
 import { toastSuccess } from "../../../reducers/toastSlice";
 
 class NewWorkflow extends Component {
   state = {
     wfName: "",
     wfTagColor: "#c17258",
+    wfId: null,
     wfActions: [
       { wfActionName: "New Inquiry", wfActionType: "task" },
       { wfActionName: "Send Info Guide", wfActionType: "task" },
       { wfActionName: "Send Contract", wfActionType: "task" },
       { wfActionName: "Get Paid", wfActionType: "task" }
     ],
-    currentActionToEditIndex: null
+    currentActionToEditIndex: null,
+    newWorkflow: true
   };
 
   componentDidMount() {
+    const { params } = this.props.match;
+    const { workflows } = this.props;
     document.addEventListener("mousedown", this.handleClickOutside);
-    const editingExistingWorkflow = !checkForEmptyObject(
-      this.props.match.params
-    );
+    const editingExistingWorkflow = !checkForEmptyObject(params);
     if (editingExistingWorkflow) {
       // Handle Edit Workflow Logic
+      const idx = workflows.findIndex(item => item.wfId === +params.wfId);
+      const { wfName, wfTagColor, wfActions } = workflows[idx] || {};
+      this.setState({
+        wfName,
+        wfTagColor,
+        wfId: +params.wfId,
+        wfActions,
+        newWorkflow: false
+      });
     }
   }
 
@@ -91,18 +102,23 @@ class NewWorkflow extends Component {
     this.setState({ wfActions: newActionList });
   };
 
-  handleAddWorkflow = e => {
+  handleAddOrUpdateWorkflow = e => {
     e.preventDefault();
     try {
-      const { wfActions, wfName, wfTagColor } = this.state;
+      const { wfId, wfActions, wfName, wfTagColor, newWorkflow } = this.state;
       if (!wfActions.length || !wfName.length || !wfTagColor.length) {
         // Create Toast UI ?
         return;
       } else {
         // Add new workflow
-        this.props.addWorkflow({ wfName, wfTagColor, wfActions });
+        const wfData = { wfName, wfTagColor, wfActions };
+        newWorkflow
+          ? this.props.addWorkflow(wfData)
+          : this.props.updateWorkflow({ ...wfData, wfId });
         this.props.history.push("/workflows");
-        this.props.toastSuccess("Workflow added");
+        this.props.toastSuccess(
+          `Workflow ${newWorkflow ? "added" : "updated"}`
+        );
       }
     } catch (err) {
       console.log("Error: ", err);
@@ -115,7 +131,8 @@ class NewWorkflow extends Component {
       wfActions,
       currentActionToEditIndex,
       wfName,
-      wfTagColor
+      wfTagColor,
+      newWorkflow
     } = this.state;
     const noActions = wfActions.length === 0;
 
@@ -123,7 +140,8 @@ class NewWorkflow extends Component {
       <Container>
         <NewWorkflowHeader
           wfTagColor={wfTagColor}
-          handleAddWorkflow={this.handleAddWorkflow}
+          newWorkflow={newWorkflow}
+          handleAddOrUpdateWorkflow={this.handleAddOrUpdateWorkflow}
         />
         <InnerContainer>
           <DetailPanel
@@ -226,6 +244,10 @@ const EmptyIcon = styled(IoIosGitCompare)`
   font-size: 2.5em;
 `;
 
-const mapDispatch = { addWorkflow, toastSuccess };
+const mapState = state => {
+  return { workflows: state.workflow.workflows };
+};
 
-export default connect(null, mapDispatch)(NewWorkflow);
+const mapDispatch = { addWorkflow, updateWorkflow, toastSuccess };
+
+export default connect(mapState, mapDispatch)(NewWorkflow);

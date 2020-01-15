@@ -18,6 +18,7 @@ export default {
   workflow: {
     getWorkflows: () => client.get("/workflow/"),
     addWorkflow: workflow => client.post("/workflow/new", workflow),
+    updateWorkflow: workflow => client.put("/workflow/update", workflow),
     archiveWorkflow: wfId => client.put(`/workflow/archive/${wfId}`)
   }
 };

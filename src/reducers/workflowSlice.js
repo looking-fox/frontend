@@ -20,6 +20,15 @@ const workflowSlice = createSlice({
     addWorkflowFail(state, action) {
       console.log("Redux Add Workflow Failed");
     },
+    updateWorkflowSuccess(state, action) {
+      const { wfId } = action.payload;
+      const idx = state.workflows.findIndex(item => item.wfId === wfId);
+      state.workflows.splice(idx, 1);
+      state.workflows.unshift(action.payload);
+    },
+    updateWorkflowFail(state, action) {
+      console.log("Redux Update Workflow Failed");
+    },
     archiveWorkflowSuccess(state, action) {
       const indexToRemove = state.workflows.findIndex(
         item => item.wfId == action.payload
@@ -40,6 +49,8 @@ export const {
   getWorkflowsFail,
   addWorkflowSuccess,
   addWorkflowFail,
+  updateWorkflowSuccess,
+  updateWorkflowFail,
   archiveWorkflowSuccess,
   archiveWorkflowFail
 } = workflowSlice.actions;

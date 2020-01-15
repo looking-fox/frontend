@@ -2,12 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import { Button, Text } from "../../../ui/StyledComponents";
 
-const NewWorkflowHeader = ({ wfTagColor, handleAddWorkflow }) => {
+const NewWorkflowHeader = ({
+  wfTagColor,
+  newWorkflow,
+  handleAddOrUpdateWorkflow
+}) => {
+  const actionText = newWorkflow ? "Save" : "Update";
   return (
     <HeaderSection>
       <HeaderTitle>Your New Workflow</HeaderTitle>
-      <SaveButton backgroundColor={wfTagColor} onClick={handleAddWorkflow}>
-        Save Workflow
+      <SaveButton
+        backgroundColor={wfTagColor}
+        onClick={handleAddOrUpdateWorkflow}
+      >
+        {actionText} Workflow
       </SaveButton>
     </HeaderSection>
   );

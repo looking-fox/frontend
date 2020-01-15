@@ -17,6 +17,7 @@ const DetailPanel = ({
       <WorkflowInput
         placeholder="Type Workflow Name..."
         name="wfName"
+        value={wfName}
         onChange={handleInput}
       />
 
