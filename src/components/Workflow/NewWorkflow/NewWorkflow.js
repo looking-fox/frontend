@@ -185,7 +185,7 @@ class NewWorkflow extends Component {
 }
 
 const Container = styled.div`
-  height: 100%;
+  height: calc(100vh - 60px);
   background: ${p => p.theme.lightGrey};
   box-sizing: border-box;
   overflow: hidden;

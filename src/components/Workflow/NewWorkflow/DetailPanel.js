@@ -113,8 +113,7 @@ const ColorPickerContainer = styled.div`
   background: white;
   border-radius: 3px;
   padding: 1em;
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin: 25px 0px;
   display: flex;
   flex-direction: column;
   min-width: fit-content;
@@ -125,6 +124,7 @@ const ColorPickerContainer = styled.div`
 
 const ColorSelector = styled.div`
   display: flex;
+  justify-content: center;
 `;
 
 const ColorText = styled(Text)`
