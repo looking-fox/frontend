@@ -7,10 +7,11 @@ const NewWorkflowHeader = ({
   newWorkflow,
   handleAddOrUpdateWorkflow
 }) => {
+  const titleText = newWorkflow ? "Your New Workflow" : "Your Workflow";
   const actionText = newWorkflow ? "Save" : "Update";
   return (
     <HeaderSection>
-      <HeaderTitle>Your New Workflow</HeaderTitle>
+      <HeaderTitle>{titleText}</HeaderTitle>
       <SaveButton
         backgroundColor={wfTagColor}
         onClick={handleAddOrUpdateWorkflow}

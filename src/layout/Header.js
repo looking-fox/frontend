@@ -36,9 +36,9 @@ const Header = props => {
 
   return (
     <Container>
-      <LogoContainer>
+      <LogoLink to="/">
         <Image src={Logo} alt="Looking Fox Logo" />
-      </LogoContainer>
+      </LogoLink>
 
       <Navigation>
         <NavLink to="/">
@@ -77,13 +77,13 @@ const Container = styled.div`
   display: flex;
 `;
 
-const LogoContainer = styled.div`
-  width: 15%;
+const LogoLink = styled(Link)`
+  width: 15vw;
   ${p => p.theme.flexAllCenter}
 `;
 
 const Navigation = styled.nav`
-  width: 70%;
+  width: 70vw;
   padding: 0px 20%;
   ${p => p.theme.flexEvenly}
 `;
@@ -101,7 +101,7 @@ const Image = styled.img`
 `;
 
 const AvatarContainer = styled.div`
-  width: 15%;
+  width: 15vw;
   display: flex;
   align-items: center;
   justify-content: flex-end;
