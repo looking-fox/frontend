@@ -20,5 +20,8 @@ export default {
     addWorkflow: workflow => client.post("/workflow/new", workflow),
     updateWorkflow: workflow => client.put("/workflow/update", workflow),
     archiveWorkflow: wfId => client.put(`/workflow/archive/${wfId}`)
+  },
+  client: {
+    getClients: () => client.get("/client/")
   }
 };

@@ -144,7 +144,7 @@ class NewWorkflow extends Component {
   };
 
   onDragEnd = result => {
-    let newIndex = result.source.index;
+    let newIndex = null;
     // dropped outside the list
     if (!result.destination) return;
     const wfActions = reorder(
@@ -156,6 +156,7 @@ class NewWorkflow extends Component {
     if (this.state.currentActionToEditIndex >= 0) {
       newIndex = result.destination.index;
     }
+
     this.setState({ wfActions, currentActionToEditIndex: newIndex });
   };
 

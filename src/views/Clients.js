@@ -1,19 +1,16 @@
 import React from "react";
-import styled from "styled-components";
+import { Switch, Route } from "react-router-dom";
+import ViewClients from "../components/Clients/ViewClients";
 
-const Clients = () => {
-  return (
-    <Container>
-      <p style={{ textAlign: "center", marginTop: 50 }}>Clients</p>
-    </Container>
-  );
-};
-
-const Container = styled.div`
-  height: calc(100vh - 60px);
-  background: ${p => p.theme.lightGrey};
-  overflow-y: auto;
-  padding: 0 20vw;
-`;
+class Clients extends React.Component {
+  render() {
+    return (
+      <Switch>
+        <Route exact path="/" component={ViewClients} />
+        <Route default path="/" component={ViewClients} />
+      </Switch>
+    );
+  }
+}
 
 export default Clients;
