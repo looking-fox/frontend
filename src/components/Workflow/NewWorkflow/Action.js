@@ -45,13 +45,14 @@ const Action = ({
 const ActionContainer = styled.div`
   background: white;
   border-radius: 3px;
-  width: 70%;
+  width: 80%;
   padding: 1em 1em;
-  margin: 1em 0em;
+  margin: 1em auto;
   ${p => p.theme.sideBoxShadow};
   position: relative;
   display: flex;
   align-items: center;
+  cursor: text;
   transition: all 500ms ease-in-out;
   & svg {
     margin-right: 5px;

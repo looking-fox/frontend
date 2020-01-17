@@ -9,6 +9,29 @@ import { connect } from "react-redux";
 import { checkForEmptyObject } from "../../../utils/utils";
 import { addWorkflow, updateWorkflow } from "../../../thunks/workflowThunks";
 import { toastSuccess } from "../../../reducers/toastSlice";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+  // change opacity if dragging
+  opacity: isDragging ? 0.5 : 1,
+  width: "calc(100% - 75px)",
+  marginLeft: "75px",
+
+  // styles we need to apply on draggables
+  ...draggableStyle
+});
+
+const getListStyle = () => ({
+  width: "90%"
+});
+
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
 
 class NewWorkflow extends Component {
   state = {
@@ -49,7 +72,8 @@ class NewWorkflow extends Component {
   }
 
   handleClickOutside = e => {
-    if (!e.target.draggable) {
+    //Null edit mode if not a draggable element or switched over to an input
+    if (!e.target.draggable && !e.target.placeholder) {
       this.setState({ currentActionToEditIndex: null });
     }
   };
@@ -66,8 +90,11 @@ class NewWorkflow extends Component {
   };
 
   handleSaveActionName = (e, idx) => {
-    const newActionList = [...this.state.wfActions];
-    newActionList[idx]["wfActionName"] = e.target.value;
+    let newActionList = this.state.wfActions.slice();
+    newActionList[idx] = {
+      ...newActionList[idx],
+      wfActionName: e.target.value
+    };
     this.setState({ wfActions: newActionList });
   };
 
@@ -116,6 +143,22 @@ class NewWorkflow extends Component {
     }
   };
 
+  onDragEnd = result => {
+    let newIndex = result.source.index;
+    // dropped outside the list
+    if (!result.destination) return;
+    const wfActions = reorder(
+      this.state.wfActions,
+      result.source.index,
+      result.destination.index
+    );
+    // update edit index if item is in edit mode
+    if (this.state.currentActionToEditIndex >= 0) {
+      newIndex = result.destination.index;
+    }
+    this.setState({ wfActions, currentActionToEditIndex: newIndex });
+  };
+
   render() {
     const {
       wfActions,
@@ -124,6 +167,7 @@ class NewWorkflow extends Component {
       wfTagColor,
       newWorkflow
     } = this.state;
+
     const noActions = wfActions.length === 0;
 
     return (
@@ -152,22 +196,55 @@ class NewWorkflow extends Component {
               </EmptyDisplayContainer>
             )}
 
-            {wfActions.map((action, idx) => {
-              const isInEditMode = idx === currentActionToEditIndex;
-              return (
-                <Action
-                  idx={idx}
-                  stepNumber={idx + 1}
-                  text={action.wfActionName}
-                  key={idx}
-                  isInEditMode={isInEditMode}
-                  handleToggleActionMode={this.handleToggleActionMode}
-                  handleSaveActionName={this.handleSaveActionName}
-                  handleDeleteAction={this.handleDeleteAction}
-                  moveAction={this.moveAction}
-                />
-              );
-            })}
+            <DragDropContext onDragEnd={this.onDragEnd}>
+              <Droppable droppableId="droppable">
+                {(provided, snapshot) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    style={getListStyle(snapshot.isDraggingOver)}
+                  >
+                    {wfActions.map((item, idx) => {
+                      const isInEditMode = currentActionToEditIndex === idx;
+
+                      return (
+                        <Draggable
+                          key={String(idx)}
+                          draggableId={String(idx)}
+                          index={idx}
+                        >
+                          {(provided, snapshot) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={getItemStyle(
+                                snapshot.isDragging,
+                                provided.draggableProps.style
+                              )}
+                            >
+                              <Action
+                                idx={idx}
+                                stepNumber={idx + 1}
+                                text={item.wfActionName}
+                                key={idx}
+                                isInEditMode={isInEditMode}
+                                handleToggleActionMode={
+                                  this.handleToggleActionMode
+                                }
+                                handleSaveActionName={this.handleSaveActionName}
+                                handleDeleteAction={this.handleDeleteAction}
+                              />
+                            </div>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
 
             <Button
               outline
