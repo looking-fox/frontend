@@ -5,8 +5,6 @@ import { IoIosAdd, IoIosGitCompare } from "react-icons/io";
 import NewWorkflowHeader from "./NewWorkflowHeader";
 import Action from "./Action";
 import DetailPanel from "./DetailPanel";
-import { DndProvider } from "react-dnd";
-import Backend from "react-dnd-html5-backend";
 import { connect } from "react-redux";
 import { checkForEmptyObject } from "../../../utils/utils";
 import { addWorkflow, updateWorkflow } from "../../../thunks/workflowThunks";
@@ -94,14 +92,6 @@ class NewWorkflow extends Component {
     this.setState({ wfTagColor: newColor });
   };
 
-  moveAction = (dragIndex, hoverIndex) => {
-    const newActionList = [...this.state.wfActions];
-    const dragActionCard = newActionList[dragIndex];
-    newActionList.splice(dragIndex, 1);
-    newActionList.splice(hoverIndex, 0, dragActionCard);
-    this.setState({ wfActions: newActionList });
-  };
-
   handleAddOrUpdateWorkflow = e => {
     e.preventDefault();
     try {
@@ -162,24 +152,22 @@ class NewWorkflow extends Component {
               </EmptyDisplayContainer>
             )}
 
-            <DndProvider backend={Backend}>
-              {wfActions.map((action, idx) => {
-                const isInEditMode = idx === currentActionToEditIndex;
-                return (
-                  <Action
-                    idx={idx}
-                    stepNumber={idx + 1}
-                    text={action.wfActionName}
-                    key={idx}
-                    isInEditMode={isInEditMode}
-                    handleToggleActionMode={this.handleToggleActionMode}
-                    handleSaveActionName={this.handleSaveActionName}
-                    handleDeleteAction={this.handleDeleteAction}
-                    moveAction={this.moveAction}
-                  />
-                );
-              })}
-            </DndProvider>
+            {wfActions.map((action, idx) => {
+              const isInEditMode = idx === currentActionToEditIndex;
+              return (
+                <Action
+                  idx={idx}
+                  stepNumber={idx + 1}
+                  text={action.wfActionName}
+                  key={idx}
+                  isInEditMode={isInEditMode}
+                  handleToggleActionMode={this.handleToggleActionMode}
+                  handleSaveActionName={this.handleSaveActionName}
+                  handleDeleteAction={this.handleDeleteAction}
+                  moveAction={this.moveAction}
+                />
+              );
+            })}
 
             <Button
               outline
