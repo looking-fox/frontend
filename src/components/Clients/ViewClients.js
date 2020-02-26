@@ -28,6 +28,7 @@ class ViewClients extends Component {
   render() {
     const { clients } = this.props;
     const { showModal } = this.state;
+
     return (
       <>
         <ViewClientsHeader
@@ -58,6 +59,7 @@ class ViewClients extends Component {
 const mapState = state => {
   return { clients: state.client.clients };
 };
+
 const mapDispatch = { getClients, updateClientProgress };
 
 export default connect(mapState, mapDispatch)(ViewClients);

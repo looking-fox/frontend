@@ -5,6 +5,7 @@ import SimpleButton from "./Button";
 import Container from "./Container";
 import Text from "./Text";
 import Input from "./Input";
+import TextArea from "./TextArea";
 import Toast from "./Toast";
 import Modal from "./Modal";
 
@@ -25,4 +26,4 @@ const Image = styled.img`
   height: 1.3em;
 `;
 
-export { Button, SimpleButton, Container, Text, Input, Toast, Modal };
+export { Button, SimpleButton, Container, Text, Input, TextArea, Toast, Modal };
