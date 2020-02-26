@@ -7,6 +7,10 @@ import ViewClientsHeader from "./ViewClientsHeader";
 import ClientModal from "./AddClient/ClientModal";
 
 class ViewClients extends Component {
+  state = {
+    showModal: false
+  };
+
   componentDidMount() {
     this.props.clients.length === 0 && this.props.getClients();
   }
@@ -15,12 +19,26 @@ class ViewClients extends Component {
     await this.props.updateClientProgress({ clientId, newIndex });
   };
 
+  handleToggleClientModal = () => {
+    return this.setState(state => {
+      return { showModal: !state.showModal };
+    });
+  };
+
   render() {
     const { clients } = this.props;
+    const { showModal } = this.state;
     return (
       <>
-        <ViewClientsHeader />
-        <ClientModal showModal={false} />
+        <ViewClientsHeader
+          handleToggleClientModal={this.handleToggleClientModal}
+        />
+
+        <ClientModal
+          showModal={showModal}
+          handleToggleClientModal={this.handleToggleClientModal}
+        />
+
         <Container>
           {clients.map((client, idx) => {
             return (

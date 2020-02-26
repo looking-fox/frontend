@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { Button } from "../../ui/StyledComponents";
 import { IoIosAdd } from "react-icons/io";
 
-const ViewClientsHeader = () => {
+const ViewClientsHeader = ({ handleToggleClientModal }) => {
   return (
     <HeaderContainer>
-      <AddClientButton outline>
+      <AddClientButton outline onClick={handleToggleClientModal}>
         <IoIosAdd /> Add Client
       </AddClientButton>
     </HeaderContainer>
