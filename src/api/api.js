@@ -22,6 +22,8 @@ export default {
     archiveWorkflow: wfId => client.put(`/workflow/archive/${wfId}`)
   },
   client: {
-    getClients: () => client.get("/client/")
+    getClients: () => client.get("/client/"),
+    updateClientProgress: clientInfo =>
+      client.put("/client/progress", clientInfo)
   }
 };

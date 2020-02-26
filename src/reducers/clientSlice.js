@@ -13,12 +13,27 @@ const clientSlice = createSlice({
     },
     getClientsFail(state, action) {
       console.log("Redux failed to get Clients");
+    },
+    updateClientProgressSuccess(state, action) {
+      const { clientId, newIndex } = action.payload;
+      const idx = state.clients.findIndex(
+        client => client.clientId === clientId
+      );
+      state.clients[idx]["currentWfIndex"] = newIndex;
+    },
+    updateClientProgressFail(state, action) {
+      console.log("Redux failed to update Clients");
     }
   }
 });
 
 // Export actions for dispatch //
-export const { getClientsSuccess, getClientsFail } = clientSlice.actions;
+export const {
+  getClientsSuccess,
+  getClientsFail,
+  updateClientProgressSuccess,
+  updateClientProgressFail
+} = clientSlice.actions;
 // Export actions for dispatch //
 
 export default clientSlice.reducer;

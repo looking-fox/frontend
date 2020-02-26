@@ -1,5 +1,10 @@
 import api from "../api/api";
-import { getClientsSuccess, getClientsFail } from "../reducers/clientSlice";
+import {
+  getClientsSuccess,
+  getClientsFail,
+  updateClientProgressSuccess,
+  updateClientProgressFail
+} from "../reducers/clientSlice";
 
 const getClients = () => async dispatch => {
   try {
@@ -10,4 +15,13 @@ const getClients = () => async dispatch => {
   }
 };
 
-export { getClients };
+const updateClientProgress = clientInfo => async dispatch => {
+  try {
+    await api.client.updateClientProgress(clientInfo);
+    dispatch(updateClientProgressSuccess(clientInfo));
+  } catch (err) {
+    dispatch(updateClientProgressFail(err));
+  }
+};
+
+export { getClients, updateClientProgress };
