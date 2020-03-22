@@ -2,9 +2,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getWorkflows } from "../../../thunks/workflowThunks";
 import styled from "styled-components";
-import { Button, Modal, Input, TextArea } from "../../../ui/StyledComponents";
+import {
+  Button,
+  Modal,
+  Field,
+  TextArea,
+  FormErrorText
+} from "../../../ui/StyledComponents";
 import Select from "react-select";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 
 class ClientModal extends Component {
   async componentDidMount() {
@@ -54,13 +60,13 @@ class ClientModal extends Component {
           {({ isSubmitting }) => (
             <Form>
               <Field type="name" name="name" />
-              <StyErrorMessage name="name" component="div" />
+              <FormErrorText name="name" component="div" />
 
               <Field type="email" name="email" />
-              <StyErrorMessage name="email" component="div" />
+              <FormErrorText name="email" component="div" />
 
               <Field type="phone" name="phone" />
-              <StyErrorMessage name="phone" component="div" />
+              <FormErrorText name="phone" component="div" />
 
               <AddButton type="submit" disabled={isSubmitting}>
                 Add Client
@@ -79,11 +85,6 @@ const AddButton = styled(Button)`
 `;
 
 const StyledSelect = styled(Select)`
-  margin: 10px 0px;
-`;
-
-const StyErrorMessage = styled(ErrorMessage)`
-  color: red;
   margin: 10px 0px;
 `;
 

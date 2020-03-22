@@ -8,6 +8,8 @@ import Input from "./Input";
 import TextArea from "./TextArea";
 import Toast from "./Toast";
 import Modal from "./Modal";
+import Field from "./Field";
+import FormErrorText from "./FormErrorText";
 
 const Button = props => {
   const { isLoading, children } = props;
@@ -26,4 +28,15 @@ const Image = styled.img`
   height: 1.3em;
 `;
 
-export { Button, SimpleButton, Container, Text, Input, TextArea, Toast, Modal };
+export {
+  Button,
+  SimpleButton,
+  Container,
+  Text,
+  Input,
+  TextArea,
+  Toast,
+  Modal,
+  Field,
+  FormErrorText
+};
