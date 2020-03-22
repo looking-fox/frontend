@@ -17,6 +17,8 @@ class AddOrEditClient extends Component {
   async componentDidMount() {
     await this.props.getWorkflows();
     await this.generateOptions();
+    const { params } = this.props.match;
+    console.log("Params: ", params);
   }
 
   generateOptions = () => {
@@ -53,7 +55,7 @@ class AddOrEditClient extends Component {
   };
 
   render() {
-    const { workflowOptions, selectedWorkflow } = this.state;
+    const { workflowOptions } = this.state;
     const initialFormState = { name: "", email: "", phone: "" };
     return (
       <Container>
@@ -81,7 +83,6 @@ class AddOrEditClient extends Component {
 
               <Textarea
                 placeholder="Custom Note..."
-                name="clientNote"
                 onChange={this.handleTextareaInput}
               />
 

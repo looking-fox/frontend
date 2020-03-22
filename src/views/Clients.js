@@ -9,6 +9,7 @@ class Clients extends React.Component {
       <Switch>
         <Route exact path="/" component={ViewClients} />
         <Route exact path="/new" component={AddOrEditClient} />
+        <Route exact path="/edit/:clientId" component={AddOrEditClient} />
         <Route default path="/" component={ViewClients} />
       </Switch>
     );

@@ -1,14 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "../../ui/StyledComponents";
+import { Button, Link } from "../../ui/StyledComponents";
 import { IoIosAdd } from "react-icons/io";
 
 const ViewClientsHeader = () => {
   return (
     <HeaderContainer>
-      <AddClientButton outline>
-        <IoIosAdd /> Add Client
-      </AddClientButton>
+      <StyledLink to="/new">
+        <Button outline>
+          <IoIosAdd /> Add Client
+        </Button>
+      </StyledLink>
     </HeaderContainer>
   );
 };
@@ -20,7 +22,7 @@ const HeaderContainer = styled.div`
   align-items: center;
 `;
 
-const AddClientButton = styled(Button)`
+const StyledLink = styled(Link)`
   margin-left: auto;
   margin-right: 25px;
 `;

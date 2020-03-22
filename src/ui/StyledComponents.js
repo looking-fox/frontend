@@ -10,6 +10,7 @@ import Toast from "./Toast";
 import Modal from "./Modal";
 import Field from "./Field";
 import FormErrorText from "./FormErrorText";
+import Link from "./Link";
 
 const Button = props => {
   const { isLoading, children } = props;
@@ -38,5 +39,6 @@ export {
   Toast,
   Modal,
   Field,
-  FormErrorText
+  FormErrorText,
+  Link
 };

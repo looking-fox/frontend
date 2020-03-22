@@ -6,7 +6,7 @@ export function isValidEmail(emailString) {
 }
 
 export function checkForEmptyObject(objectToTest) {
-  return (
+  return !(
     Object.entries(objectToTest).length === 0 &&
     objectToTest.constructor === Object
   );

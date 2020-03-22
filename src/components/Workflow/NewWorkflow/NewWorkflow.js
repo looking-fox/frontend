@@ -52,7 +52,7 @@ class NewWorkflow extends Component {
     const { params } = this.props.match;
     const { workflows } = this.props;
     document.addEventListener("mousedown", this.handleClickOutside);
-    const editingExistingWorkflow = !checkForEmptyObject(params);
+    const editingExistingWorkflow = checkForEmptyObject(params);
     if (editingExistingWorkflow) {
       // Handle Edit Workflow Logic
       const idx = workflows.findIndex(item => item.wfId === +params.wfId);

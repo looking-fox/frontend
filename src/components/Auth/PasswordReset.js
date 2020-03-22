@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Input, Button, Text } from "../../ui/StyledComponents";
+import { Input, Button, Text, Link } from "../../ui/StyledComponents";
 import { IoIosArrowBack } from "react-icons/io";
-import { Link } from "react-router-dom";
 import { firebaseAuth } from "../../auth/firebaseAuth";
 
 class PasswordReset extends Component {
@@ -49,11 +48,11 @@ class PasswordReset extends Component {
     return (
       <Container>
         <PasswordResetContainer>
-          <BackLink to="/">
+          <Link to="/">
             <BackText>
               <IoIosArrowBack /> Back
             </BackText>
-          </BackLink>
+          </Link>
           <Title>Reset Password</Title>
           <SubTitle>Don't worry. We've all been there.</SubTitle>
           <Input
@@ -101,14 +100,6 @@ const PasswordResetContainer = styled.div`
   ${p => p.theme.boxShadow}
   padding: 25px;
   border-radius: 3px;
-`;
-
-const BackLink = styled(Link)`
-  text-decoration: none;
-  &:link,
-  &:visited {
-    color: inherit;
-  }
 `;
 
 const BackText = styled(Text)`
