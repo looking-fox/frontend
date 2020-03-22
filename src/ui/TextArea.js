@@ -1,10 +1,11 @@
 import styled, { css } from "styled-components";
 
-const TextArea = styled.textarea`
+const Textarea = styled.textarea`
   resize: none;
   background: ${p => p.theme.lightGrey};
   border: none;
   width: 100%;
+  height: 100px;
   box-sizing: border-box;
   padding: 10px 10px;
   margin: 10px 0px;
@@ -17,4 +18,4 @@ const TextArea = styled.textarea`
     `};
 `;
 
-export default TextArea;
+export default Textarea;

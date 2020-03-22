@@ -5,7 +5,7 @@ import SimpleButton from "./Button";
 import Container from "./Container";
 import Text from "./Text";
 import Input from "./Input";
-import TextArea from "./TextArea";
+import Textarea from "./Textarea";
 import Toast from "./Toast";
 import Modal from "./Modal";
 import Field from "./Field";
@@ -34,7 +34,7 @@ export {
   Container,
   Text,
   Input,
-  TextArea,
+  Textarea,
   Toast,
   Modal,
   Field,

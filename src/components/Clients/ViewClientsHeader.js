@@ -3,17 +3,15 @@ import styled from "styled-components";
 import { Button } from "../../ui/StyledComponents";
 import { IoIosAdd } from "react-icons/io";
 
-const ViewClientsHeader = ({ handleToggleClientModal }) => {
+const ViewClientsHeader = () => {
   return (
     <HeaderContainer>
-      <AddClientButton outline onClick={handleToggleClientModal}>
+      <AddClientButton outline>
         <IoIosAdd /> Add Client
       </AddClientButton>
     </HeaderContainer>
   );
 };
-
-export default ViewClientsHeader;
 
 const HeaderContainer = styled.div`
   height: 60px;
@@ -26,3 +24,5 @@ const AddClientButton = styled(Button)`
   margin-left: auto;
   margin-right: 25px;
 `;
+
+export default ViewClientsHeader;
