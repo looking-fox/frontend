@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 const Textarea = styled.textarea`
   resize: none;
-  background: ${p => p.theme.lightGrey};
+  background: white;
   border: none;
   width: 100%;
   height: 100px;

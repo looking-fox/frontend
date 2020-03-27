@@ -6,8 +6,8 @@ import { Formik, Form } from "formik";
 import {
   Field,
   FormErrorText,
-  Button,
-  Textarea
+  Textarea,
+  Text
 } from "../../../ui/StyledComponents";
 import Select from "react-select";
 import NewClientHeader from "./NewClientHeader";
@@ -31,11 +31,12 @@ class AddOrEditClient extends Component {
 
   handleValidation = values => {
     const errors = {};
-    if (!values.email) {
-      errors.email = "Required";
+    if (!values.name) {
+      errors.name = "Required";
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
       errors.email = "Invalid email address";
     }
+    //TO DO: Phone Number Validation
     return errors;
   };
 
@@ -73,29 +74,31 @@ class AddOrEditClient extends Component {
                 formState={formState}
               />
               <FormContainer>
-                <Field type="name" name="name" placeholder="Name" />
-                <FormErrorText name="name" component="div" />
+                <LeftPanel>
+                  <Field type="name" name="name" placeholder="Name" />
+                  <FormErrorText name="name" component="div" />
 
-                <Field type="email" name="email" placeholder="Email" />
-                <FormErrorText name="email" component="div" />
+                  <Field type="email" name="email" placeholder="Email" />
+                  <FormErrorText name="email" component="div" />
 
-                <Field type="phone" name="phone" placeholder="Phone Number" />
-                <FormErrorText name="phone" component="div" />
+                  <Field type="phone" name="phone" placeholder="Phone Number" />
+                  <FormErrorText name="phone" component="div" />
 
-                <StyledSelect
-                  options={workflowOptions}
-                  defaultValue={workflowOptions[0]}
-                  onChange={this.handleSelectMenu}
-                />
+                  <StyledSelect
+                    options={workflowOptions}
+                    defaultValue={workflowOptions[0]}
+                    onChange={this.handleSelectMenu}
+                  />
 
-                <Textarea
-                  placeholder="Custom Note..."
-                  onChange={this.handleTextareaInput}
-                />
+                  <Textarea
+                    placeholder="Custom Note..."
+                    onChange={this.handleTextareaInput}
+                  />
+                </LeftPanel>
+                <RightPanel>
+                  <Text>Activity Panel Coming Soon!</Text>
+                </RightPanel>
               </FormContainer>
-              {/* <AddButton type="submit" disabled={isSubmitting}>
-                Add Client
-              </AddButton> */}
             </Form>
           )}
         </Formik>
@@ -107,18 +110,29 @@ class AddOrEditClient extends Component {
 const Container = styled.div`
   height: calc(100vh - 60px);
   background: ${p => p.theme.lightGrey};
-  overflow-y: auto;
+  overflow-y: hidden;
   position: relative;
 `;
 
 const FormContainer = styled.div`
-  padding: 0 20vw;
+  display: flex;
+  overflow-y: auto;
 `;
 
-const AddButton = styled(Button)`
-  position: absolute;
-  top: 10px;
-  right: 50px;
+const LeftPanel = styled.div`
+  width: 50vw;
+  padding: 25px 50px;
+  padding-top: 50px;
+  box-sizing: border-box;
+  height: calc(100vh - 120px);
+`;
+
+const RightPanel = styled.div`
+  width: 50vw;
+  height: calc(100vh - 120px);
+  padding-top: 150px;
+  text-align: center;
+  box-sizing: border-box;
 `;
 
 const StyledSelect = styled(Select)`

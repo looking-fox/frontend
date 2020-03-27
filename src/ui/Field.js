@@ -2,7 +2,7 @@ import { Field } from "formik";
 import styled, { css } from "styled-components";
 
 const StyledField = styled(Field)`
-  background: ${p => p.theme.lightGrey};
+  background: white;
   border: none;
   width: 100%;
   box-sizing: border-box;
