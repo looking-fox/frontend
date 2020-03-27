@@ -56,13 +56,15 @@ class AddOrEditClientModal extends Component {
   render() {
     const { showModal, toggleModal } = this.props;
     const { workflowOptions, newClient } = this.state;
+    const res = workflowOptions.length ? workflowOptions[0]["wfId"] : null;
     const initialFormState = {
       name: "",
       email: "",
       phone: "",
       customNote: "",
-      workflowMenu: null
+      workflowMenu: res
     };
+
     return (
       <Modal showModal={showModal} onClose={toggleModal}>
         <Formik
@@ -85,6 +87,7 @@ class AddOrEditClientModal extends Component {
                 options={workflowOptions}
                 component={CustomSelect}
                 name="workflowMenu"
+                value={res}
                 idName="wfId"
               />
               <FormErrorText name="workflowMenu" component="div" />
