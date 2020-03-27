@@ -8,18 +8,18 @@ import {
   Field,
   FormErrorText,
   Textarea,
-  Modal
+  Modal,
+  Button
 } from "../../../ui/StyledComponents";
 import CustomSelect from "../../../ui/formik/CustomSelect";
+import CustomTextarea from "../../../ui/formik/CustomTextarea";
 
 import Select from "react-select";
 
 class AddOrEditClientModal extends Component {
   state = {
     workflowOptions: [],
-    selectedWorkflowId: null,
-    newClient: true,
-    customNote: ""
+    newClient: true
   };
 
   async componentDidMount() {
@@ -40,31 +40,15 @@ class AddOrEditClientModal extends Component {
       errors.name = "Required";
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
       errors.email = "Invalid email address";
-    } else if (!this.state.selectedWorkflowId) {
+    } else if (!values.workflowMenu) {
       errors.workflowMenu = "Required";
     }
     //TO DO: Phone Number Validation
     return errors;
   };
 
-  handleSelectMenu = ({ value }) => {
-    const { wfId } = this.state.workflowOptions[value] || {};
-    this.setState({ selectedWorkflowId: wfId });
-  };
-
-  handleTextareaInput = event => {
-    this.setState({ customNote: event.target.value });
-  };
-
-  handleSubmitForm = async (values, { setSubmitting }) => {
-    const newClient = {
-      ...values,
-      ...{
-        customNote: this.state.customNote,
-        workflowId: this.state.selectedWorkflowId
-      }
-    };
-    const result = await this.props.addClient(newClient);
+  handleSubmitForm = async (newClientInfo, { setSubmitting }) => {
+    const result = await this.props.addClient(newClientInfo);
     console.log("Result: ", result);
     setSubmitting(false);
   };
@@ -72,7 +56,13 @@ class AddOrEditClientModal extends Component {
   render() {
     const { showModal, toggleModal } = this.props;
     const { workflowOptions, newClient } = this.state;
-    const initialFormState = { name: "", email: "", phone: "" };
+    const initialFormState = {
+      name: "",
+      email: "",
+      phone: "",
+      customNote: "",
+      workflowMenu: null
+    };
     return (
       <Modal showModal={showModal} onClose={toggleModal}>
         <Formik
@@ -80,7 +70,7 @@ class AddOrEditClientModal extends Component {
           validate={this.handleValidation}
           onSubmit={this.handleSubmitForm}
         >
-          {props => (
+          {({ isSubmitting }) => (
             <Form>
               <Field type="name" name="name" placeholder="Name" />
               <FormErrorText name="name" component="div" />
@@ -93,18 +83,21 @@ class AddOrEditClientModal extends Component {
 
               <Field
                 options={workflowOptions}
-                defaultValue={workflowOptions[0]}
-                onChange={this.handleSelectMenu}
                 component={CustomSelect}
-                isMulti={false}
                 name="workflowMenu"
+                idName="wfId"
               />
               <FormErrorText name="workflowMenu" component="div" />
 
-              <Textarea
+              <Field
+                name="customNote"
+                component={CustomTextarea}
                 placeholder="Custom Note..."
-                onChange={this.handleTextareaInput}
               />
+
+              <StySubmitButton type="submit" disabled={isSubmitting}>
+                Submit
+              </StySubmitButton>
             </Form>
           )}
         </Formik>
@@ -113,8 +106,9 @@ class AddOrEditClientModal extends Component {
   }
 }
 
-const StyledSelect = styled(Select)`
-  margin: 10px 0px;
+const StySubmitButton = styled(Button)`
+  margin: 10px;
+  margin-left: auto;
 `;
 
 const mapState = state => {

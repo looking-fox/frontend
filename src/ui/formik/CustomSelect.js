@@ -1,22 +1,13 @@
 import React from "react";
 import Select from "react-select";
 
-const CustomSelect = ({ field, form, options, isMulti = false }) => {
+const CustomSelect = ({ field, form, options = [], idName = "" }) => {
   const onChange = option => {
-    form.setFieldValue(
-      field.name,
-      isMulti ? option.map(item => item.value) : option.value
-    );
+    form.setFieldValue(field.name, option[idName] || option.value);
   };
 
   const getValue = () => {
-    if (options) {
-      return isMulti
-        ? options.filter(option => field.value.indexOf(option.value) >= 0)
-        : options.find(option => option.value === field.value);
-    } else {
-      return isMulti ? [] : "";
-    }
+    return options.find(option => option.value === field.value) || options[0];
   };
 
   return (
@@ -25,7 +16,6 @@ const CustomSelect = ({ field, form, options, isMulti = false }) => {
       value={getValue()}
       onChange={onChange}
       options={options}
-      isMulti={isMulti}
     />
   );
 };
