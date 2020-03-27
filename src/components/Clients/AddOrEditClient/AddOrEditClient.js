@@ -10,9 +10,10 @@ import {
   Textarea
 } from "../../../ui/StyledComponents";
 import Select from "react-select";
+import NewClientHeader from "./NewClientHeader";
 
 class AddOrEditClient extends Component {
-  state = { workflowOptions: [], selectedWorkflowId: null };
+  state = { workflowOptions: [], selectedWorkflowId: null, newClient: true };
 
   async componentDidMount() {
     await this.props.getWorkflows();
@@ -55,7 +56,7 @@ class AddOrEditClient extends Component {
   };
 
   render() {
-    const { workflowOptions } = this.state;
+    const { workflowOptions, newClient } = this.state;
     const initialFormState = { name: "", email: "", phone: "" };
     return (
       <Container>
@@ -64,31 +65,37 @@ class AddOrEditClient extends Component {
           validate={this.handleValidation}
           onSubmit={this.handleSubmitForm}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, values: formState }) => (
             <Form>
-              <Field type="name" name="name" placeholder="Name" />
-              <FormErrorText name="name" component="div" />
-
-              <Field type="email" name="email" placeholder="Email" />
-              <FormErrorText name="email" component="div" />
-
-              <Field type="phone" name="phone" placeholder="Phone Number" />
-              <FormErrorText name="phone" component="div" />
-
-              <StyledSelect
-                options={workflowOptions}
-                defaultValue={workflowOptions[0]}
-                onChange={this.handleSelectMenu}
+              <NewClientHeader
+                disabled={isSubmitting}
+                newClient={newClient}
+                formState={formState}
               />
+              <FormContainer>
+                <Field type="name" name="name" placeholder="Name" />
+                <FormErrorText name="name" component="div" />
 
-              <Textarea
-                placeholder="Custom Note..."
-                onChange={this.handleTextareaInput}
-              />
+                <Field type="email" name="email" placeholder="Email" />
+                <FormErrorText name="email" component="div" />
 
-              <AddButton type="submit" disabled={isSubmitting}>
+                <Field type="phone" name="phone" placeholder="Phone Number" />
+                <FormErrorText name="phone" component="div" />
+
+                <StyledSelect
+                  options={workflowOptions}
+                  defaultValue={workflowOptions[0]}
+                  onChange={this.handleSelectMenu}
+                />
+
+                <Textarea
+                  placeholder="Custom Note..."
+                  onChange={this.handleTextareaInput}
+                />
+              </FormContainer>
+              {/* <AddButton type="submit" disabled={isSubmitting}>
                 Add Client
-              </AddButton>
+              </AddButton> */}
             </Form>
           )}
         </Formik>
@@ -101,12 +108,17 @@ const Container = styled.div`
   height: calc(100vh - 60px);
   background: ${p => p.theme.lightGrey};
   overflow-y: auto;
+  position: relative;
+`;
+
+const FormContainer = styled.div`
   padding: 0 20vw;
 `;
 
 const AddButton = styled(Button)`
-  margin: 10px 0px;
-  margin-left: auto;
+  position: absolute;
+  top: 10px;
+  right: 50px;
 `;
 
 const StyledSelect = styled(Select)`
