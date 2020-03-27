@@ -10,6 +10,8 @@ import {
   Textarea,
   Modal
 } from "../../../ui/StyledComponents";
+import CustomSelect from "../../../ui/formik/CustomSelect";
+
 import Select from "react-select";
 
 class AddOrEditClientModal extends Component {
@@ -67,15 +69,6 @@ class AddOrEditClientModal extends Component {
     setSubmitting(false);
   };
 
-  // <Modal
-  //         showModal={this.state.showModal}
-  //         simpleModal
-  //         title={`Are you sure you want to delete ${this.state.workFlowToArchive.wfName}?`}
-  //         description="Previous clients will not be affected."
-  //         onConfirm={this.handleConfirmModal}
-  //         onClose={this.handleToggleModal}
-  //       />
-
   render() {
     const { showModal, toggleModal } = this.props;
     const { workflowOptions, newClient } = this.state;
@@ -87,7 +80,7 @@ class AddOrEditClientModal extends Component {
           validate={this.handleValidation}
           onSubmit={this.handleSubmitForm}
         >
-          {({ isSubmitting }) => (
+          {props => (
             <Form>
               <Field type="name" name="name" placeholder="Name" />
               <FormErrorText name="name" component="div" />
@@ -98,12 +91,15 @@ class AddOrEditClientModal extends Component {
               <Field type="phone" name="phone" placeholder="Phone Number" />
               <FormErrorText name="phone" component="div" />
 
-              <StyledSelect
+              <Field
                 options={workflowOptions}
                 defaultValue={workflowOptions[0]}
                 onChange={this.handleSelectMenu}
+                component={CustomSelect}
+                isMulti={false}
                 name="workflowMenu"
               />
+              <FormErrorText name="workflowMenu" component="div" />
 
               <Textarea
                 placeholder="Custom Note..."
