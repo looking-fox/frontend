@@ -29,7 +29,7 @@ const updateClientProgress = clientInfo => async dispatch => {
 const addClient = newClient => async dispatch => {
   try {
     const { data } = await api.client.addClient(newClient);
-    dispatch(addClientSuccess(data.newClient));
+    dispatch(addClientSuccess(data.client));
   } catch (err) {
     dispatch(addClientFail(err));
   }

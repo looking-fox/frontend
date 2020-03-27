@@ -7,14 +7,11 @@ import { Formik, Form } from "formik";
 import {
   Field,
   FormErrorText,
-  Textarea,
   Modal,
   Button
 } from "../../../ui/StyledComponents";
 import CustomSelect from "../../../ui/formik/CustomSelect";
 import CustomTextarea from "../../../ui/formik/CustomTextarea";
-
-import Select from "react-select";
 
 class AddOrEditClientModal extends Component {
   state = {
@@ -36,33 +33,40 @@ class AddOrEditClientModal extends Component {
 
   handleValidation = values => {
     const errors = {};
-    if (!values.name) {
-      errors.name = "Required";
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-      errors.email = "Invalid email address";
-    } else if (!values.workflowMenu) {
-      errors.workflowMenu = "Required";
+    if (!values.clientFullName) {
+      errors.clientFullName = "Required";
+    } else if (
+      values.clientEmail &&
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.clientEmail)
+    ) {
+      errors.clientEmail = "Invalid email address";
+    } else if (!values.wfId) {
+      errors.wfId = "Required";
+    } else if (!values.clientDate) {
+      errors.clientDate = "Required";
     }
     //TO DO: Phone Number Validation
+    //TO DO: Refactor into utility function with yup validation
     return errors;
   };
 
   handleSubmitForm = async (newClientInfo, { setSubmitting }) => {
-    const result = await this.props.addClient(newClientInfo);
-    console.log("Result: ", result);
+    setSubmitting(true);
+    await this.props.addClient(newClientInfo);
     setSubmitting(false);
+    await this.props.toggleModal();
   };
 
   render() {
     const { showModal, toggleModal } = this.props;
     const { workflowOptions, newClient } = this.state;
-    const res = workflowOptions.length ? workflowOptions[0]["wfId"] : null;
     const initialFormState = {
-      name: "",
-      email: "",
-      phone: "",
-      customNote: "",
-      workflowMenu: res
+      clientFullName: "",
+      clientEmail: "",
+      clientPhone: "",
+      clientDate: "",
+      clientPrivateNote: "",
+      wfId: null
     };
 
     return (
@@ -74,26 +78,40 @@ class AddOrEditClientModal extends Component {
         >
           {({ isSubmitting }) => (
             <Form>
-              <Field type="name" name="name" placeholder="Name" />
-              <FormErrorText name="name" component="div" />
+              <Field
+                type="clientFullName"
+                name="clientFullName"
+                placeholder="Name"
+              />
+              <FormErrorText name="clientFullName" component="div" />
 
-              <Field type="email" name="email" placeholder="Email" />
-              <FormErrorText name="email" component="div" />
+              <Field
+                type="clientEmail"
+                name="clientEmail"
+                placeholder="Email"
+              />
+              <FormErrorText name="clientEmail" component="div" />
 
-              <Field type="phone" name="phone" placeholder="Phone Number" />
-              <FormErrorText name="phone" component="div" />
+              <Field
+                type="clientPhone"
+                name="clientPhone"
+                placeholder="Phone Number"
+              />
+              <FormErrorText name="clientPhone" component="div" />
+
+              <Field type="date" name="clientDate" />
+              <FormErrorText name="clientDate" component="div" />
 
               <Field
                 options={workflowOptions}
                 component={CustomSelect}
-                name="workflowMenu"
-                value={res}
+                name="wfId"
                 idName="wfId"
               />
-              <FormErrorText name="workflowMenu" component="div" />
+              <FormErrorText name="wfId" component="div" />
 
               <Field
-                name="customNote"
+                name="clientPrivateNote"
                 component={CustomTextarea}
                 placeholder="Custom Note..."
               />
