@@ -7,6 +7,7 @@ const FormErrorText = styled(ErrorMessage)`
   font-family: "Avenir";
   color: ${theme.red};
   padding-left: 10px;
+  margin-bottom: 10px;
   ${props =>
     props.withIcon &&
     css`

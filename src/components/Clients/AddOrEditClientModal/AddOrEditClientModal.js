@@ -44,6 +44,9 @@ class AddOrEditClientModal extends Component {
       errors.wfId = "Required";
     } else if (!values.clientDate) {
       errors.clientDate = "Required";
+    } else if (values.clientDate.length !== 10) {
+      // Error with invalid date length
+      errors.clientDate = "Invalid Date Format";
     }
     //TO DO: Phone Number Validation
     //TO DO: Refactor into utility function with yup validation
