@@ -8,12 +8,11 @@ import {
   Field,
   FormErrorText,
   Textarea,
-  Text
+  Modal
 } from "../../../ui/StyledComponents";
 import Select from "react-select";
-import NewClientHeader from "./NewClientHeader";
 
-class AddOrEditClient extends Component {
+class AddOrEditClientModal extends Component {
   state = {
     workflowOptions: [],
     selectedWorkflowId: null,
@@ -24,8 +23,6 @@ class AddOrEditClient extends Component {
   async componentDidMount() {
     await this.props.getWorkflows();
     await this.generateOptions();
-    const { params } = this.props.match;
-    console.log("Params: ", params);
   }
 
   generateOptions = () => {
@@ -70,85 +67,55 @@ class AddOrEditClient extends Component {
     setSubmitting(false);
   };
 
+  // <Modal
+  //         showModal={this.state.showModal}
+  //         simpleModal
+  //         title={`Are you sure you want to delete ${this.state.workFlowToArchive.wfName}?`}
+  //         description="Previous clients will not be affected."
+  //         onConfirm={this.handleConfirmModal}
+  //         onClose={this.handleToggleModal}
+  //       />
+
   render() {
+    const { showModal, toggleModal } = this.props;
     const { workflowOptions, newClient } = this.state;
     const initialFormState = { name: "", email: "", phone: "" };
     return (
-      <Container>
+      <Modal showModal={showModal} onClose={toggleModal}>
         <Formik
           initialValues={initialFormState}
           validate={this.handleValidation}
           onSubmit={this.handleSubmitForm}
         >
-          {({ isSubmitting, values: formState }) => (
+          {({ isSubmitting }) => (
             <Form>
-              <NewClientHeader
-                disabled={isSubmitting}
-                newClient={newClient}
-                formState={formState}
+              <Field type="name" name="name" placeholder="Name" />
+              <FormErrorText name="name" component="div" />
+
+              <Field type="email" name="email" placeholder="Email" />
+              <FormErrorText name="email" component="div" />
+
+              <Field type="phone" name="phone" placeholder="Phone Number" />
+              <FormErrorText name="phone" component="div" />
+
+              <StyledSelect
+                options={workflowOptions}
+                defaultValue={workflowOptions[0]}
+                onChange={this.handleSelectMenu}
+                name="workflowMenu"
               />
-              <FormContainer>
-                <LeftPanel>
-                  <Field type="name" name="name" placeholder="Name" />
-                  <FormErrorText name="name" component="div" />
 
-                  <Field type="email" name="email" placeholder="Email" />
-                  <FormErrorText name="email" component="div" />
-
-                  <Field type="phone" name="phone" placeholder="Phone Number" />
-                  <FormErrorText name="phone" component="div" />
-
-                  <StyledSelect
-                    options={workflowOptions}
-                    defaultValue={workflowOptions[0]}
-                    onChange={this.handleSelectMenu}
-                    name="workflowMenu"
-                  />
-
-                  <Textarea
-                    placeholder="Custom Note..."
-                    onChange={this.handleTextareaInput}
-                  />
-                </LeftPanel>
-                <RightPanel>
-                  <Text>Activity Panel Coming Soon!</Text>
-                </RightPanel>
-              </FormContainer>
+              <Textarea
+                placeholder="Custom Note..."
+                onChange={this.handleTextareaInput}
+              />
             </Form>
           )}
         </Formik>
-      </Container>
+      </Modal>
     );
   }
 }
-
-const Container = styled.div`
-  height: calc(100vh - 60px);
-  background: ${p => p.theme.lightGrey};
-  overflow-y: hidden;
-  position: relative;
-`;
-
-const FormContainer = styled.div`
-  display: flex;
-  overflow-y: auto;
-`;
-
-const LeftPanel = styled.div`
-  width: 50vw;
-  padding: 25px 50px;
-  padding-top: 50px;
-  box-sizing: border-box;
-  height: calc(100vh - 120px);
-`;
-
-const RightPanel = styled.div`
-  width: 50vw;
-  height: calc(100vh - 120px);
-  padding-top: 150px;
-  text-align: center;
-  box-sizing: border-box;
-`;
 
 const StyledSelect = styled(Select)`
   margin: 10px 0px;
@@ -160,4 +127,4 @@ const mapState = state => {
 
 const mapDispatch = { getWorkflows, addClient };
 
-export default connect(mapState, mapDispatch)(AddOrEditClient);
+export default connect(mapState, mapDispatch)(AddOrEditClientModal);
