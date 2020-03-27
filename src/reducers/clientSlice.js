@@ -23,6 +23,12 @@ const clientSlice = createSlice({
     },
     updateClientProgressFail(state, action) {
       console.log("Redux failed to update Clients");
+    },
+    addClientSuccess(state, action) {
+      state.clients.push(action.payload);
+    },
+    addClientFail(state, action) {
+      console.log("Redux Add Workflow Failed");
     }
   }
 });
@@ -32,7 +38,9 @@ export const {
   getClientsSuccess,
   getClientsFail,
   updateClientProgressSuccess,
-  updateClientProgressFail
+  updateClientProgressFail,
+  addClientSuccess,
+  addClientFail
 } = clientSlice.actions;
 // Export actions for dispatch //
 

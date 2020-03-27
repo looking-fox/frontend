@@ -3,7 +3,9 @@ import {
   getClientsSuccess,
   getClientsFail,
   updateClientProgressSuccess,
-  updateClientProgressFail
+  updateClientProgressFail,
+  addClientSuccess,
+  addClientFail
 } from "../reducers/clientSlice";
 
 const getClients = () => async dispatch => {
@@ -24,4 +26,13 @@ const updateClientProgress = clientInfo => async dispatch => {
   }
 };
 
-export { getClients, updateClientProgress };
+const addClient = newClient => async dispatch => {
+  try {
+    const { data } = await api.client.addClient(newClient);
+    dispatch(addClientSuccess(data.newClient));
+  } catch (err) {
+    dispatch(addClientFail(err));
+  }
+};
+
+export { getClients, updateClientProgress, addClient };

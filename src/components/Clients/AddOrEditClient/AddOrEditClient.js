@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { getWorkflows } from "../../../thunks/workflowThunks";
+import { addClient } from "../../../thunks/clientThunk";
 import { Formik, Form } from "formik";
 import {
   Field,
@@ -13,7 +14,12 @@ import Select from "react-select";
 import NewClientHeader from "./NewClientHeader";
 
 class AddOrEditClient extends Component {
-  state = { workflowOptions: [], selectedWorkflowId: null, newClient: true };
+  state = {
+    workflowOptions: [],
+    selectedWorkflowId: null,
+    newClient: true,
+    customNote: ""
+  };
 
   async componentDidMount() {
     await this.props.getWorkflows();
@@ -35,6 +41,8 @@ class AddOrEditClient extends Component {
       errors.name = "Required";
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
       errors.email = "Invalid email address";
+    } else if (!this.state.selectedWorkflowId) {
+      errors.workflowMenu = "Required";
     }
     //TO DO: Phone Number Validation
     return errors;
@@ -45,15 +53,21 @@ class AddOrEditClient extends Component {
     this.setState({ selectedWorkflowId: wfId });
   };
 
-  handleTextareaInput = ({ value }) => {
-    this.setState({ customNote: value });
+  handleTextareaInput = event => {
+    this.setState({ customNote: event.target.value });
   };
 
-  handleSubmitForm = (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
+  handleSubmitForm = async (values, { setSubmitting }) => {
+    const newClient = {
+      ...values,
+      ...{
+        customNote: this.state.customNote,
+        workflowId: this.state.selectedWorkflowId
+      }
+    };
+    const result = await this.props.addClient(newClient);
+    console.log("Result: ", result);
+    setSubmitting(false);
   };
 
   render() {
@@ -88,6 +102,7 @@ class AddOrEditClient extends Component {
                     options={workflowOptions}
                     defaultValue={workflowOptions[0]}
                     onChange={this.handleSelectMenu}
+                    name="workflowMenu"
                   />
 
                   <Textarea
@@ -143,6 +158,6 @@ const mapState = state => {
   return { workflows: state.workflow.workflows };
 };
 
-const mapDispatch = { getWorkflows };
+const mapDispatch = { getWorkflows, addClient };
 
 export default connect(mapState, mapDispatch)(AddOrEditClient);

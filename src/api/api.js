@@ -24,6 +24,7 @@ export default {
   client: {
     getClients: () => client.get("/client/"),
     updateClientProgress: clientInfo =>
-      client.put("/client/progress", clientInfo)
+      client.put("/client/progress", clientInfo),
+    addClient: newClient => client.post("/client/new", newClient)
   }
 };
