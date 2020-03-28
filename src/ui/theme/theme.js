@@ -2,6 +2,7 @@ const theme = {
   primaryColor: "black",
   primaryText: "white",
   lightGrey: "#f5f5f5",
+  darkGrey: "#777777",
   red: "#c17258",
   green: "#879a71",
   flexAllCenter: {

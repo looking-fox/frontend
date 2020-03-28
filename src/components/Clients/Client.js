@@ -28,6 +28,10 @@ const Client = ({ client, handleClientActionChange }) => {
     ? new Date(client.clientDate).toDateString()
     : "No Date";
   const options = generateOptions(client.wfActions);
+
+  const progress =
+    Math.round(((client.currentWfIndex + 1) / options.length) * 100) * 0.01;
+
   return (
     <Container>
       <PanelText>{client.clientFullName}</PanelText>
@@ -47,6 +51,7 @@ const Client = ({ client, handleClientActionChange }) => {
           }
         />
       </SelectWrapper>
+      <ProgressBar progress={progress} color={client.wfTagColor} />
     </Container>
   );
 };
@@ -61,8 +66,20 @@ const Container = styled.div`
   ${p => p.theme.sideBoxShadow};
   min-width: fit-content;
   display: grid;
+  position: relative;
   grid-template-rows: 1;
   grid-template-columns: repeat(4, 1fr);
+`;
+
+const ProgressBar = styled.div`
+  height: 4px;
+  width: ${p => (p.progress ? p.progress * 60 : 60)}vw;
+  background: ${p => (p.color ? p.color : p.theme.darkGrey)};
+  position: absolute;
+  bottom: 0px;
+  opacity: 0.5;
+  border-bottom-left-radius: 3px;
+  transition: width 750ms ease-in-out;
 `;
 
 const PanelText = styled(Text)`
