@@ -8,6 +8,7 @@ import { logout } from "../thunks/userThunks";
 import { defaultProfileUrl } from "../config/config";
 import DropDownMenu from "./DropDownMenu";
 import { IoMdPeople, IoIosGitCompare } from "react-icons/io";
+import { FaWpforms } from "react-icons/fa";
 
 const Header = props => {
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -51,6 +52,12 @@ const Header = props => {
           <Text link withIcon>
             <IoIosGitCompare />
             Workflows
+          </Text>
+        </NavLink>
+        <NavLink to="/forms/">
+          <Text link withIcon>
+            <FaWpforms />
+            Forms
           </Text>
         </NavLink>
       </Navigation>

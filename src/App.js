@@ -8,6 +8,7 @@ import SignInForm from "./components/Auth/SignInForm";
 import PasswordReset from "./components/Auth/PasswordReset";
 import Clients from "./views/Clients";
 import Workflows from "./views/Workflows";
+import Forms from "./views/Forms";
 import { Toast } from "./ui/StyledComponents";
 
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
           <Switch>
             <Route path="/" exact component={Clients} />
             <Route path="/workflows" component={Workflows} />
+            <Route path="/forms" component={Forms} />
             <Route path="/" default component={Clients} />
           </Switch>
         </Router>
