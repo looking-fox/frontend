@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Text } from "../../ui/StyledComponents";
 import Select from "react-select";
+import { MdLocationOn } from "react-icons/md";
 
 const customStyles = {
   option: (provided, state) => ({
@@ -38,7 +39,13 @@ const Client = ({ client, handleClientActionChange }) => {
       <WorkflowBubble bubbleColor={client.wfTagColor}>
         {client.wfName}
       </WorkflowBubble>
+
       <PanelText>{clientDate}</PanelText>
+
+      <PanelText>
+        <MdLocationOn />
+        {client.clientLocation}
+      </PanelText>
 
       <SelectWrapper>
         <Select
@@ -68,7 +75,8 @@ const Container = styled.div`
   display: grid;
   position: relative;
   grid-template-rows: 1;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  cursor: pointer;
 `;
 
 const ProgressBar = styled.div`
@@ -86,6 +94,11 @@ const PanelText = styled(Text)`
   margin: 0px 25px;
   display: flex;
   align-items: center;
+  & svg {
+    font-size: 1.2em;
+    padding: 0 0.2em;
+    opacity: 0.6;
+  }
 `;
 
 const WorkflowBubble = styled(Text)`

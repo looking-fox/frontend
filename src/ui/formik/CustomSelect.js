@@ -1,5 +1,6 @@
 import React from "react";
 import Select from "react-select";
+import styled from "styled-components";
 
 const CustomSelect = ({ field, form, options = [], idName = "" }) => {
   // Sets field value to integer ID associated with idName prop
@@ -18,7 +19,7 @@ const CustomSelect = ({ field, form, options = [], idName = "" }) => {
   };
 
   return (
-    <Select
+    <StySelect
       name={field.name}
       value={getValue()}
       onChange={onChange}
@@ -26,5 +27,9 @@ const CustomSelect = ({ field, form, options = [], idName = "" }) => {
     />
   );
 };
+
+const StySelect = styled(Select)`
+  margin: 10px 0px;
+`;
 
 export default CustomSelect;

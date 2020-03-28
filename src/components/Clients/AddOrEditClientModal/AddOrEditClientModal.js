@@ -69,6 +69,7 @@ class AddOrEditClientModal extends Component {
       clientPhone: "",
       clientDate: "",
       clientPrivateNote: "",
+      clientLocation: "",
       wfId: null
     };
 
@@ -104,6 +105,14 @@ class AddOrEditClientModal extends Component {
 
               <Field type="date" name="clientDate" />
               <FormErrorText name="clientDate" component="div" />
+
+              <Field
+                type="clientLocation"
+                name="clientLocation"
+                placeholder="Location"
+                type="location"
+              />
+              <FormErrorText name="clientLocation" component="div" />
 
               <Field
                 options={workflowOptions}
