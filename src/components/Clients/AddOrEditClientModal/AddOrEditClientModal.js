@@ -53,10 +53,11 @@ class AddOrEditClientModal extends Component {
     return errors;
   };
 
-  handleSubmitForm = async (newClientInfo, { setSubmitting }) => {
+  handleSubmitForm = async (newClientInfo, { setSubmitting, resetForm }) => {
     setSubmitting(true);
     await this.props.addClient(newClientInfo);
     setSubmitting(false);
+    resetForm();
     await this.props.toggleModal();
   };
 
