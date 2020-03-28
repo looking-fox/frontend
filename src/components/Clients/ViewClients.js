@@ -5,6 +5,7 @@ import { getClients, updateClientProgress } from "../../thunks/clientThunk";
 import Client from "./Client";
 import ViewClientsHeader from "./ViewClientsHeader";
 import AddOrEditClientModal from "./AddOrEditClientModal/AddOrEditClientModal";
+import ClientTableTitles from "./ClientTableTitles";
 
 class ViewClients extends Component {
   state = { showModal: false };
@@ -29,6 +30,8 @@ class ViewClients extends Component {
         <ViewClientsHeader handleToggleModal={this.handleToggleModal} />
 
         <Container>
+          <ClientTableTitles />
+
           {this.props.clients.map((client, idx) => {
             return (
               <Client
@@ -54,6 +57,8 @@ const Container = styled.div`
   background: ${p => p.theme.lightGrey};
   overflow-y: auto;
   padding: 0 15vw;
+  box-sizing: border-box;
+  padding-top: 25px;
 `;
 
 const mapState = state => {

@@ -96,7 +96,8 @@ const PanelText = styled(Text)`
   align-items: center;
   & svg {
     font-size: 1.2em;
-    padding: 0 0.2em;
+    padding-right: 0.2em;
+    padding-left: -0.4em;
     opacity: 0.6;
   }
 `;
