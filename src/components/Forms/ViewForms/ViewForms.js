@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { getForms } from "../../../thunks/formThunk";
+import { Text } from "../../../ui/StyledComponents";
 
 class ViewForms extends Component {
   async componentDidMount() {
@@ -9,16 +10,13 @@ class ViewForms extends Component {
   }
 
   render() {
-    return (
-      <Container>
-        <p>View Forms</p>
-      </Container>
-    );
+    return <Container>{/* <Text>View Forms</Text> */}</Container>;
   }
 }
 
 const Container = styled.div`
   height: calc(100vh - 60px);
+  width: 100%;
   background: ${p => p.theme.lightGrey};
   overflow-y: auto;
   padding: 0 15vw;
