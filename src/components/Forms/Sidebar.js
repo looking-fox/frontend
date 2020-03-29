@@ -14,7 +14,7 @@ const Sidebar = () => (
 
 const Container = styled.div`
   background: white;
-  width: 15vw;
+  width: 25vw;
   min-width: 250px;
   height: calc(100vh - 60px);
   display: flex;

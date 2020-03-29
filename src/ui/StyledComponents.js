@@ -11,6 +11,7 @@ import Modal from "./Modal";
 import Field from "./formik/Field";
 import FormErrorText from "./formik/FormErrorText";
 import Link from "./Link";
+import Spinner from "./Spinner";
 
 const Button = props => {
   const { isLoading, children } = props;
@@ -40,5 +41,6 @@ export {
   Modal,
   Field,
   FormErrorText,
-  Link
+  Link,
+  Spinner
 };

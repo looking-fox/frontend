@@ -28,6 +28,7 @@ export default {
     addClient: newClient => client.post("/client/new", newClient)
   },
   form: {
-    getForms: () => client.get("/form/")
+    getForms: () => client.get("/form/"),
+    addNewForm: newForm => client.post("/form/new", newForm)
   }
 };
