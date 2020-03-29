@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
+import { getForms } from "../../../thunks/formThunk";
 
 class ViewForms extends Component {
-  componentDidMount() {
-    // Logic for getting forms
+  async componentDidMount() {
+    await this.props.getForms();
   }
 
   render() {
-    console.log("PROPS: ", this.props);
     return (
       <Container>
         <p>View Forms</p>
@@ -30,6 +30,6 @@ const mapState = state => {
   return { forms: state.forms.forms };
 };
 
-const mapDispatch = {};
+const mapDispatch = { getForms };
 
 export default connect(mapState, mapDispatch)(ViewForms);

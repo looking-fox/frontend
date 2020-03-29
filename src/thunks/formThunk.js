@@ -3,7 +3,7 @@ import { getFormsSuccess, getFormsFail } from "../reducers/formSlice";
 
 const getForms = () => async dispatch => {
   try {
-    const { data } = await api.forms.getForms();
+    const { data } = await api.form.getForms();
     dispatch(getFormsSuccess(data));
   } catch (err) {
     dispatch(getFormsFail(err));
