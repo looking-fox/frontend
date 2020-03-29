@@ -62,7 +62,7 @@ const Container = styled.div`
 `;
 
 const mapState = state => {
-  return { clients: state.client.clients };
+  return { clients: state.clients.clients };
 };
 
 const mapDispatch = { getClients, updateClientProgress };

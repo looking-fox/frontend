@@ -311,7 +311,7 @@ const EmptyIcon = styled(IoIosGitCompare)`
 `;
 
 const mapState = state => {
-  return { workflows: state.workflow.workflows };
+  return { workflows: state.workflows.workflows };
 };
 
 const mapDispatch = { addWorkflow, updateWorkflow, toastSuccess };

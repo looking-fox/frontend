@@ -159,7 +159,7 @@ const LinkButton = styled(Link)`
 `;
 
 const mapState = state => {
-  const { workflows } = state.workflow;
+  const { workflows } = state.workflows;
   return { workflows };
 };
 

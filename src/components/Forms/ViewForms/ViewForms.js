@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
 
 class ViewForms extends Component {
+  componentDidMount() {
+    // Logic for getting forms
+  }
+
   render() {
+    console.log("PROPS: ", this.props);
     return (
       <Container>
         <p>View Forms</p>
@@ -20,4 +26,10 @@ const Container = styled.div`
   padding-top: 25px;
 `;
 
-export default ViewForms;
+const mapState = state => {
+  return { forms: state.forms.forms };
+};
+
+const mapDispatch = {};
+
+export default connect(mapState, mapDispatch)(ViewForms);
