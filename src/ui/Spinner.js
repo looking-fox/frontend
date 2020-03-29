@@ -3,9 +3,11 @@ import styled, { css } from "styled-components";
 import loadingWhite from "../assets/images/loading-white.svg";
 import loadingBlack from "../assets/images/loading-black.svg";
 
-const Spinner = ({ color, size }) => {
+const Spinner = ({ color, size, visible }) => {
   const icon = color === "black" ? loadingBlack : loadingWhite;
-  return <Image src={icon} alt="loading spinner" size={size} />;
+  return visible ? (
+    <Image src={icon} alt="loading spinner" size={size} />
+  ) : null;
 };
 
 const Image = styled.img`

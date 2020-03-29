@@ -1,40 +1,48 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { getForms } from "../../../thunks/formThunk";
 import { Spinner, Text } from "../../../ui/StyledComponents";
 
-class LoadForms extends Component {
-  state = { noForms: false };
+const LoadForms = props => {
+  const [showLoadingIcon, setLoadingIcon] = useState(false);
+  const [noForms, setNoForms] = useState(false);
 
-  async componentDidMount() {
-    await this.props.getForms();
-    if (this.props.forms.length) {
-      // Redirect to default form
-      const { formLink } = this.props.forms[0];
-      this.props.history.push(`/forms/${formLink}`);
-    } else {
-      // User has no forms
-      this.setState({ noForms: true });
+  useEffect(() => {
+    const loadingTimer = setTimeout(() => {
+      setLoadingIcon(true);
+    }, 750);
+
+    async function loadForms() {
+      await props.getForms();
+      if (props.forms.length) {
+        // Redirect to default form
+        const { formLink } = props.forms[0];
+        props.history.push(`/forms/${formLink}`);
+      } else {
+        // User has no forms
+        setNoForms(true);
+      }
     }
-  }
 
-  render() {
-    const { noForms } = this.state;
-    return (
-      <Container>
-        {noForms ? (
-          <>
-            <Title>No Forms</Title>
-            <Text>Click "Add Form" to Get Started!</Text>
-          </>
-        ) : (
-          <Spinner color="black" size={50} />
-        )}
-      </Container>
-    );
-  }
-}
+    loadForms();
+
+    return () => clearTimeout(loadingTimer);
+  }, [props.forms]);
+
+  return (
+    <Container>
+      {noForms ? (
+        <>
+          <Title>No Forms</Title>
+          <Text>Click "Add Form" to Get Started!</Text>
+        </>
+      ) : (
+        <Spinner color="black" size={50} visible={showLoadingIcon} />
+      )}
+    </Container>
+  );
+};
 
 const Container = styled.div`
   height: calc(100vh - 60px);
