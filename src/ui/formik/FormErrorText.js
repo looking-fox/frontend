@@ -1,6 +1,6 @@
 import { ErrorMessage } from "formik";
 import styled, { css } from "styled-components";
-import theme from "./theme/theme";
+import theme from "../theme/theme";
 
 const FormErrorText = styled(ErrorMessage)`
   font-size: 0.9em;

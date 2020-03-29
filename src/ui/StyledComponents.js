@@ -8,8 +8,8 @@ import Input from "./Input";
 import Textarea from "./Textarea";
 import Toast from "./Toast";
 import Modal from "./Modal";
-import Field from "./Field";
-import FormErrorText from "./FormErrorText";
+import Field from "./formik/Field";
+import FormErrorText from "./formik/FormErrorText";
 import Link from "./Link";
 
 const Button = props => {

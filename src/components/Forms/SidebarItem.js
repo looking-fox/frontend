@@ -18,7 +18,7 @@ const Item = styled.div`
   display: flex;
   align-items: center;
   &:hover {
-    background: ${p => p.theme.lightGrey};
+    background: #fafafa;
   }
 `;
 

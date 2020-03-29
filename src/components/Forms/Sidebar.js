@@ -26,7 +26,7 @@ const Title = styled(Text)`
   font-size: 1.5em;
   font-weight: bold;
   text-align: center;
-  padding-top: 50px;
+  padding-top: 25px;
   padding-bottom: 10px;
 `;
 
