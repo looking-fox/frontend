@@ -32,7 +32,7 @@ const LoadForms = props => {
 
   return (
     <Container>
-      {noForms ? (
+      {noForms && !showLoadingIcon ? (
         <>
           <Title>No Forms</Title>
           <Text>Click "Add Form" to Get Started!</Text>
