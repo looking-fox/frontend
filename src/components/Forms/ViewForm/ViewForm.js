@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { getForms } from "../../../thunks/formThunk";
 import styled from "styled-components";
 import Header from "./Header";
+import { Formik, Form } from "formik";
 import FormField from "./FormField";
 
 class ViewForm extends Component {
@@ -18,15 +19,25 @@ class ViewForm extends Component {
     const form =
       this.props.forms.find(form => form.formLink === formLink) || {};
     const formWithContent = form.formFields && form.formFields.length;
-
+    const initialFormState = {};
     return (
       <Container>
         <Header formTitle={form.formTitle} />
         <FormContainer>
-          {formWithContent &&
-            form.formFields.map((field, idx) => (
-              <FormField key={field.formFieldId || idx} field={field} />
-            ))}
+          <Formik
+            initialValues={initialFormState}
+            validate={this.handleValidation}
+            onSubmit={this.handleSubmitForm}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                {formWithContent &&
+                  form.formFields.map((field, idx) => (
+                    <FormField key={field.formFieldId || idx} field={field} />
+                  ))}
+              </Form>
+            )}
+          </Formik>
         </FormContainer>
       </Container>
     );

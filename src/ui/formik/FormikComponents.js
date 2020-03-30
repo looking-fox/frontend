@@ -1,5 +1,5 @@
-import Field from "./formik/Field";
-import FormErrorText from "./formik/FormErrorText";
+import Field from "./Field";
+import FormErrorText from "./FormErrorText";
 import CustomSelect from "./CustomSelect";
 import CustomTextarea from "./CustomTextarea";
 

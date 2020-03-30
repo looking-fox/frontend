@@ -107,7 +107,6 @@ class AddOrEditClientModal extends Component {
               <FormErrorText name="clientDate" component="div" />
 
               <Field
-                type="clientLocation"
                 name="clientLocation"
                 placeholder="Location"
                 type="location"
