@@ -1,10 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { getForms } from "../../../thunks/formThunk";
 import styled from "styled-components";
 import Header from "./Header";
-import { Text } from "../../../ui/StyledComponents";
+import FormField from "./FormField";
 
 class ViewForm extends Component {
+  async componentDidMount() {
+    if (!this.props.forms.length) {
+      // GET forms if no forms in props
+      await this.props.getForms();
+    }
+  }
+
   render() {
     const { formLink } = this.props.match.params;
     const form =
@@ -16,13 +24,9 @@ class ViewForm extends Component {
         <Header formTitle={form.formTitle} />
         <FormContainer>
           {formWithContent &&
-            form.formFields.map((field, idx) => {
-              return (
-                <Text key={field.formFieldId || idx}>
-                  {field.formFieldTitle}
-                </Text>
-              );
-            })}
+            form.formFields.map((field, idx) => (
+              <FormField key={field.formFieldId || idx} field={field} />
+            ))}
         </FormContainer>
       </Container>
     );
@@ -45,6 +49,6 @@ const FormContainer = styled.div`
 `;
 
 const mapState = state => ({ forms: state.forms.forms });
-const mapDispatch = {};
+const mapDispatch = { getForms };
 
 export default connect(mapState, mapDispatch)(ViewForm);
