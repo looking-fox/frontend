@@ -2,10 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Text, Button } from "../../../ui/StyledComponents";
 
-const Header = ({ formName = "Form", publishDisabled = false }) => {
+const Header = ({ formTitle = "Form", publishDisabled = true }) => {
   return (
     <HeaderContainer>
-      <HeaderText>{formName}</HeaderText>
+      <HeaderText>{formTitle}</HeaderText>
       <HeaderButton outline disabled={publishDisabled}>
         Publish
       </HeaderButton>

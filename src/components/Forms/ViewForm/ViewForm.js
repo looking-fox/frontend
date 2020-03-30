@@ -7,9 +7,11 @@ import { Button } from "../../../ui/StyledComponents";
 class ViewForm extends Component {
   render() {
     const { formLink } = this.props.match.params;
+    const form =
+      this.props.forms.find(form => form.formLink === formLink) || {};
     return (
       <Container>
-        <Header formName={"Contact Form"} />
+        <Header formTitle={form.formTitle} />
         <FormContainer>
           <p>Viewing form ${formLink}</p>
         </FormContainer>

@@ -56,10 +56,19 @@ const Button = styled.button`
       width: 100%;
       margin: 0.5em 0em;
     `};
+
   ${props =>
     props.withIcon &&
     css`
       padding-right: 0.75em;
+    `}
+
+  ${props =>
+    props.disabled &&
+    css`
+      opacity: 0.7;
+      ${p => p.theme.boxShadow};
+      cursor: inherit;
     `}
 `;
 
