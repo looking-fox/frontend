@@ -8,8 +8,6 @@ import Input from "./Input";
 import Textarea from "./Textarea";
 import Toast from "./Toast";
 import Modal from "./Modal";
-import Field from "./formik/Field";
-import FormErrorText from "./formik/FormErrorText";
 import Link from "./Link";
 import Spinner from "./Spinner";
 
@@ -39,8 +37,6 @@ export {
   Textarea,
   Toast,
   Modal,
-  Field,
-  FormErrorText,
   Link,
   Spinner
 };

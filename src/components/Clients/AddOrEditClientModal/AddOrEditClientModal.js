@@ -4,14 +4,13 @@ import { connect } from "react-redux";
 import { getWorkflows } from "../../../thunks/workflowThunks";
 import { addClient } from "../../../thunks/clientThunk";
 import { Formik, Form } from "formik";
+import { Modal, Button } from "../../../ui/StyledComponents";
 import {
   Field,
   FormErrorText,
-  Modal,
-  Button
-} from "../../../ui/StyledComponents";
-import CustomSelect from "../../../ui/formik/CustomSelect";
-import CustomTextarea from "../../../ui/formik/CustomTextarea";
+  CustomSelect,
+  CustomTextarea
+} from "../../../ui/formik/FormikComponents";
 
 class AddOrEditClientModal extends Component {
   state = {
