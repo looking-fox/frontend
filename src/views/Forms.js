@@ -19,4 +19,5 @@ const Forms = () => (
 const ViewContainer = styled.div`
   display: flex;
 `;
+
 export default Forms;

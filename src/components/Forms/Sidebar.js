@@ -1,12 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { Text } from "../../ui/StyledComponents";
+import { Text, Link } from "../../ui/StyledComponents";
 import SidebarItem from "./SidebarItem";
 
 const Sidebar = () => (
   <Container>
-    <Title>Forms</Title>
+    <Link to="/forms/">
+      <Title>Forms</Title>
+    </Link>
     <SidebarItem name="Contact Form" active />
     <SidebarItem name="Location Questionnaire" />
   </Container>
