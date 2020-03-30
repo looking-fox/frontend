@@ -2,18 +2,27 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import Header from "./Header";
-import { Button } from "../../../ui/StyledComponents";
+import { Text } from "../../../ui/StyledComponents";
 
 class ViewForm extends Component {
   render() {
     const { formLink } = this.props.match.params;
     const form =
       this.props.forms.find(form => form.formLink === formLink) || {};
+    const formWithContent = form.formFields && form.formFields.length;
+
     return (
       <Container>
         <Header formTitle={form.formTitle} />
         <FormContainer>
-          <p>Viewing form ${formLink}</p>
+          {formWithContent &&
+            form.formFields.map((field, idx) => {
+              return (
+                <Text key={field.formFieldId || idx}>
+                  {field.formFieldTitle}
+                </Text>
+              );
+            })}
         </FormContainer>
       </Container>
     );
@@ -29,7 +38,9 @@ const Container = styled.div`
 `;
 
 const FormContainer = styled.div`
-  ${p => p.theme.flexAllCenter};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 100%;
 `;
 
