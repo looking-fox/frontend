@@ -7,7 +7,7 @@ import { Formik, Form } from "formik";
 import FormField from "./FormField";
 
 class ViewForm extends Component {
-  state = { form: {}, initialFormState: {} };
+  state = { form: {}, initialFormState: {}, unpublishedChanges: false };
 
   async componentDidMount() {
     if (!this.props.forms.length) {
@@ -51,6 +51,7 @@ class ViewForm extends Component {
     // if (!values.clientFullName) {
     //   errors.clientFullName = "Required";
     // }
+    this.setState({ unpublishedChanges: true });
     return errors;
   };
 
@@ -62,7 +63,7 @@ class ViewForm extends Component {
   };
 
   render() {
-    const { form, initialFormState } = this.state;
+    const { form, initialFormState, unpublishedChanges } = this.state;
     // Do not render form without initial values
     if (Object.keys(initialFormState).length === 0) return null;
     else
@@ -70,6 +71,7 @@ class ViewForm extends Component {
         <Container>
           <FormContainer>
             <Formik
+              validateOnBlur={true}
               initialValues={initialFormState}
               validate={this.handleValidation}
               onSubmit={this.handleSubmitForm}
@@ -77,7 +79,10 @@ class ViewForm extends Component {
               {({ isSubmitting }) => (
                 <>
                   <Form>
-                    <Header submitDisabled={isSubmitting} />
+                    <Header
+                      submitDisabled={isSubmitting}
+                      unpublishedChanges={unpublishedChanges}
+                    />
                     <InnerForm>
                       {form.formFields.map((field, idx) => (
                         <FormField

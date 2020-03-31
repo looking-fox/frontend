@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Text, Button } from "../../../ui/StyledComponents";
 import { Field } from "../../../ui/formik/FormikComponents";
 
-const Header = ({ submitDisabled }) => {
+const Header = ({ submitDisabled, unpublishedChanges = false }) => {
   return (
     <HeaderContainer>
       <Field
@@ -12,7 +12,12 @@ const Header = ({ submitDisabled }) => {
         style={{ fontSize: "1.25em", fontWeight: "bold", width: "250px" }}
       />
 
-      <HeaderButton outline disabled={submitDisabled} type="submit">
+      <HeaderButton
+        outline={!unpublishedChanges}
+        disabled={submitDisabled}
+        type="submit"
+        success={unpublishedChanges}
+      >
         Publish
       </HeaderButton>
     </HeaderContainer>
