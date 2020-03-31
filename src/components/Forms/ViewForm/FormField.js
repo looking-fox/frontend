@@ -1,36 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Field, FormErrorText } from "../../../ui/formik/FormikComponents";
 import DragIcon from "../../../assets/images/drag-indicator.svg";
+import { FiTrash2 } from "react-icons/fi";
 
-const FormField = ({ field = {} }) => {
+const FormField = ({ field = {}, handleDeleteField }) => {
+  const [hover, setHover] = useState(false);
+
   return (
-    <Container>
+    <Container
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
       <StyledImage src={DragIcon} alt="drag icon" />
 
+      {hover && (
+        <TrashIcon onClick={() => handleDeleteField(field.formFieldId)} />
+      )}
+
       <Field
-        name={`ffTitle-${field.formFieldId}`}
+        name={`formFieldTitle-${field.formFieldId}`}
         placeholder="What is your name?"
         transparent
       />
-      <FormErrorText name={`ffTitle-${field.formFieldId}`} component="div" />
-
-      <Field
-        name={`ffDescription-${field.formFieldId}`}
-        placeholder="Description"
-        description
-      />
       <FormErrorText
-        name={`ffDescription-${field.formFieldId}`}
+        name={`formFieldTitle-${field.formFieldId}`}
         component="div"
       />
 
       <Field
-        name={`ffPlaceholder-${field.formFieldId}`}
+        name={`formFieldDescription-${field.formFieldId}`}
+        placeholder="Description"
+        description
+      />
+      <FormErrorText
+        name={`formFieldDescription-${field.formFieldId}`}
+        component="div"
+      />
+
+      <Field
+        name={`formFieldPlaceholder-${field.formFieldId}`}
         placeholder="Placeholder..."
       />
       <FormErrorText
-        name={`ffPlaceholder-${field.formFieldId}`}
+        name={`formFieldPlaceholder-${field.formFieldId}`}
         component="div"
       />
     </Container>
@@ -42,12 +55,12 @@ const Container = styled.div`
   background: white;
   display: flex;
   flex-direction: column;
-  border: 1px dashed #d1d1d1;
   border-radius: 3px;
   padding: 10px 25px;
   padding-left: 50px;
   margin-bottom: 25px;
   position: relative;
+  ${p => p.theme.sideBoxShadow};
 `;
 
 const StyledImage = styled.img`
@@ -57,6 +70,15 @@ const StyledImage = styled.img`
   transform: translateY(-50%);
   left: 10px;
   cursor: move;
+  opacity: 0.3;
+`;
+
+const TrashIcon = styled(FiTrash2)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  opacity: 0.3;
+  cursor: pointer;
 `;
 
 export default FormField;

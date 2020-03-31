@@ -7,12 +7,42 @@ import { Formik, Form } from "formik";
 import FormField from "./FormField";
 
 class ViewForm extends Component {
+  state = { form: {}, initialFormState: {} };
+
   async componentDidMount() {
     if (!this.props.forms.length) {
       // GET forms if no forms in props
       await this.props.getForms();
     }
+    await this.handleLoadingForm();
   }
+
+  handleLoadingForm = () => {
+    let initialFormState = {};
+    const { formLink } = this.props.match.params;
+    const form =
+      this.props.forms.find(form => form.formLink === formLink) || {};
+
+    form.formFields &&
+      form.formFields.map(field => {
+        initialFormState[`formFieldTitle-${field.formFieldId}`] =
+          field.formFieldTitle;
+        initialFormState[`formFieldDescription-${field.formFieldId}`] =
+          field.formFieldDescription;
+        initialFormState[`formFieldPlaceholder-${field.formFieldId}`] =
+          field.formFieldPlaceholder;
+      });
+    this.setState({ form, initialFormState });
+  };
+
+  handleDeleteField = formFieldId => {
+    let newForm = { ...this.state.form };
+    let newFormFields = [...newForm.formFields];
+    let idx = newFormFields.findIndex(f => f.formFieldId === formFieldId);
+    newFormFields.splice(idx, 1);
+    newForm.formFields = newFormFields;
+    this.setState({ form: newForm });
+  };
 
   handleValidation = values => {
     const errors = {};
@@ -31,21 +61,7 @@ class ViewForm extends Component {
   };
 
   render() {
-    const { formLink } = this.props.match.params;
-    const form =
-      this.props.forms.find(form => form.formLink === formLink) || {};
-    const formWithContent = form.formFields && form.formFields.length;
-
-    let initialFormState = {};
-
-    form.formFields &&
-      form.formFields.map(field => {
-        initialFormState[`ffTitle-${field.formFieldId}`] = field.formFieldTitle;
-        initialFormState[`ffDescription-${field.formFieldId}`] =
-          field.formFieldDescription;
-        initialFormState[`ffPlaceholder-${field.formFieldId}`] =
-          field.formFieldPlaceholder;
-      });
+    const { form, initialFormState } = this.state;
     // Do not render form without initial values
     if (Object.keys(initialFormState).length === 0) return null;
     else
@@ -60,10 +76,13 @@ class ViewForm extends Component {
             >
               {({ isSubmitting }) => (
                 <Form>
-                  {formWithContent &&
-                    form.formFields.map((field, idx) => (
-                      <FormField key={field.formFieldId || idx} field={field} />
-                    ))}
+                  {form.formFields.map((field, idx) => (
+                    <FormField
+                      key={field.formFieldId || idx}
+                      field={field}
+                      handleDeleteField={this.handleDeleteField}
+                    />
+                  ))}
                 </Form>
               )}
             </Formik>
