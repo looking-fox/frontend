@@ -21,7 +21,7 @@ const Header = ({
 
       <HeaderButton
         outline={!unpublishedChanges}
-        disabled={isSubmitting || !isValid}
+        disabled={isSubmitting || !isValid || !unpublishedChanges}
         type="submit"
         success={unpublishedChanges && isValid}
       >
