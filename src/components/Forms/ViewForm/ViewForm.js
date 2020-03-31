@@ -163,7 +163,7 @@ const InnerForm = styled.div`
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
-  height: calc(100vh - 180px);
+  height: calc(100vh - 150px);
   padding: 25px 0px;
   padding-bottom: 50px;
   box-sizing: border-box;
