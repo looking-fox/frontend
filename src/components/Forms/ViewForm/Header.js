@@ -25,11 +25,12 @@ const Header = ({ isSubmitting = false, unpublishedChanges = false }) => {
 };
 
 const HeaderContainer = styled.div`
-  height: 120px;
-  width: 75vw;
+  height: 90px;
+  width: 80vw;
   display: flex;
   align-items: center;
   padding-left: 50px;
+  padding-bottom: 10px;
   box-sizing: border-box;
 `;
 

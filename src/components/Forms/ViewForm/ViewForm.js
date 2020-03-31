@@ -49,7 +49,7 @@ class ViewForm extends Component {
   };
 
   generateNewField = (type = "SHORT_ANSWER") => {
-    const formFieldOrder = this.state.form.formFields.length - 1;
+    const formFieldOrder = this.state.form.formFields.length;
     const newField = {
       formFieldTitle: "Question",
       formFieldDescription: "",
@@ -113,10 +113,10 @@ class ViewForm extends Component {
                       isSubmitting={isSubmitting}
                       unpublishedChanges={unpublishedChanges}
                     />
-                    <InnerForm onScroll={this.handleFormScroll}>
+                    <InnerForm>
                       {form.formFields.map((field, idx) => (
                         <FormField
-                          key={field.formFieldId || idx}
+                          key={field.formFieldId || `field-${idx}`}
                           field={field}
                           handleDeleteField={this.handleDeleteField}
                         />
@@ -134,7 +134,7 @@ class ViewForm extends Component {
 }
 
 const Container = styled.div`
-  width: 75vw;
+  width: 80vw;
   height: calc(100vh - 60px);
   background: ${p => p.theme.lightGrey};
   display: flex;
