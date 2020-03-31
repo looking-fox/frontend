@@ -7,24 +7,32 @@ const FormField = ({ field = {} }) => {
   return (
     <Container>
       <StyledImage src={DragIcon} alt="drag icon" />
+
       <Field
-        name="clientLocation"
+        name={`ffTitle-${field.formFieldId}`}
         placeholder="What is your name?"
-        type="location"
         transparent
       />
+      <FormErrorText name={`ffTitle-${field.formFieldId}`} component="div" />
+
       <Field
-        name="clientLocation"
+        name={`ffDescription-${field.formFieldId}`}
         placeholder="Description"
-        type="location"
         description
       />
-      <Field
-        name="clientLocation"
-        placeholder="Placeholder..."
-        type="location"
+      <FormErrorText
+        name={`ffDescription-${field.formFieldId}`}
+        component="div"
       />
-      <FormErrorText name="clientLocation" component="div" />
+
+      <Field
+        name={`ffPlaceholder-${field.formFieldId}`}
+        placeholder="Placeholder..."
+      />
+      <FormErrorText
+        name={`ffPlaceholder-${field.formFieldId}`}
+        component="div"
+      />
     </Container>
   );
 };
