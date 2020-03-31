@@ -5,9 +5,15 @@ import styled from "styled-components";
 import Header from "./Header";
 import { Formik, Form } from "formik";
 import FormField from "./FormField";
+import AddField from "./AddField";
 
 class ViewForm extends Component {
-  state = { form: {}, initialFormState: {}, unpublishedChanges: false };
+  state = {
+    form: {},
+    initialFormState: {},
+    unpublishedChanges: false,
+    isScrolling: false
+  };
 
   async componentDidMount() {
     if (!this.props.forms.length) {
@@ -36,18 +42,42 @@ class ViewForm extends Component {
     this.setState({ form, initialFormState });
   };
 
-  handleDeleteField = formFieldId => {
+  generateFormCopy = () => {
     let newForm = { ...this.state.form };
     let newFormFields = [...newForm.formFields];
+    return [newForm, newFormFields];
+  };
+
+  generateNewField = (type = "SHORT_ANSWER") => {
+    const formFieldOrder = this.state.form.formFields.length - 1;
+    const newField = {
+      formFieldTitle: "Question",
+      formFieldDescription: "",
+      formFieldPlaceholder: "",
+      formFieldType: type,
+      formFieldOrder
+    };
+    return newField;
+  };
+
+  handleDeleteField = formFieldId => {
+    let [newForm, newFormFields] = this.generateFormCopy();
     let idx = newFormFields.findIndex(f => f.formFieldId === formFieldId);
     newFormFields.splice(idx, 1);
     newForm.formFields = newFormFields;
     this.setState({ form: newForm });
   };
 
+  handleAddField = () => {
+    let [newForm, newFormFields] = this.generateFormCopy();
+    let newField = this.generateNewField();
+    newFormFields.push(newField);
+    newForm.formFields = newFormFields;
+    this.setState({ form: newForm });
+  };
+
   handleValidation = values => {
     const errors = {};
-    console.log("Validation Values: ", values);
     // if (!values.clientFullName) {
     //   errors.clientFullName = "Required";
     // }
@@ -80,10 +110,10 @@ class ViewForm extends Component {
                 <>
                   <Form>
                     <Header
-                      submitDisabled={isSubmitting}
+                      isSubmitting={isSubmitting}
                       unpublishedChanges={unpublishedChanges}
                     />
-                    <InnerForm>
+                    <InnerForm onScroll={this.handleFormScroll}>
                       {form.formFields.map((field, idx) => (
                         <FormField
                           key={field.formFieldId || idx}
@@ -91,6 +121,7 @@ class ViewForm extends Component {
                           handleDeleteField={this.handleDeleteField}
                         />
                       ))}
+                      <AddField handleAddField={this.handleAddField} />
                     </InnerForm>
                   </Form>
                 </>
@@ -120,8 +151,12 @@ const FormContainer = styled.div`
 const InnerForm = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  overflow-y: scroll;
+  height: calc(100vh - 180px);
+  padding: 25px 0px;
+  padding-bottom: 50px;
+  box-sizing: border-box;
 `;
 
 const mapState = state => ({ forms: state.forms.forms });

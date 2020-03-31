@@ -20,7 +20,7 @@ const FormField = ({ field = {}, handleDeleteField }) => {
 
       <Field
         name={`formFieldTitle-${field.formFieldId}`}
-        placeholder="What is your name?"
+        placeholder="What is Your Name?"
         transparent
       />
       <FormErrorText
