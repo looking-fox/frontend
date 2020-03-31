@@ -31,6 +31,7 @@ class ViewForm extends Component {
           field.formFieldDescription;
         initialFormState[`formFieldPlaceholder-${field.formFieldId}`] =
           field.formFieldPlaceholder;
+        initialFormState["formTitle"] = form.formTitle || "New Form";
       });
     this.setState({ form, initialFormState });
   };
@@ -76,10 +77,7 @@ class ViewForm extends Component {
               {({ isSubmitting }) => (
                 <>
                   <Form>
-                    <Header
-                      formTitle={form.formTitle}
-                      submitDisabled={isSubmitting}
-                    />
+                    <Header submitDisabled={isSubmitting} />
                     <InnerForm>
                       {form.formFields.map((field, idx) => (
                         <FormField

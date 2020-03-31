@@ -2,6 +2,7 @@ import React from "react";
 import { Field } from "formik";
 import TransparentField from "./TransparentField";
 import DescriptionField from "./DescriptionField";
+import BorderBottomField from "./BorderBottomField";
 import styled, { css } from "styled-components";
 
 const StyledField = styled(Field)`
@@ -21,11 +22,13 @@ const StyledField = styled(Field)`
 `;
 
 const FieldComponent = props => {
-  const { transparent, description, ...rest } = props;
+  const { transparent, description, borderBottom, ...rest } = props;
   if (transparent) {
     return <TransparentField {...rest} />;
   } else if (description) {
     return <DescriptionField {...rest} />;
+  } else if (borderBottom) {
+    return <BorderBottomField {...rest} />;
   } else {
     return <StyledField {...rest} />;
   }

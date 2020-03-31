@@ -1,11 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 import { Text, Button } from "../../../ui/StyledComponents";
+import { Field } from "../../../ui/formik/FormikComponents";
 
-const Header = ({ formTitle = "Form", submitDisabled }) => {
+const Header = ({ submitDisabled }) => {
   return (
     <HeaderContainer>
-      <HeaderText>{formTitle}</HeaderText>
+      <Field
+        name="formTitle"
+        borderBottom
+        style={{ fontSize: "1.25em", fontWeight: "bold", width: "250px" }}
+      />
+
       <HeaderButton outline disabled={submitDisabled} type="submit">
         Publish
       </HeaderButton>
@@ -22,7 +28,7 @@ const HeaderContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const HeaderText = styled(Text)`
+const HeaderText = styled(Field)`
   font-size: 1.25em;
   font-weight: bold;
 `;
