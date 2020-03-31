@@ -10,6 +10,7 @@ import AddField from "./AddField";
 class ViewForm extends Component {
   state = {
     form: {},
+    publishedFormState: {},
     initialFormState: {},
     unpublishedChanges: false,
     isScrolling: false
@@ -39,7 +40,11 @@ class ViewForm extends Component {
           field.formFieldPlaceholder;
         initialFormState["formTitle"] = form.formTitle || "New Form";
       });
-    this.setState({ form, initialFormState });
+    this.setState({
+      form,
+      initialFormState,
+      publishedFormState: initialFormState //as a reference for diff
+    });
   };
 
   generateFormCopy = () => {
@@ -77,14 +82,10 @@ class ViewForm extends Component {
   };
 
   handleValidation = values => {
-    const formData = { ...values };
     const errors = {};
-
-    Object.keys(formData).filter(item => {
-      if (!item.includes("Title")) {
-        delete formData[item];
-      } else {
-        if (!formData[item].length) errors[item] = "Required";
+    Object.keys(values).filter(item => {
+      if (item.includes("Title") && !values[item].length) {
+        errors[item] = "Required";
       }
     });
 
@@ -92,8 +93,7 @@ class ViewForm extends Component {
     return errors;
   };
 
-  handleSubmitForm = async (formInfo, { setSubmitting, resetForm }) => {
-    console.log("Submit Form Info: ", formInfo);
+  handleSubmitForm = async (formInfo, props) => {
     // setSubmitting(true);
     // setSubmitting(false);
     // resetForm();
@@ -114,11 +114,12 @@ class ViewForm extends Component {
               validate={this.handleValidation}
               onSubmit={this.handleSubmitForm}
             >
-              {({ isSubmitting, isValid }) => (
+              {({ isSubmitting, isValid, isValidating }) => (
                 <>
                   <Form>
                     <Header
                       isSubmitting={isSubmitting}
+                      isValidating={isValidating}
                       isValid={isValid}
                       unpublishedChanges={unpublishedChanges}
                     />

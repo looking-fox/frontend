@@ -2,31 +2,39 @@ import React from "react";
 import styled from "styled-components";
 import { Button } from "../../../ui/StyledComponents";
 import { Field, FormErrorText } from "../../../ui/formik/FormikComponents";
+import HeaderStatus from "./HeaderStatus";
 
 const Header = ({
   isSubmitting = false,
+  isValidating = false,
   isValid = true,
   unpublishedChanges = false
 }) => {
   return (
     <HeaderContainer>
-      <FieldContainer>
+      <LeftPanel>
         <Field
           name="formTitle"
           borderBottom
           style={{ fontSize: "1.25em", fontWeight: "bold", width: "250px" }}
         />
         <FormErrorText name="formTitle" component="div" />
-      </FieldContainer>
+      </LeftPanel>
 
-      <HeaderButton
-        outline={!unpublishedChanges}
-        disabled={isSubmitting || !isValid || !unpublishedChanges}
-        type="submit"
-        success={unpublishedChanges && isValid}
-      >
-        Publish
-      </HeaderButton>
+      <RightPanel>
+        <HeaderStatus
+          isValidating={isValidating}
+          unpublishedChanges={unpublishedChanges}
+        />
+        <PublishButton
+          outline={!unpublishedChanges}
+          disabled={isSubmitting || !isValid || !unpublishedChanges}
+          type="submit"
+          success={unpublishedChanges && isValid}
+        >
+          Publish
+        </PublishButton>
+      </RightPanel>
     </HeaderContainer>
   );
 };
@@ -41,14 +49,20 @@ const HeaderContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const FieldContainer = styled.div`
+const LeftPanel = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const HeaderButton = styled(Button)`
+const RightPanel = styled.div`
+  display: flex;
+  align-items: center;
   margin-left: auto;
   margin-right: 50px;
+`;
+
+const PublishButton = styled(Button)`
+  margin-left: 50px;
 `;
 
 export default Header;
