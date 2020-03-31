@@ -77,10 +77,17 @@ class ViewForm extends Component {
   };
 
   handleValidation = values => {
+    const formData = { ...values };
     const errors = {};
-    // if (!values.clientFullName) {
-    //   errors.clientFullName = "Required";
-    // }
+
+    Object.keys(formData).filter(item => {
+      if (!item.includes("Title")) {
+        delete formData[item];
+      } else {
+        if (!formData[item].length) errors[item] = "Required";
+      }
+    });
+
     this.setState({ unpublishedChanges: true });
     return errors;
   };
@@ -102,15 +109,17 @@ class ViewForm extends Component {
           <FormContainer>
             <Formik
               validateOnBlur={true}
+              validateOnChange={false}
               initialValues={initialFormState}
               validate={this.handleValidation}
               onSubmit={this.handleSubmitForm}
             >
-              {({ isSubmitting }) => (
+              {({ isSubmitting, isValid }) => (
                 <>
                   <Form>
                     <Header
                       isSubmitting={isSubmitting}
+                      isValid={isValid}
                       unpublishedChanges={unpublishedChanges}
                     />
                     <InnerForm>

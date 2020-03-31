@@ -26,6 +26,7 @@ const FormField = ({ field = {}, handleDeleteField }) => {
       <FormErrorText
         name={`formFieldTitle-${field.formFieldId}`}
         component="div"
+        withSpacing
       />
 
       <Field
@@ -33,18 +34,10 @@ const FormField = ({ field = {}, handleDeleteField }) => {
         placeholder="Description"
         description
       />
-      <FormErrorText
-        name={`formFieldDescription-${field.formFieldId}`}
-        component="div"
-      />
 
       <Field
         name={`formFieldPlaceholder-${field.formFieldId}`}
         placeholder="Placeholder..."
-      />
-      <FormErrorText
-        name={`formFieldPlaceholder-${field.formFieldId}`}
-        component="div"
       />
     </Container>
   );

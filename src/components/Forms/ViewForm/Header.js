@@ -1,22 +1,29 @@
 import React from "react";
 import styled from "styled-components";
 import { Button } from "../../../ui/StyledComponents";
-import { Field } from "../../../ui/formik/FormikComponents";
+import { Field, FormErrorText } from "../../../ui/formik/FormikComponents";
 
-const Header = ({ isSubmitting = false, unpublishedChanges = false }) => {
+const Header = ({
+  isSubmitting = false,
+  isValid = true,
+  unpublishedChanges = false
+}) => {
   return (
     <HeaderContainer>
-      <Field
-        name="formTitle"
-        borderBottom
-        style={{ fontSize: "1.25em", fontWeight: "bold", width: "250px" }}
-      />
+      <FieldContainer>
+        <Field
+          name="formTitle"
+          borderBottom
+          style={{ fontSize: "1.25em", fontWeight: "bold", width: "250px" }}
+        />
+        <FormErrorText name="formTitle" component="div" />
+      </FieldContainer>
 
       <HeaderButton
         outline={!unpublishedChanges}
-        disabled={isSubmitting}
+        disabled={isSubmitting || !isValid}
         type="submit"
-        success={unpublishedChanges}
+        success={unpublishedChanges && isValid}
       >
         Publish
       </HeaderButton>
@@ -32,6 +39,11 @@ const HeaderContainer = styled.div`
   padding-left: 50px;
   padding-bottom: 10px;
   box-sizing: border-box;
+`;
+
+const FieldContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const HeaderButton = styled(Button)`

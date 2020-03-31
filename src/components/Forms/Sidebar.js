@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import SidebarItem from "./SidebarItem";
@@ -6,17 +6,13 @@ import { Text, Link } from "../../ui/StyledComponents";
 import { IoIosAdd } from "react-icons/io";
 
 const Sidebar = () => {
-  const [isHovered, setHover] = useState(false);
   return (
-    <Container
-      onMouseEnter={!isHovered ? () => setHover(true) : null}
-      onMouseLeave={isHovered ? () => setHover(false) : null}
-    >
+    <Container>
       <TitleContainer>
         <Link to="/forms/">
           <Title>Forms</Title>
         </Link>
-        <AddFormText withIcon showOnHover={isHovered}>
+        <AddFormText withIcon>
           <IoIosAdd />
           Add Form
         </AddFormText>
@@ -51,11 +47,10 @@ const AddFormText = styled(Text)`
   margin-right: 20px;
   cursor: pointer;
   padding: 10px;
-  transition: all 50ms ease-in-out;
+  opacity: 0.5;
   &:hover {
     background: #f9f9f9;
   }
-  opacity: ${p => (p.showOnHover ? 0.5 : 0)};
 `;
 
 const Title = styled(Text)`
