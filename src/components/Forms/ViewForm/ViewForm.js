@@ -67,7 +67,6 @@ class ViewForm extends Component {
     else
       return (
         <Container>
-          <Header formTitle={form.formTitle} />
           <FormContainer>
             <Formik
               initialValues={initialFormState}
@@ -75,15 +74,23 @@ class ViewForm extends Component {
               onSubmit={this.handleSubmitForm}
             >
               {({ isSubmitting }) => (
-                <Form>
-                  {form.formFields.map((field, idx) => (
-                    <FormField
-                      key={field.formFieldId || idx}
-                      field={field}
-                      handleDeleteField={this.handleDeleteField}
+                <>
+                  <Form>
+                    <Header
+                      formTitle={form.formTitle}
+                      submitDisabled={isSubmitting}
                     />
-                  ))}
-                </Form>
+                    <InnerForm>
+                      {form.formFields.map((field, idx) => (
+                        <FormField
+                          key={field.formFieldId || idx}
+                          field={field}
+                          handleDeleteField={this.handleDeleteField}
+                        />
+                      ))}
+                    </InnerForm>
+                  </Form>
+                </>
               )}
             </Formik>
           </FormContainer>
@@ -105,6 +112,13 @@ const FormContainer = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100%;
+`;
+
+const InnerForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const mapState = state => ({ forms: state.forms.forms });
