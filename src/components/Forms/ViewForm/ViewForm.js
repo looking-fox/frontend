@@ -6,14 +6,14 @@ import Header from "./Header";
 import { Formik, Form } from "formik";
 import FormField from "./FormField";
 import AddField from "./AddField";
+import api from "../../../api/api";
+import { mergeFormChanges } from "../../../utils/utils";
 
 class ViewForm extends Component {
   state = {
     form: {},
-    publishedFormState: {},
     initialFormState: {},
-    unpublishedChanges: false,
-    isScrolling: false
+    unpublishedChanges: false
   };
 
   async componentDidMount() {
@@ -42,8 +42,7 @@ class ViewForm extends Component {
       });
     this.setState({
       form,
-      initialFormState,
-      publishedFormState: initialFormState //as a reference for diff
+      initialFormState
     });
   };
 
@@ -93,7 +92,8 @@ class ViewForm extends Component {
     return errors;
   };
 
-  handleSubmitForm = async (formInfo, props) => {
+  handleSubmitForm = async (formUpdates, props) => {
+    const updatedForm = mergeFormChanges(this.state.form, formUpdates);
     // setSubmitting(true);
     // setSubmitting(false);
     // resetForm();

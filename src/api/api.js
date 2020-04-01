@@ -16,19 +16,21 @@ export default {
     signUp: user => client.post("/authentication/signup", { user })
   },
   workflow: {
-    getWorkflows: () => client.get("/workflow/"),
-    addWorkflow: workflow => client.post("/workflow/new", workflow),
-    updateWorkflow: workflow => client.put("/workflow/update", workflow),
-    archiveWorkflow: wfId => client.put(`/workflow/archive/${wfId}`)
+    getWorkflows: () => client.get("/workflows/"),
+    addWorkflow: workflow => client.post("/workflows/new", workflow),
+    updateWorkflow: workflow => client.put("/workflows/update", workflow),
+    archiveWorkflow: wfId => client.put(`/workflows/archive/${wfId}`)
   },
   client: {
-    getClients: () => client.get("/client/"),
+    getClients: () => client.get("/clients/"),
     updateClientProgress: clientInfo =>
-      client.put("/client/progress", clientInfo),
+      client.put("/clients/progress", clientInfo),
     addClient: newClient => client.post("/client/new", newClient)
   },
   form: {
-    getForms: () => client.get("/form/"),
-    addNewForm: newForm => client.post("/form/new", newForm)
+    getForms: () => client.get("/forms/"),
+    addNewForm: newForm => client.post("/forms/", newForm),
+    updateForm: (formId, updatedForm) =>
+      client.put(`/forms/${formId}`, updatedForm)
   }
 };

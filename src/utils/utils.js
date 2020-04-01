@@ -26,3 +26,41 @@ export function checkForEmptyObject(objectToTest) {
     objectToTest.constructor === Object
   );
 }
+
+export function mergeFormChanges(form, formUpdates) {
+  const formChangesById = {};
+
+  Object.keys(formUpdates).map(item => {
+    const [field, formFieldId] = item.split("-");
+    // must have ID
+    if (!formFieldId) return;
+    // merge existing data related to formFieldId
+    else if (formChangesById[formFieldId]) {
+      formChangesById[formFieldId] = {
+        ...formChangesById[formFieldId],
+        ...{ [field]: formUpdates[item] }
+      };
+    } else {
+      // create new formFieldId object to store values
+      formChangesById[formFieldId] = { [field]: formUpdates[item] };
+    }
+  });
+
+  //--- merge changes to form ---//
+
+  const prevFormFields = [...form.formFields];
+
+  const newFormFields = prevFormFields.map(field => {
+    const currentId = field.formFieldId;
+    const updates = formChangesById[currentId];
+    const updatedField = { ...field, ...updates };
+    return updatedField;
+  });
+
+  const newForm = { ...form };
+  newForm.formFields = newFormFields;
+  newForm.formTitle = formUpdates.formTitle;
+  //--- merge changes to form ---//
+
+  return newForm;
+}
