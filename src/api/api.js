@@ -30,6 +30,7 @@ export default {
   form: {
     getForms: () => client.get("/forms/"),
     addNewForm: newForm => client.post("/forms/", newForm),
+    addFormDraft: formDraft => client.post("/forms/draft", formDraft),
     updateForm: (formId, updatedForm) =>
       client.put(`/forms/${formId}`, updatedForm)
   }

@@ -27,7 +27,7 @@ export function checkForEmptyObject(objectToTest) {
   );
 }
 
-export function mergeFormChanges(form, formUpdates) {
+export function mergeFormChanges(form, formUpdates, isDraft = false) {
   const formChangesById = {};
 
   Object.keys(formUpdates).map(item => {
@@ -61,6 +61,14 @@ export function mergeFormChanges(form, formUpdates) {
   newForm.formFields = newFormFields;
   newForm.formTitle = formUpdates.formTitle;
   //--- merge changes to form ---//
+
+  //--- handle draft specific data ---//
+  if (isDraft) {
+    delete newForm["formLink"];
+    delete newForm["createdAt"];
+    delete newForm["updatedAt"];
+    newForm["formActive"] = false;
+  }
 
   return newForm;
 }

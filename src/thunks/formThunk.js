@@ -3,7 +3,9 @@ import {
   getFormsSuccess,
   getFormsFail,
   updateFormSuccess,
-  updateFormFail
+  updateFormFail,
+  addFormDraftSuccess,
+  addFormDraftFail
 } from "../reducers/formSlice";
 
 const getForms = () => async dispatch => {
@@ -12,6 +14,15 @@ const getForms = () => async dispatch => {
     dispatch(getFormsSuccess(data));
   } catch (err) {
     dispatch(getFormsFail(err));
+  }
+};
+
+const addFormDraft = formDraft => async dispatch => {
+  try {
+    const { data } = await api.form.addFormDraft(formDraft);
+    dispatch(addFormDraftSuccess(data));
+  } catch (err) {
+    dispatch(addFormDraftFail(err));
   }
 };
 
@@ -24,4 +35,4 @@ const updateForm = (formId, updatedForm) => async dispatch => {
   }
 };
 
-export { getForms, updateForm };
+export { getForms, addFormDraft, updateForm };

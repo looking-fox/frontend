@@ -14,8 +14,15 @@ const formSlice = createSlice({
     getFormsFail(state, action) {
       console.log("Redux failed to GET forms.");
     },
+    addFormDraftSuccess(state, action) {
+      state.forms = action.payload.forms;
+      // TO DO: logic to replace current form w/ new draft
+    },
+    addFormDraftFail(state, action) {
+      console.log("Redux failed to POST draft form.");
+    },
     updateFormSuccess(state, action) {
-      state.formss = action.payload.forms;
+      state.forms = action.payload.forms;
     },
     updateFormFail(state, action) {
       console.log("Redux failed to UPDATE form.");
@@ -27,6 +34,8 @@ const formSlice = createSlice({
 export const {
   getFormsSuccess,
   getFormsFail,
+  addFormDraftSuccess,
+  addFormDraftFail,
   updateFormSuccess,
   updateFormFail
 } = formSlice.actions;

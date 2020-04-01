@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getForms, updateForm } from "../../../thunks/formThunk";
+import { getForms, addFormDraft, updateForm } from "../../../thunks/formThunk";
 import styled from "styled-components";
 import Header from "./Header";
 import { Formik, Form } from "formik";
@@ -79,14 +79,19 @@ class ViewForm extends Component {
     this.setState({ form: newForm });
   };
 
-  handleValidation = values => {
+  handleValidation = async values => {
     const errors = {};
     Object.keys(values).filter(item => {
+      // Titles are required for all input fields
       if (item.includes("Title") && !values[item].length) {
         errors[item] = "Required";
       }
     });
-
+    // Save draft if no form errors
+    if (!Object.keys(errors).length) {
+      const updatedForm = mergeFormChanges(this.state.form, values, true);
+      await this.props.addFormDraft(updatedForm);
+    }
     this.setState({ unpublishedChanges: true });
     return errors;
   };
@@ -94,7 +99,7 @@ class ViewForm extends Component {
   handleSubmitForm = async (formUpdates, { setSubmitting }) => {
     const { form } = this.state;
     setSubmitting(true);
-    const updatedForm = mergeFormChanges(form, formUpdates);
+    const updatedForm = mergeFormChanges(form, formUpdates, false);
     await this.props.updateForm(form.formId, updatedForm);
     setSubmitting(false);
   };
@@ -170,6 +175,6 @@ const InnerForm = styled.div`
 `;
 
 const mapState = state => ({ forms: state.forms.forms });
-const mapDispatch = { getForms, updateForm };
+const mapDispatch = { getForms, addFormDraft, updateForm };
 
 export default connect(mapState, mapDispatch)(ViewForm);
