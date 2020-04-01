@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getForms } from "../../../thunks/formThunk";
+import { getForms, updateForm } from "../../../thunks/formThunk";
 import styled from "styled-components";
 import Header from "./Header";
 import { Formik, Form } from "formik";
 import FormField from "./FormField";
 import AddField from "./AddField";
-import api from "../../../api/api";
 import { mergeFormChanges } from "../../../utils/utils";
 
 class ViewForm extends Component {
@@ -92,11 +91,12 @@ class ViewForm extends Component {
     return errors;
   };
 
-  handleSubmitForm = async (formUpdates, props) => {
-    const updatedForm = mergeFormChanges(this.state.form, formUpdates);
-    // setSubmitting(true);
-    // setSubmitting(false);
-    // resetForm();
+  handleSubmitForm = async (formUpdates, { setSubmitting }) => {
+    const { form } = this.state;
+    setSubmitting(true);
+    const updatedForm = mergeFormChanges(form, formUpdates);
+    await this.props.updateForm(form.formId, updatedForm);
+    setSubmitting(false);
   };
 
   render() {
@@ -170,6 +170,6 @@ const InnerForm = styled.div`
 `;
 
 const mapState = state => ({ forms: state.forms.forms });
-const mapDispatch = { getForms };
+const mapDispatch = { getForms, updateForm };
 
 export default connect(mapState, mapDispatch)(ViewForm);
