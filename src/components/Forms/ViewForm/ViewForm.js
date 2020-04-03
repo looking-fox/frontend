@@ -11,6 +11,7 @@ import Header from "./Header";
 import { Formik, Form } from "formik";
 import FormField from "./FormField";
 import AddField from "./AddField";
+import { generateFormState } from "./formUtils";
 import { mergeFormChanges } from "../../../utils/utils";
 
 class ViewForm extends Component {
@@ -21,11 +22,11 @@ class ViewForm extends Component {
   };
 
   async componentDidMount() {
+    console.log("Mounting...");
     if (!this.props.forms.length) {
       // GET forms if no forms in props
       await this.props.getForms();
     }
-    console.log("about to go sort our form...");
     await this.handleLoadingForm();
   }
 
@@ -34,31 +35,18 @@ class ViewForm extends Component {
       const form = this.props.forms.find(
         form => form.formLink === this.props.currentFormLink
       );
-      this.setState({ form });
-      await this.handleLoadingForm();
-      // this.props.history.push(`/forms/${this.props.currentFormLink}`);
-      return true;
-    } else {
-      return false;
+
+      this.props.history.push(`/forms/${this.props.currentFormLink}`);
+      await this.setState({ form }, () => this.handleLoadingForm);
     }
   }
 
   handleLoadingForm = () => {
-    let initialFormState = {};
-    const { formLink } = this.props.match.params;
-    const form =
-      this.props.forms.find(form => form.formLink === formLink) || {};
+    console.log("loading form...");
+    const { formLink: link } = this.props.match.params;
+    const form = this.props.forms.find(form => form.formLink === link) || {};
+    const initialFormState = generateFormState(form);
 
-    form.formFields &&
-      form.formFields.map(field => {
-        initialFormState[`formFieldTitle-${field.formFieldId}`] =
-          field.formFieldTitle;
-        initialFormState[`formFieldDescription-${field.formFieldId}`] =
-          field.formFieldDescription;
-        initialFormState[`formFieldPlaceholder-${field.formFieldId}`] =
-          field.formFieldPlaceholder;
-        initialFormState["formTitle"] = form.formTitle || "New Form";
-      });
     this.setState({
       form,
       initialFormState,
