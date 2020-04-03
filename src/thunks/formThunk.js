@@ -13,6 +13,12 @@ import {
 const getForms = () => async dispatch => {
   try {
     const { data } = await api.form.getForms();
+    if (data.forms.length) {
+      const { formLink } = data.forms[0];
+      data.currentFormLink = formLink;
+    } else {
+      data.currentFormLink = null;
+    }
     dispatch(getFormsSuccess(data));
   } catch (err) {
     dispatch(getFormsFail(err));
@@ -32,6 +38,12 @@ const addFormDraft = formDraft => async dispatch => {
 const updateFormDraft = (formId, updatedFormDraft) => async dispatch => {
   try {
     const { data } = await api.form.updateFormDraft(formId, updatedFormDraft);
+    if (data.forms.length) {
+      const { formLink } = data.forms[0];
+      data.currentFormLink = formLink;
+    } else {
+      data.currentFormLink = null;
+    }
     dispatch(updateFormDraftSuccess(data));
   } catch (err) {
     dispatch(updateFormDraftFail(err));

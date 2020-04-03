@@ -25,16 +25,21 @@ class ViewForm extends Component {
       // GET forms if no forms in props
       await this.props.getForms();
     }
+    console.log("about to go sort our form...");
     await this.handleLoadingForm();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     if (prevProps.currentFormLink !== this.props.currentFormLink) {
-      //if link is changing, we need to upate our current form--yo
       const form = this.props.forms.find(
         form => form.formLink === this.props.currentFormLink
       );
       this.setState({ form });
+      await this.handleLoadingForm();
+      // this.props.history.push(`/forms/${this.props.currentFormLink}`);
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -115,8 +120,10 @@ class ViewForm extends Component {
     const updatedForm = mergeFormChanges(form, values, true);
     //Create or update draft
     if (form.formDraftOf) {
+      console.log("updating draft...");
       await this.props.updateFormDraft(form.formId, updatedForm);
     } else {
+      console.log("setting up draft...");
       await this.props.addFormDraft(updatedForm);
     }
   };
@@ -131,6 +138,7 @@ class ViewForm extends Component {
 
   render() {
     const { form, initialFormState, unpublishedChanges } = this.state;
+    console.log("Form is Draft ?  ", form);
     // Do not render form without initial values
     if (Object.keys(initialFormState).length === 0) return null;
     else
