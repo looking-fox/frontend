@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  forms: [],
-  currentFormLink: null
+  forms: []
 };
 
 const formSlice = createSlice({
@@ -12,7 +11,6 @@ const formSlice = createSlice({
     getFormsSuccess(state, action) {
       const { payload } = action;
       state.forms = payload.forms;
-      state.currentFormLink = payload.currentFormLink;
     },
     getFormsFail(state, action) {
       console.log("Redux failed to GET forms.");
@@ -21,7 +19,6 @@ const formSlice = createSlice({
       const { updatedForm, previousFormId } = action.payload;
       const idx = state.forms.findIndex(form => form.formId === previousFormId);
       state.forms.splice(idx, 1, updatedForm);
-      state.currentFormLink = updatedForm.formLink;
     },
     addFormDraftFail(state, action) {
       console.log("Redux failed to POST draft form.");

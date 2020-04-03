@@ -30,7 +30,11 @@ class ViewForm extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.currentFormLink !== this.props.currentFormLink) {
-      this.props.history.push(`/forms/${this.props.currentFormLink}`);
+      //if link is changing, we need to upate our current form--yo
+      const form = this.props.forms.find(
+        form => form.formLink === this.props.currentFormLink
+      );
+      this.setState({ form });
     }
   }
 
@@ -52,7 +56,8 @@ class ViewForm extends Component {
       });
     this.setState({
       form,
-      initialFormState
+      initialFormState,
+      unpublishedChanges: form.formDraftOf ? true : false
     });
   };
 
