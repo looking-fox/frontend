@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getForms, addFormDraft, updateForm } from "../../../thunks/formThunk";
+import {
+  getForms,
+  addFormDraft,
+  updateFormDraft,
+  updateForm
+} from "../../../thunks/formThunk";
 import styled from "styled-components";
 import Header from "./Header";
 import { Formik, Form } from "formik";
@@ -21,6 +26,12 @@ class ViewForm extends Component {
       await this.props.getForms();
     }
     await this.handleLoadingForm();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.currentFormLink !== this.props.currentFormLink) {
+      this.props.history.push(`/forms/${this.props.currentFormLink}`);
+    }
   }
 
   handleLoadingForm = () => {
@@ -88,12 +99,21 @@ class ViewForm extends Component {
       }
     });
     // Save draft if no form errors
-    if (!Object.keys(errors).length) {
-      const updatedForm = mergeFormChanges(this.state.form, values, true);
-      await this.props.addFormDraft(updatedForm);
-    }
+    if (!Object.keys(errors).length) await this.handlePublishDraft(values);
+    // Update UI and return errors object to formik
     this.setState({ unpublishedChanges: true });
     return errors;
+  };
+
+  handlePublishDraft = async values => {
+    const { form } = this.state;
+    const updatedForm = mergeFormChanges(form, values, true);
+    //Create or update draft
+    if (form.formDraftOf) {
+      await this.props.updateFormDraft(form.formId, updatedForm);
+    } else {
+      await this.props.addFormDraft(updatedForm);
+    }
   };
 
   handleSubmitForm = async (formUpdates, { setSubmitting }) => {
@@ -174,7 +194,10 @@ const InnerForm = styled.div`
   box-sizing: border-box;
 `;
 
-const mapState = state => ({ forms: state.forms.forms });
-const mapDispatch = { getForms, addFormDraft, updateForm };
+const mapState = state => ({
+  forms: state.forms.forms,
+  currentFormLink: state.forms.currentFormLink
+});
+const mapDispatch = { getForms, addFormDraft, updateFormDraft, updateForm };
 
 export default connect(mapState, mapDispatch)(ViewForm);
