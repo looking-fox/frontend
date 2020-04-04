@@ -30,7 +30,7 @@ export function checkForEmptyObject(objectToTest) {
 export function mergeFormChanges(form, formUpdates, isDraft = false) {
   const formChangesById = {};
 
-  Object.keys(formUpdates).map(item => {
+  Object.keys(formUpdates).map((item) => {
     const [field, formFieldId] = item.split("-");
     // must have ID
     if (!formFieldId) return;
@@ -38,7 +38,7 @@ export function mergeFormChanges(form, formUpdates, isDraft = false) {
     else if (formChangesById[formFieldId]) {
       formChangesById[formFieldId] = {
         ...formChangesById[formFieldId],
-        ...{ [field]: formUpdates[item] }
+        ...{ [field]: formUpdates[item] },
       };
     } else {
       // create new formFieldId object to store values
@@ -50,7 +50,7 @@ export function mergeFormChanges(form, formUpdates, isDraft = false) {
 
   const prevFormFields = [...form.formFields];
 
-  const newFormFields = prevFormFields.map(field => {
+  const newFormFields = prevFormFields.map((field) => {
     const currentId = field.formFieldId;
     const updates = formChangesById[currentId];
     const updatedField = { ...field, ...updates };
@@ -63,7 +63,7 @@ export function mergeFormChanges(form, formUpdates, isDraft = false) {
   //--- merge changes to form ---//
 
   //--- handle draft specific data ---//
-  if (isDraft) {
+  if (isDraft && !newForm.formDraftOf) {
     delete newForm["formLink"];
     delete newForm["createdAt"];
     delete newForm["updatedAt"];
