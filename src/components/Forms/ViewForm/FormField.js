@@ -4,7 +4,7 @@ import { Field, FormErrorText } from "../../../ui/formik/FormikComponents";
 import DragIcon from "../../../assets/images/drag-indicator.svg";
 import { FiTrash2 } from "react-icons/fi";
 
-const FormField = ({ field = {}, handleDeleteField }) => {
+const FormField = ({ values = {}, field = {}, handleDeleteField }) => {
   const [hover, setHover] = useState(false);
 
   return (
@@ -20,6 +20,9 @@ const FormField = ({ field = {}, handleDeleteField }) => {
 
       <Field
         name={`formFieldTitle-${field.formFieldId}`}
+        value={
+          values[`formFieldTitle-${field.formFieldId}`] || field.formFieldTitle
+        }
         placeholder="What is Your Name?"
         transparent
       />
@@ -31,12 +34,20 @@ const FormField = ({ field = {}, handleDeleteField }) => {
 
       <Field
         name={`formFieldDescription-${field.formFieldId}`}
+        value={
+          values[`formFieldDescription-${field.formFieldId}`] ||
+          field.formFieldDescription
+        }
         placeholder="Description"
         description
       />
 
       <Field
         name={`formFieldPlaceholder-${field.formFieldId}`}
+        value={
+          values[`formFieldPlaceholder-${field.formFieldId}`] ||
+          field.formFieldPlaceholder
+        }
         placeholder="Placeholder..."
       />
     </Container>
@@ -53,7 +64,7 @@ const Container = styled.div`
   padding-left: 50px;
   margin-bottom: 25px;
   position: relative;
-  ${p => p.theme.sideBoxShadow};
+  ${(p) => p.theme.sideBoxShadow};
 `;
 
 const StyledImage = styled.img`

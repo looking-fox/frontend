@@ -4,7 +4,7 @@ import {
   getForms,
   addFormDraft,
   updateFormDraft,
-  updateForm
+  updateForm,
 } from "../../../thunks/formThunk";
 import styled from "styled-components";
 import Header from "./Header";
@@ -18,39 +18,23 @@ class ViewForm extends Component {
   state = {
     form: {},
     initialFormState: {},
-    unpublishedChanges: false
+    unpublishedChanges: false,
   };
 
   async componentDidMount() {
-    console.log("Mounting...");
-    if (!this.props.forms.length) {
-      // GET forms if no forms in props
-      await this.props.getForms();
-    }
+    // GET forms if no forms in props
+    if (!this.props.forms.length) await this.props.getForms();
     await this.handleLoadingForm();
   }
 
-  async componentDidUpdate(prevProps, prevState) {
-    if (prevProps.currentFormLink !== this.props.currentFormLink) {
-      const form = this.props.forms.find(
-        form => form.formLink === this.props.currentFormLink
-      );
-
-      this.props.history.push(`/forms/${this.props.currentFormLink}`);
-      await this.setState({ form }, () => this.handleLoadingForm);
-    }
-  }
-
   handleLoadingForm = () => {
-    console.log("loading form...");
     const { formLink: link } = this.props.match.params;
-    const form = this.props.forms.find(form => form.formLink === link) || {};
+    const form = this.props.forms.find((form) => form.formLink === link) || {};
     const initialFormState = generateFormState(form);
-
     this.setState({
       form,
       initialFormState,
-      unpublishedChanges: form.formDraftOf ? true : false
+      unpublishedChanges: form.formDraftOf ? true : false,
     });
   };
 
@@ -67,14 +51,14 @@ class ViewForm extends Component {
       formFieldDescription: "",
       formFieldPlaceholder: "",
       formFieldType: type,
-      formFieldOrder
+      formFieldOrder,
     };
     return newField;
   };
 
-  handleDeleteField = formFieldId => {
+  handleDeleteField = (formFieldId) => {
     let [newForm, newFormFields] = this.generateFormCopy();
-    let idx = newFormFields.findIndex(f => f.formFieldId === formFieldId);
+    let idx = newFormFields.findIndex((f) => f.formFieldId === formFieldId);
     newFormFields.splice(idx, 1);
     newForm.formFields = newFormFields;
     this.setState({ form: newForm });
@@ -88,9 +72,9 @@ class ViewForm extends Component {
     this.setState({ form: newForm });
   };
 
-  handleValidation = async values => {
+  handleValidation = async (values) => {
     const errors = {};
-    Object.keys(values).filter(item => {
+    Object.keys(values).filter((item) => {
       // Titles are required for all input fields
       if (item.includes("Title") && !values[item].length) {
         errors[item] = "Required";
@@ -99,20 +83,20 @@ class ViewForm extends Component {
     // Save draft if no form errors
     if (!Object.keys(errors).length) await this.handlePublishDraft(values);
     // Update UI and return errors object to formik
-    this.setState({ unpublishedChanges: true });
+    else this.setState({ unpublishedChanges: true });
     return errors;
   };
 
-  handlePublishDraft = async values => {
+  handlePublishDraft = async (values) => {
     const { form } = this.state;
     const updatedForm = mergeFormChanges(form, values, true);
     //Create or update draft
     if (form.formDraftOf) {
-      console.log("updating draft...");
       await this.props.updateFormDraft(form.formId, updatedForm);
     } else {
-      console.log("setting up draft...");
       await this.props.addFormDraft(updatedForm);
+      this.props.history.push(`/forms/${this.props.currentFormLink}`);
+      await this.handleLoadingForm();
     }
   };
 
@@ -126,7 +110,6 @@ class ViewForm extends Component {
 
   render() {
     const { form, initialFormState, unpublishedChanges } = this.state;
-    console.log("Form is Draft ?  ", form);
     // Do not render form without initial values
     if (Object.keys(initialFormState).length === 0) return null;
     else
@@ -136,11 +119,13 @@ class ViewForm extends Component {
             <Formik
               validateOnBlur={true}
               validateOnChange={false}
+              enableReinitialize={true}
+              key={this.props.currentFormLink}
               initialValues={initialFormState}
               validate={this.handleValidation}
               onSubmit={this.handleSubmitForm}
             >
-              {({ isSubmitting, isValid, isValidating }) => (
+              {({ values, isSubmitting, isValid, isValidating }) => (
                 <>
                   <Form>
                     <Header
@@ -150,13 +135,16 @@ class ViewForm extends Component {
                       unpublishedChanges={unpublishedChanges}
                     />
                     <InnerForm>
-                      {form.formFields.map((field, idx) => (
-                        <FormField
-                          key={field.formFieldId || `field-${idx}`}
-                          field={field}
-                          handleDeleteField={this.handleDeleteField}
-                        />
-                      ))}
+                      {form.formFields.map((field, idx) => {
+                        return (
+                          <FormField
+                            key={field.formFieldId || `field-${idx}`}
+                            field={field}
+                            values={values}
+                            handleDeleteField={this.handleDeleteField}
+                          />
+                        );
+                      })}
                       <AddField handleAddField={this.handleAddField} />
                     </InnerForm>
                   </Form>
@@ -172,7 +160,7 @@ class ViewForm extends Component {
 const Container = styled.div`
   width: 80vw;
   height: calc(100vh - 60px);
-  background: ${p => p.theme.lightGrey};
+  background: ${(p) => p.theme.lightGrey};
   display: flex;
   flex-direction: column;
 `;
@@ -195,9 +183,9 @@ const InnerForm = styled.div`
   box-sizing: border-box;
 `;
 
-const mapState = state => ({
+const mapState = (state) => ({
   forms: state.forms.forms,
-  currentFormLink: state.forms.currentFormLink
+  currentFormLink: state.forms.currentFormLink,
 });
 const mapDispatch = { getForms, addFormDraft, updateFormDraft, updateForm };
 
