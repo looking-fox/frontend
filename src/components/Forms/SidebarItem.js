@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import { Text } from "../../ui/StyledComponents";
+import { Text, Link } from "../../ui/StyledComponents";
 
-const SidebarItem = ({ name, active }) => (
-  <Item>
-    <Text>{name}</Text>
-    {active && <Bubble>Active</Bubble>}
-  </Item>
+const SidebarItem = ({ name, active, link }) => (
+  <Link to={`/forms/${link}`}>
+    <Item>
+      <Text>{name}</Text>
+      {active ? <Bubble>Active</Bubble> : <StyledText>Draft</StyledText>}
+    </Item>
+  </Link>
 );
 
 const Item = styled.div`
@@ -23,7 +25,7 @@ const Item = styled.div`
 `;
 
 const Bubble = styled(Text)`
-  background: ${p => p.theme.green};
+  background: ${(p) => p.theme.green};
   color: white;
   font-weight: bold;
   border-radius: 3px;
@@ -33,6 +35,16 @@ const Bubble = styled(Text)`
   letter-spacing: 1px;
   width: fit-content;
   margin-left: 10px;
+`;
+
+const StyledText = styled(Text)`
+  color: #cccccc;
+  font-weight: bold;
+  padding: 0.5em;
+  font-size: 0.7em;
+  width: fit-content;
+  margin-left: 10px;
+  font-style: italic;
 `;
 
 export default SidebarItem;

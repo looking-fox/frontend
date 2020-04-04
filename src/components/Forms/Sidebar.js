@@ -5,7 +5,7 @@ import SidebarItem from "./SidebarItem";
 import { Text, Link } from "../../ui/StyledComponents";
 import { IoIosAdd } from "react-icons/io";
 
-const Sidebar = () => {
+const Sidebar = ({ forms = [] }) => {
   return (
     <Container>
       <TitleContainer>
@@ -17,8 +17,14 @@ const Sidebar = () => {
           Add Form
         </AddFormText>
       </TitleContainer>
-      <SidebarItem name="Contact Form" active />
-      <SidebarItem name="Location Questionnaire" />
+      {forms.map((form, idx) => (
+        <SidebarItem
+          key={form.formId || idx}
+          name={form.formTitle}
+          active={form.formActive}
+          link={form.formLink}
+        />
+      ))}
     </Container>
   );
 };
@@ -30,8 +36,9 @@ const Container = styled.div`
   height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
-  ${p => p.theme.sideBoxShadow};
+  ${(p) => p.theme.sideBoxShadow};
   box-sizing: border-box;
+  overflow-y: auto;
 `;
 
 const TitleContainer = styled.div`
@@ -58,7 +65,7 @@ const Title = styled(Text)`
   font-weight: bold;
 `;
 
-const mapState = state => {
+const mapState = (state) => {
   return { forms: state.forms.forms };
 };
 
