@@ -20,9 +20,7 @@ const FormField = ({ values = {}, field = {}, handleDeleteField }) => {
 
       <Field
         name={`formFieldTitle-${field.formFieldId}`}
-        value={
-          values[`formFieldTitle-${field.formFieldId}`] || field.formFieldTitle
-        }
+        value={values[`formFieldTitle-${field.formFieldId}`] || ""}
         placeholder="What is Your Name?"
         transparent
       />
@@ -34,20 +32,14 @@ const FormField = ({ values = {}, field = {}, handleDeleteField }) => {
 
       <Field
         name={`formFieldDescription-${field.formFieldId}`}
-        value={
-          values[`formFieldDescription-${field.formFieldId}`] ||
-          field.formFieldDescription
-        }
+        value={values[`formFieldDescription-${field.formFieldId}`] || ""}
         placeholder="Description"
         description
       />
 
       <Field
         name={`formFieldPlaceholder-${field.formFieldId}`}
-        value={
-          values[`formFieldPlaceholder-${field.formFieldId}`] ||
-          field.formFieldPlaceholder
-        }
+        value={values[`formFieldPlaceholder-${field.formFieldId}`] || ""}
         placeholder="Placeholder..."
       />
     </Container>
