@@ -27,6 +27,12 @@ class ViewForm extends Component {
     await this.handleLoadingForm();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.match.params.formLink !== this.props.match.params.formLink) {
+      this.handleLoadingForm();
+    }
+  }
+
   handleLoadingForm = () => {
     const { formLink: link } = this.props.match.params;
     const form = this.props.forms.find((form) => form.formLink === link) || {};
