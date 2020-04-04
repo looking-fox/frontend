@@ -7,10 +7,10 @@ import {
   updateFormSuccess,
   updateFormFail,
   addFormDraftSuccess,
-  addFormDraftFail
+  addFormDraftFail,
 } from "../reducers/formSlice";
 
-const getForms = () => async dispatch => {
+const getForms = () => async (dispatch) => {
   try {
     const { data } = await api.form.getForms();
     if (data.forms.length) {
@@ -25,7 +25,7 @@ const getForms = () => async dispatch => {
   }
 };
 
-const addFormDraft = formDraft => async dispatch => {
+const addFormDraft = (formDraft) => async (dispatch) => {
   try {
     const { data } = await api.form.addFormDraft(formDraft);
     dispatch(addFormDraftSuccess(data));
@@ -35,22 +35,22 @@ const addFormDraft = formDraft => async dispatch => {
   }
 };
 
-const updateFormDraft = (formId, updatedFormDraft) => async dispatch => {
+const updateFormDraft = (formId, updatedFormDraft) => async (dispatch) => {
   try {
-    const { data } = await api.form.updateFormDraft(formId, updatedFormDraft);
-    if (data.forms.length) {
-      const { formLink } = data.forms[0];
-      data.currentFormLink = formLink;
-    } else {
-      data.currentFormLink = null;
-    }
-    dispatch(updateFormDraftSuccess(data));
+    await api.form.updateFormDraft(formId, updatedFormDraft);
+    // if (data.forms.length) {
+    //   const { formLink } = data.forms[0];
+    //   data.currentFormLink = formLink;
+    // } else {
+    //   data.currentFormLink = null;
+    // }
+    dispatch(updateFormDraftSuccess({ formId, updatedFormDraft }));
   } catch (err) {
     dispatch(updateFormDraftFail(err));
   }
 };
 
-const updateForm = (formId, updatedForm) => async dispatch => {
+const updateForm = (formId, updatedForm) => async (dispatch) => {
   try {
     const { data } = await api.form.updateForm(formId, updatedForm);
     dispatch(updateFormSuccess(data));

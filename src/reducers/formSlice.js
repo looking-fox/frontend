@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   forms: [],
-  currentFormLink: null
+  currentFormLink: null,
 };
 
 const formSlice = createSlice({
@@ -19,7 +19,9 @@ const formSlice = createSlice({
     },
     addFormDraftSuccess(state, action) {
       const { updatedForm, previousFormId } = action.payload;
-      const idx = state.forms.findIndex(form => form.formId === previousFormId);
+      const idx = state.forms.findIndex(
+        (form) => form.formId === previousFormId
+      );
       state.forms.splice(idx, 1, updatedForm);
       state.currentFormLink = updatedForm.formLink;
     },
@@ -27,7 +29,10 @@ const formSlice = createSlice({
       console.log("Redux failed to POST draft form.");
     },
     updateFormDraftSuccess(state, action) {
-      //Logic
+      const { formId, updatedFormDraft } = action.payload;
+      const idx = state.forms.findIndex((form) => form.formId === formId);
+      state.forms.splice(idx, 1, updatedFormDraft);
+      state.currentFormLink = updatedFormDraft.formLink;
     },
     updateFormDraftFail() {
       console.log("Redux failed to UPDATE draft form.");
@@ -37,8 +42,8 @@ const formSlice = createSlice({
     },
     updateFormFail(state, action) {
       console.log("Redux failed to UPDATE form.");
-    }
-  }
+    },
+  },
 });
 
 // Export actions for dispatch //
@@ -50,7 +55,7 @@ export const {
   updateFormDraftSuccess,
   updateFormDraftFail,
   updateFormSuccess,
-  updateFormFail
+  updateFormFail,
 } = formSlice.actions;
 // Export actions for dispatch //
 
