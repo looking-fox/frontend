@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   Field,
@@ -7,19 +7,26 @@ import {
 } from "../../../ui/formik/FormikComponents";
 import DragIcon from "../../../assets/images/drag-indicator.svg";
 import { FiTrash2 } from "react-icons/fi";
+import { useEffectExceptOnMount } from "../../../utils/utils";
 
 const FormField = ({
   values = {},
   field = {},
   lastField = false,
-  handleToggleRequired = () => console.log("Toggle"),
+  validateForm,
   handleDeleteField,
 }) => {
   const [hover, setHover] = useState(false);
 
+  useEffectExceptOnMount(() => {
+    validateForm(values);
+    return setHover(true);
+  }, [values[`formFieldRequired-${field.formFieldId}`]]);
+
   return (
     <Container
       onMouseEnter={() => setHover(true)}
+      onMouseOver={() => !hover && setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
       <StyledImage src={DragIcon} alt="drag icon" />
@@ -28,7 +35,7 @@ const FormField = ({
         <ActionContainer>
           <CheckboxField
             name={`formFieldRequired-${field.formFieldId}`}
-            value={values[`formFieldTitle-${field.formFieldId}`] || false}
+            checked={values[`formFieldRequired-${field.formFieldId}`]}
             description="Required"
           />
           {!lastField && (

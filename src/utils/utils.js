@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 export const useScroll = () => {
   const [isScrolling, setScroll] = useState(false);
@@ -11,6 +11,15 @@ export const useScroll = () => {
   }, []);
 
   return isScrolling;
+};
+
+export const useEffectExceptOnMount = (func, deps) => {
+  const didMount = useRef(false);
+
+  useEffect(() => {
+    if (didMount.current) func();
+    else didMount.current = true;
+  }, deps);
 };
 
 export function isValidEmail(emailString) {

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { getForms } from "../../../thunks/formThunk";
 import { Spinner, Text } from "../../../ui/StyledComponents";
 
-const LoadForms = props => {
+const LoadForms = (props) => {
   const [showLoadingIcon, setLoadingIcon] = useState(false);
   const [noForms, setNoForms] = useState(false);
 
@@ -46,10 +46,10 @@ const LoadForms = props => {
 
 const Container = styled.div`
   height: calc(100vh - 60px);
-  width: 75vw;
-  background: ${p => p.theme.lightGrey};
+  width: 80vw;
+  background: ${(p) => p.theme.lightGrey};
   box-sizing: border-box;
-  ${p => p.theme.flexAllCenter}
+  ${(p) => p.theme.flexAllCenter}
   flex-direction: column;
 `;
 
@@ -59,7 +59,7 @@ const Title = styled(Text)`
   margin-bottom: 25px;
 `;
 
-const mapState = state => {
+const mapState = (state) => {
   return { forms: state.forms.forms };
 };
 

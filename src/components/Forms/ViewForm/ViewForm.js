@@ -81,6 +81,7 @@ class ViewForm extends Component {
       formFieldTitle: "",
       formFieldDescription: "",
       formFieldPlaceholder: "",
+      formFieldRequired: false,
       formFieldType: type,
       formFieldOrder,
       uid: this.props.userId,
@@ -180,72 +181,76 @@ class ViewForm extends Component {
                 isValid,
                 isValidating,
                 validateForm,
-              }) => (
-                <>
-                  <Form>
-                    <Header
-                      isSubmitting={isSubmitting}
-                      isValidating={isValidating}
-                      isValid={isValid}
-                      unpublishedChanges={unpublishedChanges}
-                    />
+              }) => {
+                return (
+                  <>
+                    <Form>
+                      <Header
+                        isSubmitting={isSubmitting}
+                        isValidating={isValidating}
+                        isValid={isValid}
+                        unpublishedChanges={unpublishedChanges}
+                      />
 
-                    <InnerForm>
-                      <DragDropContext
-                        onDragEnd={(e) => this.onDragEnd(e, validateForm)}
-                      >
-                        <Droppable droppableId="droppable">
-                          {(provided, snapshot) => (
-                            <div
-                              {...provided.droppableProps}
-                              ref={provided.innerRef}
-                              style={getListStyle(snapshot.isDraggingOver)}
-                            >
-                              {form.formFields.map((field, idx) => {
-                                const lastField = form.formFields.length <= 1;
+                      <InnerForm>
+                        <DragDropContext
+                          onDragEnd={(e) => this.onDragEnd(e, validateForm)}
+                        >
+                          <Droppable droppableId="droppable">
+                            {(provided, snapshot) => (
+                              <div
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                                style={getListStyle(snapshot.isDraggingOver)}
+                              >
+                                {form.formFields.map((field, idx) => {
+                                  const lastField = form.formFields.length <= 1;
 
-                                return (
-                                  <Draggable
-                                    key={String(idx)}
-                                    draggableId={String(idx)}
-                                    index={idx}
-                                  >
-                                    {(provided, snapshot) => (
-                                      <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        style={getItemStyle(
-                                          snapshot.isDragging,
-                                          provided.draggableProps.style
-                                        )}
-                                      >
-                                        <FormField
-                                          key={
-                                            field.formFieldId || `field-${idx}`
-                                          }
-                                          field={field}
-                                          lastField={lastField}
-                                          values={values}
-                                          handleDeleteField={
-                                            this.handleDeleteField
-                                          }
-                                        />
-                                      </div>
-                                    )}
-                                  </Draggable>
-                                );
-                              })}
-                              {provided.placeholder}
-                            </div>
-                          )}
-                        </Droppable>
-                      </DragDropContext>
-                      <AddField handleAddField={this.handleAddField} />
-                    </InnerForm>
-                  </Form>
-                </>
-              )}
+                                  return (
+                                    <Draggable
+                                      key={String(idx)}
+                                      draggableId={String(idx)}
+                                      index={idx}
+                                    >
+                                      {(provided, snapshot) => (
+                                        <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                          style={getItemStyle(
+                                            snapshot.isDragging,
+                                            provided.draggableProps.style
+                                          )}
+                                        >
+                                          <FormField
+                                            key={
+                                              field.formFieldId ||
+                                              `field-${idx}`
+                                            }
+                                            field={field}
+                                            lastField={lastField}
+                                            values={values}
+                                            validateForm={validateForm}
+                                            handleDeleteField={
+                                              this.handleDeleteField
+                                            }
+                                          />
+                                        </div>
+                                      )}
+                                    </Draggable>
+                                  );
+                                })}
+                                {provided.placeholder}
+                              </div>
+                            )}
+                          </Droppable>
+                        </DragDropContext>
+                        <AddField handleAddField={this.handleAddField} />
+                      </InnerForm>
+                    </Form>
+                  </>
+                );
+              }}
             </Formik>
           </FormContainer>
         </Container>

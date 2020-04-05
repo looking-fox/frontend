@@ -8,6 +8,8 @@ export function generateFormState(form) {
         field.formFieldDescription;
       initialFormState[`formFieldPlaceholder-${field.formFieldId}`] =
         field.formFieldPlaceholder;
+      initialFormState[`formFieldRequired-${field.formFieldId}`] =
+        field.formFieldRequired;
       initialFormState["formTitle"] = form.formTitle || "New Form";
     });
   }
