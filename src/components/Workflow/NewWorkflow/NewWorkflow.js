@@ -16,20 +16,18 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   opacity: isDragging ? 0.5 : 1,
   width: "calc(100% - 75px)",
   marginLeft: "75px",
-
   // styles we need to apply on draggables
-  ...draggableStyle
+  ...draggableStyle,
 });
 
 const getListStyle = () => ({
-  width: "90%"
+  width: "90%",
 });
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
-
   return result;
 };
 
@@ -42,10 +40,10 @@ class NewWorkflow extends Component {
       { wfActionName: "New Inquiry", wfActionType: "task" },
       { wfActionName: "Send Info Guide", wfActionType: "task" },
       { wfActionName: "Send Contract", wfActionType: "task" },
-      { wfActionName: "Get Paid", wfActionType: "task" }
+      { wfActionName: "Get Paid", wfActionType: "task" },
     ],
     currentActionToEditIndex: null,
-    newWorkflow: true
+    newWorkflow: true,
   };
 
   componentDidMount() {
@@ -55,14 +53,14 @@ class NewWorkflow extends Component {
     const editingExistingWorkflow = checkForEmptyObject(params);
     if (editingExistingWorkflow) {
       // Handle Edit Workflow Logic
-      const idx = workflows.findIndex(item => item.wfId === +params.wfId);
+      const idx = workflows.findIndex((item) => item.wfId === +params.wfId);
       const { wfName, wfTagColor, wfActions } = workflows[idx] || {};
       this.setState({
         wfName,
         wfTagColor,
         wfId: +params.wfId,
         wfActions,
-        newWorkflow: false
+        newWorkflow: false,
       });
     }
   }
@@ -71,20 +69,20 @@ class NewWorkflow extends Component {
     document.removeEventListener("mousedown", this.handleClickOutside);
   }
 
-  handleClickOutside = e => {
+  handleClickOutside = (e) => {
     //Null edit mode if not a draggable element or switched over to an input
     if (!e.target.draggable && !e.target.placeholder) {
       this.setState({ currentActionToEditIndex: null });
     }
   };
 
-  handleInput = e => {
+  handleInput = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
   handleAddNewAction = () => {
     const newActionList = this.state.wfActions.concat([
-      { wfActionName: "", wfActionType: "task" }
+      { wfActionName: "", wfActionType: "task" },
     ]);
     this.setState({ wfActions: newActionList });
   };
@@ -93,17 +91,17 @@ class NewWorkflow extends Component {
     let newActionList = this.state.wfActions.slice();
     newActionList[idx] = {
       ...newActionList[idx],
-      wfActionName: e.target.value
+      wfActionName: e.target.value,
     };
     this.setState({ wfActions: newActionList });
   };
 
-  handleDeleteAction = idx => {
+  handleDeleteAction = (idx) => {
     const newActionList = [...this.state.wfActions];
     newActionList.splice(idx, 1);
     this.setState({
       wfActions: newActionList,
-      currentActionToEditIndex: null
+      currentActionToEditIndex: null,
     });
   };
 
@@ -119,7 +117,7 @@ class NewWorkflow extends Component {
     this.setState({ wfTagColor: newColor });
   };
 
-  handleAddOrUpdateWorkflow = e => {
+  handleAddOrUpdateWorkflow = (e) => {
     e.preventDefault();
     try {
       const { wfId, wfActions, wfName, wfTagColor, newWorkflow } = this.state;
@@ -143,7 +141,7 @@ class NewWorkflow extends Component {
     }
   };
 
-  onDragEnd = result => {
+  onDragEnd = (result) => {
     let newIndex = null;
     // dropped outside the list
     if (!result.destination) return;
@@ -166,7 +164,7 @@ class NewWorkflow extends Component {
       currentActionToEditIndex,
       wfName,
       wfTagColor,
-      newWorkflow
+      newWorkflow,
     } = this.state;
 
     const noActions = wfActions.length === 0;
@@ -254,7 +252,7 @@ class NewWorkflow extends Component {
                 marginLeft: "auto",
                 marginRight: "15%",
                 marginTop: 25,
-                marginBottom: 50
+                marginBottom: 50,
               }}
               onClick={this.handleAddNewAction}
             >
@@ -270,7 +268,7 @@ class NewWorkflow extends Component {
 
 const Container = styled.div`
   height: calc(100vh - 60px);
-  background: ${p => p.theme.lightGrey};
+  background: ${(p) => p.theme.lightGrey};
   box-sizing: border-box;
   overflow: hidden;
 `;
@@ -293,7 +291,7 @@ const RightPanel = styled.div`
 
 const EmptyDisplayContainer = styled.div`
   margin: 50px 0px;
-  ${p => p.theme.flexAllCenter};
+  ${(p) => p.theme.flexAllCenter};
   flex-direction: column;
 `;
 
@@ -310,7 +308,7 @@ const EmptyIcon = styled(IoIosGitCompare)`
   font-size: 2.5em;
 `;
 
-const mapState = state => {
+const mapState = (state) => {
   return { workflows: state.workflows.workflows };
 };
 

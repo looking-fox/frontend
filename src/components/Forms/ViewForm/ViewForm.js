@@ -15,6 +15,28 @@ import AddField from "./AddField";
 import { generateFormState } from "./formUtils";
 import { mergeFormChanges } from "../../../utils/utils";
 import isEqual from "lodash.isequal";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+  // change opacity if dragging
+  opacity: isDragging ? 0.5 : 1,
+  width: "calc(100% - 75px)",
+  // styles we need to apply on draggables
+  ...draggableStyle,
+});
+
+const getListStyle = () => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+});
+
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+  return result;
+};
 
 class ViewForm extends Component {
   state = {
@@ -86,6 +108,7 @@ class ViewForm extends Component {
   handleValidation = async (values) => {
     //if no changes onBlur return
     const noFormChanges = isEqual(values, this.state.initialFormState);
+
     if (noFormChanges) return;
 
     const errors = {};
@@ -120,6 +143,20 @@ class ViewForm extends Component {
     this.props.history.push(`/forms/${this.props.currentFormLink}`);
   };
 
+  onDragEnd = ({ source, destination }, cb) => {
+    // dropped outside the list
+    if (!destination) return;
+    let newForm = JSON.parse(JSON.stringify(this.state.form));
+    const { formFields: newFormFields } = newForm;
+    // swap stored list order fields
+    newFormFields[source.index]["formFieldOrder"] = destination.index;
+    newFormFields[destination.index]["formFieldOrder"] = source.index;
+    // swap in array stored in state
+    const formFields = reorder(newFormFields, source.index, destination.index);
+    newForm.formFields = formFields;
+    this.setState({ form: newForm }, () => cb(true));
+  };
+
   render() {
     const { form, initialFormState, unpublishedChanges } = this.state;
     // Do not render form without initial values
@@ -137,7 +174,13 @@ class ViewForm extends Component {
               validate={this.handleValidation}
               onSubmit={this.handleSubmitForm}
             >
-              {({ values, isSubmitting, isValid, isValidating }) => (
+              {({
+                values,
+                isSubmitting,
+                isValid,
+                isValidating,
+                validateForm,
+              }) => (
                 <>
                   <Form>
                     <Header
@@ -146,19 +189,58 @@ class ViewForm extends Component {
                       isValid={isValid}
                       unpublishedChanges={unpublishedChanges}
                     />
+
                     <InnerForm>
-                      {form.formFields.map((field, idx) => {
-                        const lastField = form.formFields.length <= 1;
-                        return (
-                          <FormField
-                            key={field.formFieldId || `field-${idx}`}
-                            field={field}
-                            lastField={lastField}
-                            values={values}
-                            handleDeleteField={this.handleDeleteField}
-                          />
-                        );
-                      })}
+                      <DragDropContext
+                        onDragEnd={(e) => this.onDragEnd(e, validateForm)}
+                      >
+                        <Droppable droppableId="droppable">
+                          {(provided, snapshot) => (
+                            <div
+                              {...provided.droppableProps}
+                              ref={provided.innerRef}
+                              style={getListStyle(snapshot.isDraggingOver)}
+                            >
+                              {form.formFields.map((field, idx) => {
+                                const lastField = form.formFields.length <= 1;
+
+                                return (
+                                  <Draggable
+                                    key={String(idx)}
+                                    draggableId={String(idx)}
+                                    index={idx}
+                                  >
+                                    {(provided, snapshot) => (
+                                      <div
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        style={getItemStyle(
+                                          snapshot.isDragging,
+                                          provided.draggableProps.style
+                                        )}
+                                      >
+                                        <FormField
+                                          key={
+                                            field.formFieldId || `field-${idx}`
+                                          }
+                                          field={field}
+                                          lastField={lastField}
+                                          values={values}
+                                          handleDeleteField={
+                                            this.handleDeleteField
+                                          }
+                                        />
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                );
+                              })}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+                      </DragDropContext>
                       <AddField handleAddField={this.handleAddField} />
                     </InnerForm>
                   </Form>
