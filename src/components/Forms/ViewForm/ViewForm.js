@@ -61,6 +61,9 @@ class ViewForm extends Component {
   handleLoadingForm = () => {
     const { formLink: link } = this.props.match.params;
     const form = this.props.forms.find((form) => form.formLink === link) || {};
+    if (!Object.keys(form).length) {
+      return this.props.history.push("/forms/");
+    }
     const initialFormState = generateFormState(form);
     this.setState({
       form,
