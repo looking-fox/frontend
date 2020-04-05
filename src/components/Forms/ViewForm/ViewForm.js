@@ -14,6 +14,7 @@ import FormField from "./FormField";
 import AddField from "./AddField";
 import { generateFormState } from "./formUtils";
 import { mergeFormChanges } from "../../../utils/utils";
+import isEqual from "lodash.isequal";
 
 class ViewForm extends Component {
   state = {
@@ -83,6 +84,10 @@ class ViewForm extends Component {
   };
 
   handleValidation = async (values) => {
+    //if no changes onBlur return
+    const noFormChanges = isEqual(values, this.state.initialFormState);
+    if (noFormChanges) return;
+
     const errors = {};
     Object.keys(values).filter((item) => {
       // Titles are required for all input fields
