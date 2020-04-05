@@ -8,7 +8,7 @@ const initialState = {
   displayName: "",
   email: "",
   profilePhotoUrl: "",
-  error: false
+  error: false,
 };
 
 const userSlice = createSlice({
@@ -16,7 +16,10 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     authStatusSuccess(state, action) {
-      state.isAuthenticated = action.payload;
+      const { user } = action.payload;
+      const newState = { ...state, ...user };
+      newState.isAuthenticated = true;
+      return newState;
     },
     loginSuccess(state, action) {
       const newState = { ...state, ...action.payload };
@@ -35,8 +38,8 @@ const userSlice = createSlice({
       const newState = { ...state, ...action.payload };
       newState.isAuthenticated = true;
       return newState;
-    }
-  }
+    },
+  },
 });
 
 // Export actions for dispatch //
@@ -45,7 +48,7 @@ export const {
   loginSuccess,
   loginFail,
   logoutSuccess,
-  signUpSuccess
+  signUpSuccess,
 } = userSlice.actions;
 // Export actions for dispatch //
 

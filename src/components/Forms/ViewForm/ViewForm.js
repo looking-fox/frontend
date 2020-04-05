@@ -68,7 +68,7 @@ class ViewForm extends Component {
     let idx = newFormFields.findIndex((f) => f.formFieldId === formFieldId);
     newFormFields.splice(idx, 1);
     newForm.formFields = newFormFields;
-    this.setState({ form: newForm });
+    this.setState({ form: newForm }, () => this.handlePublishDraft());
   };
 
   handleAddField = () => {

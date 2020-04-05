@@ -4,10 +4,10 @@ import {
   loginSuccess,
   loginFail,
   logoutSuccess,
-  signUpSuccess
+  signUpSuccess,
 } from "../reducers/userSlice";
 
-const login = userId => async dispatch => {
+const login = (userId) => async (dispatch) => {
   try {
     const { data } = await api.authentication.login(userId);
     dispatch(loginSuccess(data.user));
@@ -16,17 +16,16 @@ const login = userId => async dispatch => {
   }
 };
 
-const checkAuthStatus = () => async dispatch => {
+const checkAuthStatus = () => async (dispatch) => {
   try {
     const { data } = await api.authentication.checkAuthenticationStatus();
-    const authStatus = data.isAuthenticated || false;
-    dispatch(authStatusSuccess(authStatus));
+    dispatch(authStatusSuccess(data));
   } catch (err) {
     // Handle Error
   }
 };
 
-const logout = () => async dispatch => {
+const logout = () => async (dispatch) => {
   try {
     await api.authentication.logout();
     dispatch(logoutSuccess());
@@ -35,7 +34,7 @@ const logout = () => async dispatch => {
   }
 };
 
-const signUp = newUser => async dispatch => {
+const signUp = (newUser) => async (dispatch) => {
   try {
     const { data } = await api.authentication.signUp(newUser);
     dispatch(signUpSuccess(data.user));
