@@ -59,6 +59,7 @@ class ViewForm extends Component {
       formFieldPlaceholder: "",
       formFieldType: type,
       formFieldOrder,
+      uid: this.props.userId,
     };
     return newField;
   };
@@ -118,6 +119,7 @@ class ViewForm extends Component {
   render() {
     const { form, initialFormState, unpublishedChanges } = this.state;
     // Do not render form without initial values
+
     if (Object.keys(initialFormState).length === 0) return null;
     else
       return (
@@ -193,6 +195,7 @@ const InnerForm = styled.div`
 const mapState = (state) => ({
   forms: state.forms.forms,
   currentFormLink: state.forms.currentFormLink,
+  userId: state.user.uid,
 });
 const mapDispatch = { getForms, addFormDraft, updateFormDraft, updateForm };
 

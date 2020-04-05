@@ -8,13 +8,14 @@ const Header = ({
   isSubmitting = false,
   isValidating = false,
   isValid = true,
-  unpublishedChanges = false
+  unpublishedChanges = false,
 }) => {
   return (
     <HeaderContainer>
       <LeftPanel>
         <Field
           name="formTitle"
+          placeholder="Form Title"
           borderBottom
           style={{ fontSize: "1.25em", fontWeight: "bold", width: "250px" }}
         />

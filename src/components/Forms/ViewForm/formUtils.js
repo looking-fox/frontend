@@ -1,7 +1,7 @@
 export function generateFormState(form) {
   const initialFormState = {};
   if (form.formFields) {
-    form.formFields.map(field => {
+    form.formFields.map((field) => {
       initialFormState[`formFieldTitle-${field.formFieldId}`] =
         field.formFieldTitle;
       initialFormState[`formFieldDescription-${field.formFieldId}`] =
@@ -10,6 +10,10 @@ export function generateFormState(form) {
         field.formFieldPlaceholder;
       initialFormState["formTitle"] = form.formTitle || "New Form";
     });
+  }
+  // Handle empty form fields
+  if (form.formFields && !form.formFields.length) {
+    initialFormState["formTitle"] = "";
   }
   return initialFormState;
 }
