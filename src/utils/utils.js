@@ -27,9 +27,9 @@ export function checkForEmptyObject(objectToTest) {
   );
 }
 
-export function mergeFormChanges(form, formUpdates, isDraft = false) {
+export function mergeFormChanges(form, formUpdates = {}, isDraft = false) {
   const formChangesById = {};
-
+  if (!Object.entries(formUpdates).length) return form;
   Object.keys(formUpdates).map((item) => {
     const [field, formFieldId] = item.split("-");
     // must have ID

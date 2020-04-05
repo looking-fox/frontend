@@ -4,7 +4,12 @@ import { Field, FormErrorText } from "../../../ui/formik/FormikComponents";
 import DragIcon from "../../../assets/images/drag-indicator.svg";
 import { FiTrash2 } from "react-icons/fi";
 
-const FormField = ({ values = {}, field = {}, handleDeleteField }) => {
+const FormField = ({
+  values = {},
+  field = {},
+  lastField = false,
+  handleDeleteField,
+}) => {
   const [hover, setHover] = useState(false);
 
   return (
@@ -14,7 +19,7 @@ const FormField = ({ values = {}, field = {}, handleDeleteField }) => {
     >
       <StyledImage src={DragIcon} alt="drag icon" />
 
-      {hover && (
+      {hover && !lastField && (
         <TrashIcon onClick={() => handleDeleteField(field.formFieldId)} />
       )}
 

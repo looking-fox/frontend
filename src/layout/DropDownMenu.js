@@ -38,8 +38,9 @@ const Menu = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  ${p => p.theme.darkBoxShadow}
+  ${(p) => p.theme.darkBoxShadow}
   overflow: hidden;
+  z-index: 5;
 `;
 
 const MenuItem = styled(Text)`
@@ -48,7 +49,7 @@ const MenuItem = styled(Text)`
   cursor: pointer;
   transition: all 50ms ease-in-out;
   &:hover {
-    background: ${p => p.theme.lightGrey};
+    background: ${(p) => p.theme.lightGrey};
   }
 `;
 

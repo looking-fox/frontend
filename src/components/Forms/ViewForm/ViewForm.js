@@ -56,7 +56,7 @@ class ViewForm extends Component {
   generateNewField = (type = "SHORT_ANSWER") => {
     const formFieldOrder = this.state.form.formFields.length;
     const newField = {
-      formFieldTitle: "Question",
+      formFieldTitle: "",
       formFieldDescription: "",
       formFieldPlaceholder: "",
       formFieldType: type,
@@ -102,7 +102,7 @@ class ViewForm extends Component {
     return errors;
   };
 
-  handlePublishDraft = async (values) => {
+  handlePublishDraft = async (values = {}) => {
     const { form } = this.state;
     const updatedForm = mergeFormChanges(form, values, true);
     //Create or update draft
@@ -148,10 +148,12 @@ class ViewForm extends Component {
                     />
                     <InnerForm>
                       {form.formFields.map((field, idx) => {
+                        const lastField = form.formFields.length <= 1;
                         return (
                           <FormField
                             key={field.formFieldId || `field-${idx}`}
                             field={field}
+                            lastField={lastField}
                             values={values}
                             handleDeleteField={this.handleDeleteField}
                           />
