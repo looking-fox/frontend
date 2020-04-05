@@ -60,6 +60,7 @@ class ViewForm extends Component {
       formFieldType: type,
       formFieldOrder,
       uid: this.props.userId,
+      formId: this.state.form.formId,
     };
     return newField;
   };
