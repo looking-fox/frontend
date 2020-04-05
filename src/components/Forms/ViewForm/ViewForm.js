@@ -21,14 +21,11 @@ class ViewForm extends Component {
     unpublishedChanges: false,
   };
 
-  async componentDidMount() {
-    // GET forms if no forms in props
-    if (!this.props.forms.length) await this.props.getForms();
-    await this.handleLoadingForm();
-  }
-
   componentDidUpdate(prevProps) {
-    if (prevProps.match.params.formLink !== this.props.match.params.formLink) {
+    if (
+      prevProps.match.params.formLink !== this.props.match.params.formLink ||
+      prevProps.forms !== this.props.forms
+    ) {
       this.handleLoadingForm();
     }
   }

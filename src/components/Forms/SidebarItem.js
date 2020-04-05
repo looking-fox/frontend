@@ -40,7 +40,6 @@ const Bubble = styled(Text)`
 const StyledText = styled(Text)`
   color: #cccccc;
   font-weight: bold;
-  padding: 0.5em;
   font-size: 0.7em;
   width: fit-content;
   margin-left: 10px;
