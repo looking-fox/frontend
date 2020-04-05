@@ -38,6 +38,8 @@ class ViewForm extends Component {
   handleLoadingForm = () => {
     const { formLink: link } = this.props.match.params;
     const form = this.props.forms.find((form) => form.formLink === link) || {};
+    console.log("Form Link: ", link);
+    console.log("Found Form: ", form);
     const initialFormState = generateFormState(form);
     this.setState({
       form,
@@ -111,9 +113,8 @@ class ViewForm extends Component {
   };
 
   handleSubmitForm = async (formUpdates, { setSubmitting }) => {
-    setSubmitting(true);
     await this.props.publishForm(this.state.form.formId);
-    setSubmitting(false);
+    this.props.history.push(`/forms/${this.props.currentFormLink}`);
   };
 
   render() {
