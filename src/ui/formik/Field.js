@@ -14,15 +14,16 @@ const StyledField = styled(Field)`
   margin: 10px 0px;
   font-size: 1em;
   outline: 1px solid #ededed;
-  ${props =>
+  ${(props) =>
     props.error &&
     css`
       outline: 1px solid #e65f5c;
     `};
 `;
 
-const FieldComponent = props => {
+const FieldComponent = (props) => {
   const { transparent, description, borderBottom, ...rest } = props;
+
   if (transparent) {
     return <TransparentField {...rest} />;
   } else if (description) {

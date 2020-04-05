@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Field, FormErrorText } from "../../../ui/formik/FormikComponents";
+import {
+  Field,
+  FormErrorText,
+  CheckboxField,
+} from "../../../ui/formik/FormikComponents";
 import DragIcon from "../../../assets/images/drag-indicator.svg";
 import { FiTrash2 } from "react-icons/fi";
 
@@ -8,6 +12,7 @@ const FormField = ({
   values = {},
   field = {},
   lastField = false,
+  handleToggleRequired = () => console.log("Toggle"),
   handleDeleteField,
 }) => {
   const [hover, setHover] = useState(false);
@@ -19,8 +24,17 @@ const FormField = ({
     >
       <StyledImage src={DragIcon} alt="drag icon" />
 
-      {hover && !lastField && (
-        <TrashIcon onClick={() => handleDeleteField(field.formFieldId)} />
+      {hover && (
+        <ActionContainer>
+          <CheckboxField
+            name={`formFieldRequired-${field.formFieldId}`}
+            value={values[`formFieldTitle-${field.formFieldId}`] || false}
+            description="Required"
+          />
+          {!lastField && (
+            <TrashIcon onClick={() => handleDeleteField(field.formFieldId)} />
+          )}
+        </ActionContainer>
       )}
 
       <Field
@@ -70,16 +84,21 @@ const StyledImage = styled.img`
   top: 50%;
   transform: translateY(-50%);
   left: 10px;
-  cursor: move;
+  cursor: grab;
   opacity: 0.3;
 `;
 
-const TrashIcon = styled(FiTrash2)`
+const ActionContainer = styled.div`
   position: absolute;
   top: 10px;
   right: 10px;
-  opacity: 0.3;
   cursor: pointer;
+  display: flex;
+`;
+
+const TrashIcon = styled(FiTrash2)`
+  margin-left: 25px;
+  opacity: 0.3;
 `;
 
 export default FormField;

@@ -11,7 +11,7 @@ const Action = ({
   isInEditMode,
   handleToggleActionMode,
   handleSaveActionName,
-  handleDeleteAction
+  handleDeleteAction,
 }) => {
   const textRef = useRef(null);
   const emptyInput = text.length === 0;
@@ -32,7 +32,7 @@ const Action = ({
           placeholder="New Action"
           ref={textRef}
           value={text}
-          onChange={e => handleSaveActionName(e, idx)}
+          onChange={(e) => handleSaveActionName(e, idx)}
         />
       ) : (
         <ActionText>{text}</ActionText>
@@ -48,7 +48,7 @@ const ActionContainer = styled.div`
   width: 80%;
   padding: 1em 1em;
   margin: 1em auto;
-  ${p => p.theme.sideBoxShadow};
+  ${(p) => p.theme.sideBoxShadow};
   position: relative;
   display: flex;
   align-items: center;
@@ -83,7 +83,7 @@ const ActionText = styled(Text)`
 const IconImage = styled.img`
   padding-right: 10px;
   opacity: 0.2;
-  cursor: move;
+  cursor: grab;
 `;
 
 const TrashIcon = styled(IoMdTrash)`
