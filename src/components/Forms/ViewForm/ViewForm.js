@@ -21,6 +21,10 @@ class ViewForm extends Component {
     unpublishedChanges: false,
   };
 
+  async componentDidMount() {
+    if (!this.props.forms.length) await this.props.getForms();
+  }
+
   componentDidUpdate(prevProps) {
     if (
       prevProps.match.params.formLink !== this.props.match.params.formLink ||
