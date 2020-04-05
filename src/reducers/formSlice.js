@@ -28,6 +28,13 @@ const formSlice = createSlice({
     addFormDraftFail(state, action) {
       console.log("Redux failed to POST draft form.");
     },
+    publishFormSuccess(state, action) {
+      console.log("Payload: ", action.payload);
+      return state;
+    },
+    publishFormFail(state, action) {
+      console.log("Redux failed to POST published form.");
+    },
     updateFormDraftSuccess(state, action) {
       const { formId, updatedFormDraft } = action.payload;
       const idx = state.forms.findIndex((form) => form.formId === formId);
@@ -52,6 +59,8 @@ export const {
   getFormsFail,
   addFormDraftSuccess,
   addFormDraftFail,
+  publishFormSuccess,
+  publishFormFail,
   updateFormDraftSuccess,
   updateFormDraftFail,
   updateFormSuccess,

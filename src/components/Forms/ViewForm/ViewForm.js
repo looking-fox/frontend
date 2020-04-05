@@ -5,6 +5,7 @@ import {
   addFormDraft,
   updateFormDraft,
   updateForm,
+  publishForm,
 } from "../../../thunks/formThunk";
 import styled from "styled-components";
 import Header from "./Header";
@@ -110,10 +111,8 @@ class ViewForm extends Component {
   };
 
   handleSubmitForm = async (formUpdates, { setSubmitting }) => {
-    const { form } = this.state;
     setSubmitting(true);
-    const updatedForm = mergeFormChanges(form, formUpdates, false);
-    await this.props.updateForm(form.formId, updatedForm);
+    await this.props.publishForm(this.state.form.formId);
     setSubmitting(false);
   };
 
@@ -198,6 +197,13 @@ const mapState = (state) => ({
   currentFormLink: state.forms.currentFormLink,
   userId: state.user.uid,
 });
-const mapDispatch = { getForms, addFormDraft, updateFormDraft, updateForm };
+
+const mapDispatch = {
+  getForms,
+  addFormDraft,
+  updateFormDraft,
+  updateForm,
+  publishForm,
+};
 
 export default connect(mapState, mapDispatch)(ViewForm);
