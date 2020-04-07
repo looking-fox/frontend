@@ -24,7 +24,6 @@ const FormField = ({
     return setHover(false);
   }, [values[`formFieldRequired-${field.formFieldId}`]]);
 
-  console.log("Values: ", values);
   return (
     <Container
       onMouseEnter={() => setHover(true)}

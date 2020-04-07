@@ -54,10 +54,7 @@ class ViewForm extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    // Url changes
-    if (this.props.location !== prevProps.location) {
-      this.handleLoadingForm();
-    }
+    if (this.props.location !== prevProps.location) this.handleLoadingForm();
   }
 
   handleLoadingForm = () => {
@@ -75,8 +72,8 @@ class ViewForm extends Component {
   };
 
   generateFormCopy = () => {
-    let newForm = { ...this.state.form };
-    let newFormFields = [...newForm.formFields];
+    let newForm = JSON.parse(JSON.stringify(this.state.form));
+    const { formFields: newFormFields } = newForm;
     return [newForm, newFormFields];
   };
 
@@ -103,12 +100,17 @@ class ViewForm extends Component {
     this.setState({ form: newForm }, () => this.handlePublishDraft());
   };
 
-  handleAddField = () => {
+  handleAddField = async () => {
     let [newForm, newFormFields] = this.generateFormCopy();
     let newField = this.generateNewField();
     newFormFields.push(newField);
     newForm.formFields = newFormFields;
-    this.setState({ form: newForm });
+    const initialFormState = generateFormState(newForm);
+    await this.setState({
+      form: newForm,
+      initialFormState,
+      unpublishedChanges: true,
+    });
   };
 
   handleValidation = async (values) => {
