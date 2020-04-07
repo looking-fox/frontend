@@ -47,9 +47,14 @@ class ViewForm extends Component {
 
   async componentDidMount() {
     if (!this.props.forms.length) await this.props.getForms();
+    // Handle page refresh with empty state
+    if (!Object.keys(this.state.form).length) {
+      this.handleLoadingForm();
+    }
   }
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
+    // Url changes
     if (this.props.location !== prevProps.location) {
       this.handleLoadingForm();
     }
