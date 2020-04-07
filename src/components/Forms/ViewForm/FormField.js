@@ -20,7 +20,7 @@ const FormField = ({
 
   useEffectExceptOnMount(() => {
     validateForm(values);
-    return setHover(true);
+    return setHover(false);
   }, [values[`formFieldRequired-${field.formFieldId}`]]);
 
   return (
