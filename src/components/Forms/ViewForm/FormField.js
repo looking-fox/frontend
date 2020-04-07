@@ -5,6 +5,7 @@ import {
   FormErrorText,
   CheckboxField,
 } from "../../../ui/formik/FormikComponents";
+import { Text } from "../../../ui/StyledComponents";
 import DragIcon from "../../../assets/images/drag-indicator.svg";
 import { FiTrash2 } from "react-icons/fi";
 import { useEffectExceptOnMount } from "../../../utils/utils";
@@ -23,8 +24,7 @@ const FormField = ({
     return setHover(false);
   }, [values[`formFieldRequired-${field.formFieldId}`]]);
 
-  const fieldRequired = values[`formFieldRequired-${field.formFieldId}`];
-
+  console.log("Values: ", values);
   return (
     <Container
       onMouseEnter={() => setHover(true)}
@@ -33,25 +33,29 @@ const FormField = ({
     >
       <StyledImage src={DragIcon} alt="drag icon" />
 
-      {hover && (
-        <ActionContainer>
-          <CheckboxField
-            name={`formFieldRequired-${field.formFieldId}`}
-            checked={values[`formFieldRequired-${field.formFieldId}`]}
-            description="Required"
-          />
-          {!lastField && (
-            <TrashIcon onClick={() => handleDeleteField(field.formFieldId)} />
-          )}
-        </ActionContainer>
-      )}
-
+      <ActionContainer>
+        {hover ? (
+          <>
+            <CheckboxField
+              name={`formFieldRequired-${field.formFieldId}`}
+              checked={values[`formFieldRequired-${field.formFieldId}`]}
+              description="Required"
+            />
+            {!lastField && (
+              <TrashIcon onClick={() => handleDeleteField(field.formFieldId)} />
+            )}
+          </>
+        ) : (
+          <StyledText>* Required</StyledText>
+        )}
+      </ActionContainer>
       <Field
         name={`formFieldTitle-${field.formFieldId}`}
         value={values[`formFieldTitle-${field.formFieldId}`] || ""}
         placeholder="What is Your Name?"
         transparent
       />
+
       <FormErrorText
         name={`formFieldTitle-${field.formFieldId}`}
         component="div"
@@ -100,7 +104,7 @@ const StyledImage = styled.img`
 const ActionContainer = styled.div`
   position: absolute;
   top: 10px;
-  right: 10px;
+  right: 15px;
   cursor: pointer;
   display: flex;
 `;
@@ -108,6 +112,13 @@ const ActionContainer = styled.div`
 const TrashIcon = styled(FiTrash2)`
   margin-left: 25px;
   opacity: 0.3;
+`;
+
+const StyledText = styled(Text)`
+  font-size: 0.8em;
+  font-style: italic;
+  padding-top: 5px;
+  opacity: 0.7;
 `;
 
 export default FormField;
