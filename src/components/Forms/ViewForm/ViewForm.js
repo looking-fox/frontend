@@ -50,10 +50,7 @@ class ViewForm extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.match.params.formLink !== this.props.match.params.formLink ||
-      prevProps.forms !== this.props.forms
-    ) {
+    if (this.props.location !== prevProps.location) {
       this.handleLoadingForm();
     }
   }
@@ -137,14 +134,14 @@ class ViewForm extends Component {
       await this.props.updateFormDraft(form.formId, updatedForm);
     } else {
       await this.props.addFormDraft(updatedForm);
-      this.props.history.push(`/forms/${this.props.currentFormLink}`);
+      this.props.history.replace(`/forms/${this.props.currentFormLink}`);
       await this.handleLoadingForm();
     }
   };
 
   handleSubmitForm = async () => {
     await this.props.publishForm(this.state.form.formId);
-    this.props.history.push(`/forms/${this.props.currentFormLink}`);
+    this.props.history.replace(`/forms/${this.props.currentFormLink}`);
   };
 
   onDragEnd = ({ source, destination }, cb) => {
