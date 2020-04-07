@@ -85,6 +85,7 @@ class ViewForm extends Component {
       formFieldPlaceholder: "",
       formFieldRequired: false,
       formFieldType: type,
+      formFieldId: parseInt(`00${formFieldOrder}`),
       formFieldOrder,
       uid: this.props.userId,
       formId: this.state.form.formId,
