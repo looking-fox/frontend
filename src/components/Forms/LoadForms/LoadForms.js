@@ -10,7 +10,9 @@ const LoadForms = (props) => {
 
   useEffect(() => {
     const loadingTimer = setTimeout(() => {
-      setLoadingIcon(true);
+      if(noForms){
+        setLoadingIcon(true);
+      } 
     }, 750);
 
     async function loadForms() {
@@ -28,6 +30,7 @@ const LoadForms = (props) => {
     loadForms();
 
     return () => clearTimeout(loadingTimer);
+   
   }, [props.forms]);
 
   return (
