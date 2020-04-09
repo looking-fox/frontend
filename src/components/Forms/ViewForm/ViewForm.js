@@ -121,11 +121,12 @@ class ViewForm extends Component {
     if (noFormChanges) return;
 
     const errors = {};
-    Object.keys(values).filter((item) => {
+    Object.keys(values).map((item) => {
       // Titles are required for all input fields
       if (item.includes("Title") && !values[item].length) {
-        errors[item] = "Required";
+        return errors[item] = "Required";
       }
+      return item;
     });
     // Save draft if no form errors
     if (!Object.keys(errors).length) await this.handlePublishDraft(values);
