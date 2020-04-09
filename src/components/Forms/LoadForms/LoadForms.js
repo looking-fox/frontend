@@ -10,11 +10,11 @@ const LoadForms = (props) => {
 
   useEffect(() => {
     const loadingTimer = setTimeout(() => {
-      if (noForms) setLoadingIcon(true);
+      if (noForms) setLoadingIcon(false);
     }, 750);
 
     async function loadForms() {
-      await props.getForms();
+      await getForms();
       if (props.forms.length) {
         // Redirect to default form
         const { formLink } = props.forms[0];
@@ -28,7 +28,7 @@ const LoadForms = (props) => {
     loadForms();
 
     return () => clearTimeout(loadingTimer);
-  }, [props.forms]);
+  }, [props.forms, props.history, props.getForms, noForms]);
 
   return (
     <Container>
