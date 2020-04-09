@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { getClients, updateClientProgress } from "../../thunks/clientThunk";
@@ -19,7 +19,7 @@ class ViewClients extends Component {
   };
 
   handleToggleModal = () => {
-    this.setState(state => {
+    this.setState((state) => {
       return { showModal: !state.showModal };
     });
   };
@@ -54,14 +54,14 @@ class ViewClients extends Component {
 
 const Container = styled.div`
   height: calc(100vh - 120px);
-  background: ${p => p.theme.lightGrey};
+  background: ${(p) => p.theme.lightGrey};
   overflow-y: auto;
   padding: 0 15vw;
   box-sizing: border-box;
   padding-top: 25px;
 `;
 
-const mapState = state => {
+const mapState = (state) => {
   return { clients: state.clients.clients };
 };
 

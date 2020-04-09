@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export const useScroll = () => {
   const [isScrolling, setScroll] = useState(false);
@@ -8,7 +8,7 @@ export const useScroll = () => {
     return () => {
       window.removeEventListener("scroll");
     };
-  }, []);
+  }, [isScrolling]);
 
   return isScrolling;
 };
@@ -19,7 +19,7 @@ export const useEffectExceptOnMount = (func, deps) => {
   useEffect(() => {
     if (didMount.current) func();
     else didMount.current = true;
-  }, deps);
+  }, [deps, func]);
 };
 
 export function isValidEmail(emailString) {
@@ -42,7 +42,7 @@ export function mergeFormChanges(form, formUpdates = {}, isDraft = false) {
   Object.keys(formUpdates).map((item) => {
     const [field, formFieldId] = item.split("-");
     // must have ID
-    if (!formFieldId) return;
+    if (!formFieldId) return null;
     // merge existing data related to formFieldId
     else if (formChangesById[formFieldId]) {
       formChangesById[formFieldId] = {
@@ -53,6 +53,7 @@ export function mergeFormChanges(form, formUpdates = {}, isDraft = false) {
       // create new formFieldId object to store values
       formChangesById[formFieldId] = { [field]: formUpdates[item] };
     }
+    return null;
   });
 
   //--- merge changes to form ---//

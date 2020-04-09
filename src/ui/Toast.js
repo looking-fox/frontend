@@ -12,21 +12,22 @@ const Toast = ({
   success = false,
   error = false,
   Icon = null,
-  toastReset
+  toastReset,
 }) => {
   const [showTimer, setShowTimer] = useState(false);
-  const setTimer = () =>
-    setTimeout(() => {
-      setShowTimer(true);
-      toastReset();
-    }, duration);
 
   useEffect(() => {
+    const setTimer = () =>
+      setTimeout(() => {
+        setShowTimer(true);
+        toastReset();
+      }, duration);
+
     if (show && !showTimer) {
       setTimer();
     }
     return clearInterval(setTimer);
-  }, [show, showTimer]);
+  }, [show, showTimer, duration, toastReset]);
 
   return show && !showTimer ? (
     <ToastContainer success={success} error={error}>
@@ -40,12 +41,12 @@ const Toast = ({
 
 const ToastContainer = styled.div`
   width: fit-content;
-  background: ${p =>
+  background: ${(p) =>
     p.success ? p.theme.green : p.error ? p.theme.red : p.theme.primaryColor};
   color: white;
   font-size: 1.1em;
   border-radius: 3px;
-  ${p => p.theme.sideBoxShadow};
+  ${(p) => p.theme.sideBoxShadow};
   font-weight: bold;
   padding: 0.25em 0.5em;
   position: absolute;
