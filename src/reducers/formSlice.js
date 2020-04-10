@@ -14,8 +14,14 @@ const formSlice = createSlice({
       state.forms = payload.forms;
       state.currentFormLink = payload.currentFormLink;
     },
-    getFormsFail(state, action) {
+    getFormsFail() {
       console.log("Redux failed to GET forms.");
+    },
+    addNewFormSuccess(state, action) {
+      return state;
+    },
+    addNewFormFail() {
+      console.log("Redux failed to POST new form.");
     },
     addFormDraftSuccess(state, action) {
       const { updatedForm, previousFormId } = action.payload;
@@ -25,7 +31,7 @@ const formSlice = createSlice({
       state.forms.splice(idx, 1, updatedForm);
       state.currentFormLink = updatedForm.formLink;
     },
-    addFormDraftFail(state, action) {
+    addFormDraftFail() {
       console.log("Redux failed to POST draft form.");
     },
     publishFormSuccess(state, action) {
@@ -34,7 +40,7 @@ const formSlice = createSlice({
       state.forms.splice(idx, 1, newPublishedForm);
       state.currentFormLink = newPublishedForm.formLink;
     },
-    publishFormFail(state, action) {
+    publishFormFail() {
       console.log("Redux failed to POST published form.");
     },
     updateFormDraftSuccess(state, action) {
@@ -49,7 +55,7 @@ const formSlice = createSlice({
     updateFormSuccess(state, action) {
       state.forms = action.payload.forms;
     },
-    updateFormFail(state, action) {
+    updateFormFail() {
       console.log("Redux failed to UPDATE form.");
     },
   },
@@ -59,6 +65,8 @@ const formSlice = createSlice({
 export const {
   getFormsSuccess,
   getFormsFail,
+  addNewFormSuccess,
+  addNewFormFail,
   addFormDraftSuccess,
   addFormDraftFail,
   publishFormSuccess,

@@ -2,6 +2,8 @@ import api from "../api/api";
 import {
   getFormsSuccess,
   getFormsFail,
+  addNewFormSuccess,
+  addNewFormFail,
   updateFormDraftSuccess,
   updateFormDraftFail,
   updateFormSuccess,
@@ -24,6 +26,16 @@ const getForms = () => async (dispatch) => {
     dispatch(getFormsSuccess(data));
   } catch (err) {
     dispatch(getFormsFail(err));
+  }
+};
+
+const addNewForm = () => async (dispatch) => {
+  try {
+    const { data } = await api.form.addNewForm();
+    console.log("Incoming Data: ", data);
+    dispatch(addNewFormSuccess(data));
+  } catch (err) {
+    dispatch(addNewFormFail(err));
   }
 };
 
@@ -70,4 +82,11 @@ const publishForm = (formId) => async (dispatch) => {
   }
 };
 
-export { getForms, addFormDraft, publishForm, updateFormDraft, updateForm };
+export {
+  getForms,
+  addNewForm,
+  addFormDraft,
+  publishForm,
+  updateFormDraft,
+  updateForm,
+};

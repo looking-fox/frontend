@@ -4,15 +4,16 @@ import styled from "styled-components";
 import SidebarItem from "./SidebarItem";
 import { Text, Link } from "../../ui/StyledComponents";
 import { IoIosAdd } from "react-icons/io";
+import { addNewForm } from "../../thunks/formThunk.js";
 
-const Sidebar = ({ forms = [] }) => {
+const Sidebar = ({ forms = [], addNewForm }) => {
   return (
     <Container>
       <TitleContainer>
         <Link to="/forms/">
           <Title>Forms</Title>
         </Link>
-        <AddFormText withIcon>
+        <AddFormText withIcon onClick={addNewForm}>
           <IoIosAdd />
           Add Form
         </AddFormText>
@@ -69,6 +70,6 @@ const mapState = (state) => {
   return { forms: state.forms.forms };
 };
 
-const mapDispatch = {};
+const mapDispatch = { addNewForm };
 
 export default connect(mapState, mapDispatch)(Sidebar);
