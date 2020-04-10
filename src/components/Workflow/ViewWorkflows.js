@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import {
   getWorkflows,
   addWorkflow,
-  archiveWorkflow
+  archiveWorkflow,
 } from "../../thunks/workflowThunks";
 import { IoMdCreate, IoMdTrash, IoIosAdd } from "react-icons/io";
 
@@ -18,11 +18,11 @@ class ViewWorkflows extends Component {
     this.props.workflows.length === 0 && this.props.getWorkflows();
   }
 
-  handleToggleModal = workflow => {
-    this.setState(state => {
+  handleToggleModal = (workflow) => {
+    this.setState((state) => {
       return {
         showModal: !state.showModal,
-        workFlowToArchive: workflow ? workflow : {}
+        workFlowToArchive: workflow ? workflow : {},
       };
     });
   };
@@ -35,7 +35,6 @@ class ViewWorkflows extends Component {
       this.props.archiveWorkflow(wfId);
       this.handleToggleModal();
     } catch (err) {
-      console.log("Delete Error: ", err);
       this.handleToggleModal();
     }
   };
@@ -89,7 +88,7 @@ class ViewWorkflows extends Component {
 
 const Container = styled.div`
   height: calc(100vh - 60px);
-  background: ${p => p.theme.lightGrey};
+  background: ${(p) => p.theme.lightGrey};
   overflow-y: auto;
   padding: 0 20vw;
 `;
@@ -123,7 +122,7 @@ const WorkflowContainer = styled.div`
 `;
 
 const WorkflowBubble = styled(Text)`
-  background: ${p => p.bubbleColor};
+  background: ${(p) => p.bubbleColor};
   color: white;
   font-weight: bold;
   padding: 3px 5px;
@@ -158,7 +157,7 @@ const LinkButton = styled(Link)`
   }
 `;
 
-const mapState = state => {
+const mapState = (state) => {
   const { workflows } = state.workflows;
   return { workflows };
 };

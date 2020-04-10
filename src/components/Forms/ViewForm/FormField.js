@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import {
   Field,
@@ -8,7 +8,6 @@ import {
 import { Text } from "../../../ui/StyledComponents";
 import DragIcon from "../../../assets/images/drag-indicator.svg";
 import { FiTrash2 } from "react-icons/fi";
-import { useEffectExceptOnMount } from "../../../utils/utils";
 
 const FormField = ({
   values = {},
@@ -18,12 +17,14 @@ const FormField = ({
   handleDeleteField,
 }) => {
   const [hover, setHover] = useState(false);
+  const didMount = useRef(false);
+  const isChecked = values[`formFieldRequired-${field.formFieldId}`];
 
-  useEffectExceptOnMount(() => {
-    validateForm(values);
-    return setHover(false);
-    // test comment
-  }, [values[`formFieldRequired-${field.formFieldId}`]]);
+  useEffect(() => {
+    if (didMount.current) validateForm(values);
+    else didMount.current = true;
+    return () => setHover(false);
+  }, [isChecked, validateForm, values]);
 
   return (
     <Container

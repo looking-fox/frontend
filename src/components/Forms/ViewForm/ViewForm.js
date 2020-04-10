@@ -54,7 +54,9 @@ class ViewForm extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) this.handleLoadingForm();
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.handleLoadingForm();
+    }
   }
 
   handleLoadingForm = () => {
@@ -124,7 +126,7 @@ class ViewForm extends Component {
     Object.keys(values).map((item) => {
       // Titles are required for all input fields
       if (item.includes("Title") && !values[item].length) {
-        return errors[item] = "Required";
+        return (errors[item] = "Required");
       }
       return item;
     });

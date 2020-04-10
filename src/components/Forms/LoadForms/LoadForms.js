@@ -1,48 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { getForms } from "../../../thunks/formThunk";
-import { Spinner, Text } from "../../../ui/StyledComponents";
+import { Text } from "../../../ui/StyledComponents";
 
-const LoadForms = (props) => {
-  const [showLoadingIcon, setLoadingIcon] = useState(false);
-  const [noForms, setNoForms] = useState(false);
+class LoadForms extends Component {
+  state = { noForms: false };
 
-  useEffect(() => {
-    const loadingTimer = setTimeout(() => {
-      if (noForms) setLoadingIcon(false);
-    }, 750);
-
-    async function loadForms() {
-      await getForms();
-      if (props.forms.length) {
-        // Redirect to default form
-        const { formLink } = props.forms[0];
-        props.history.push(`/forms/${formLink}`);
-      } else {
-        // User has no forms
-        setNoForms(true);
-      }
+  async componentDidMount() {
+    await this.props.getForms();
+    if (this.props.forms.length) {
+      // Redirect to default form
+      const { formLink } = this.props.forms[0];
+      this.props.history.push(`/forms/${formLink}`);
+    } else {
+      // User has no forms
+      this.setState({ noForms: true });
     }
+  }
 
-    loadForms();
-
-    return () => clearTimeout(loadingTimer);
-  }, [props.forms, props.history, props.getForms, noForms]);
-
-  return (
-    <Container>
-      {noForms && !showLoadingIcon ? (
-        <>
-          <Title>No Forms</Title>
-          <Text>Click "Add Form" to Get Started!</Text>
-        </>
-      ) : (
-        <Spinner color="black" size={50} visible={showLoadingIcon} />
-      )}
-    </Container>
-  );
-};
+  render() {
+    return (
+      <Container>
+        {this.state.noForms && (
+          <>
+            <Title>No Forms</Title>
+            <Text>Click "Add Form" to Get Started!</Text>
+          </>
+        )}
+      </Container>
+    );
+  }
+}
 
 const Container = styled.div`
   height: calc(100vh - 60px);

@@ -43,7 +43,6 @@ const addFormDraft = (formDraft) => async (dispatch) => {
     const { data } = await api.form.addFormDraft(formDraft);
     dispatch(addFormDraftSuccess(data));
   } catch (err) {
-    console.log("error: ", err);
     dispatch(addFormDraftFail(err));
   }
 };
