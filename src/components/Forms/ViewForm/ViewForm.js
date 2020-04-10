@@ -54,8 +54,9 @@ class ViewForm extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
-      this.handleLoadingForm();
+    if (this.props.location !== prevProps.location) this.handleLoadingForm();
+    if (prevProps.currentFormLink !== this.props.currentFormLink) {
+      this.props.history.push(`/forms/${this.props.currentFormLink}`);
     }
   }
 
