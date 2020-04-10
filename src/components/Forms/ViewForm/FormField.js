@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
 import {
   Field,
@@ -19,12 +19,16 @@ const FormField = ({
   const [hover, setHover] = useState(false);
   const didMount = useRef(false);
   const isChecked = values[`formFieldRequired-${field.formFieldId}`];
+  const checkFormValues = {
+    [`formFieldRequired-${field.formFieldId}`]: isChecked,
+  };
 
   useEffect(() => {
-    if (didMount.current) validateForm(values);
+    console.log(validateForm, isChecked, checkFormValues);
+    if (didMount.current) validateForm(checkFormValues);
     else didMount.current = true;
     return () => setHover(false);
-  }, [isChecked, validateForm, values]);
+  }, [isChecked]);
 
   return (
     <Container
