@@ -32,7 +32,6 @@ const getForms = () => async (dispatch) => {
 const addNewForm = () => async (dispatch) => {
   try {
     const { data } = await api.form.addNewForm();
-    console.log("Incoming Data: ", data);
     dispatch(addNewFormSuccess(data));
   } catch (err) {
     dispatch(addNewFormFail(err));

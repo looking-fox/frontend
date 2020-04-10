@@ -18,7 +18,9 @@ const formSlice = createSlice({
       console.log("Redux failed to GET forms.");
     },
     addNewFormSuccess(state, action) {
-      return state;
+      const { newForm } = action.payload;
+      state.forms.push(newForm);
+      state.currentFormLink = newForm.formLink;
     },
     addNewFormFail() {
       console.log("Redux failed to POST new form.");
