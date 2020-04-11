@@ -6,7 +6,7 @@ import { Text, Link } from "../../ui/StyledComponents";
 import { IoIosAdd } from "react-icons/io";
 import { addNewForm } from "../../thunks/formThunk.js";
 
-const Sidebar = ({ forms = [], addNewForm }) => {
+const Sidebar = ({ forms = [], addNewForm, currentFormLink = "" }) => {
   return (
     <Container>
       <TitleContainer>
@@ -24,6 +24,7 @@ const Sidebar = ({ forms = [], addNewForm }) => {
           name={form.formTitle}
           active={form.formActive}
           link={form.formLink}
+          formIsOpen={form.formLink === currentFormLink}
         />
       ))}
     </Container>
@@ -67,7 +68,10 @@ const Title = styled(Text)`
 `;
 
 const mapState = (state) => {
-  return { forms: state.forms.forms };
+  return {
+    forms: state.forms.forms,
+    currentFormLink: state.forms.currentFormLink,
+  };
 };
 
 const mapDispatch = { addNewForm };

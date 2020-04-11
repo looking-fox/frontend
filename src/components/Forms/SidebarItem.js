@@ -1,10 +1,10 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Text, Link } from "../../ui/StyledComponents";
 
-const SidebarItem = ({ name, active, link }) => (
+const SidebarItem = ({ name, active, link, formIsOpen = false }) => (
   <Link to={`/forms/${link}`}>
-    <Item>
+    <Item formIsOpen={formIsOpen}>
       <Text>{name}</Text>
       {active ? <Bubble>Active</Bubble> : <StyledText>Draft</StyledText>}
     </Item>
@@ -22,6 +22,11 @@ const Item = styled.div`
   &:hover {
     background: #fafafa;
   }
+  ${(p) =>
+    p.formIsOpen &&
+    css`
+      background: #fafafa;
+    `}
 `;
 
 const Bubble = styled(Text)`
