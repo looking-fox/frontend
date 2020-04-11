@@ -13,22 +13,21 @@ const FormField = ({
   values = {},
   field = {},
   lastField = false,
-  validateForm,
+  handleUpdateForm,
   handleDeleteField,
 }) => {
   const [hover, setHover] = useState(false);
   const didMount = useRef(false);
-  const isChecked = values[`formFieldRequired-${field.formFieldId}`];
-  const checkFormValues = {
-    [`formFieldRequired-${field.formFieldId}`]: isChecked,
-  };
+  const fieldString = `formFieldRequired-${field.formFieldId}`;
+  const fieldValue = values[fieldString];
 
   useEffect(() => {
-    console.log(validateForm, isChecked, checkFormValues);
-    if (didMount.current) validateForm(checkFormValues);
-    else didMount.current = true;
+    // Hook saves draft on checkbox value change
+    if (didMount.current) {
+      handleUpdateForm(fieldString, fieldValue);
+    } else didMount.current = true;
     return () => setHover(false);
-  }, [isChecked]);
+  }, [handleUpdateForm, fieldString, fieldValue]);
 
   return (
     <Container

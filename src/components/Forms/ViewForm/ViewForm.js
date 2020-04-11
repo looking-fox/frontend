@@ -117,10 +117,9 @@ class ViewForm extends Component {
     });
   };
 
-  handleValidation = async (values) => {
+  handleValidation = async (values = {}) => {
     //if no changes onBlur return
     const noFormChanges = isEqual(values, this.state.initialFormState);
-
     if (noFormChanges) return;
 
     const errors = {};
@@ -136,6 +135,12 @@ class ViewForm extends Component {
     // Update UI and return errors object to formik
     else this.setState({ unpublishedChanges: true });
     return errors;
+  };
+
+  handleUpdateForm = async (fieldString, fieldValue) => {
+    const { initialFormState: initForm } = this.state;
+    initForm[fieldString] = fieldValue;
+    await this.handlePublishDraft(initForm);
   };
 
   handlePublishDraft = async (values = {}) => {
@@ -217,7 +222,6 @@ class ViewForm extends Component {
                               >
                                 {form.formFields.map((field, idx) => {
                                   const lastField = form.formFields.length <= 1;
-
                                   return (
                                     <Draggable
                                       key={String(idx)}
@@ -239,10 +243,12 @@ class ViewForm extends Component {
                                               field.formFieldId ||
                                               `field-${idx}`
                                             }
+                                            values={values}
                                             field={field}
                                             lastField={lastField}
-                                            values={values}
-                                            validateForm={validateForm}
+                                            handleUpdateForm={
+                                              this.handleUpdateForm
+                                            }
                                             handleDeleteField={
                                               this.handleDeleteField
                                             }
