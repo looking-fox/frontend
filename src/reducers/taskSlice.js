@@ -1,16 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  tasks: [],
+  taskColumns: [],
 };
 
 const taskSlice = createSlice({
-  name: "tasks",
+  name: "task_columns",
   initialState,
   reducers: {
     getTasksSuccess(state, action) {
       const { payload } = action;
-      state.tasks = payload.tasks;
+      state.taskColumns = payload.taskColumns;
     },
     getTasksFail() {
       console.log("Redux failed to GET forms.");

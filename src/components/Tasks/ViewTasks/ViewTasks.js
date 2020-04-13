@@ -7,16 +7,17 @@ import { getTasks } from "../../../thunks/taskThunk";
 class ViewTasks extends Component {
   async componentDidMount() {
     await this.props.getTasks();
-    console.log("Tasks: ", this.props.tasks);
   }
 
   render() {
+    const { taskColumns } = this.props;
     return (
       <Container>
-        <TaskColumn title="Backlog" />
-        <TaskColumn title="Next Up" />
-        <TaskColumn title="In Progress" />
-        <TaskColumn title="Completed" />
+        {taskColumns.map((column, idx) => {
+          return (
+            <TaskColumn column={column} key={column.taskColumnId || idx} />
+          );
+        })}
       </Container>
     );
   }
@@ -29,7 +30,7 @@ const Container = styled.div`
   padding: 0px 50px;
 `;
 
-const mapState = (state) => ({ tasks: state.tasks.tasks });
+const mapState = (state) => ({ taskColumns: state.tasks.taskColumns });
 const mapDispatch = { getTasks };
 
 export default connect(mapState, mapDispatch)(ViewTasks);
