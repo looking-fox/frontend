@@ -138,8 +138,10 @@ class ViewForm extends Component {
   };
 
   handleUpdateForm = async (fieldString, fieldValue) => {
-    const { initialFormState: initForm } = this.state;
+    const initForm = JSON.parse(JSON.stringify(this.state.initialFormState));
     initForm[fieldString] = fieldValue;
+    const noChanges = isEqual(initForm, this.state.initialFormState);
+    if (noChanges) return;
     await this.handlePublishDraft(initForm);
   };
 
