@@ -1,19 +1,25 @@
 import React from "react";
 import { connect } from "react-redux";
+import { compose } from "redux";
+import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import SidebarItem from "./SidebarItem";
 import { Text, Link } from "../../ui/StyledComponents";
 import { IoIosAdd } from "react-icons/io";
 import { addNewForm } from "../../thunks/formThunk.js";
 
-const Sidebar = ({ forms = [], addNewForm, currentFormLink = "" }) => {
+const Sidebar = ({ forms = [], addNewForm, currentFormLink = "", history }) => {
+  const handleAddForm = async () => {
+    await addNewForm();
+    history.push(`/forms/${currentFormLink}`);
+  };
   return (
     <Container>
       <TitleContainer>
         <Link to="/forms/">
           <Title>Forms</Title>
         </Link>
-        <AddFormText withIcon onClick={addNewForm}>
+        <AddFormText withIcon onClick={handleAddForm}>
           <IoIosAdd />
           Add Form
         </AddFormText>
@@ -76,4 +82,4 @@ const mapState = (state) => {
 
 const mapDispatch = { addNewForm };
 
-export default connect(mapState, mapDispatch)(Sidebar);
+export default compose(withRouter, connect(mapState, mapDispatch))(Sidebar);
