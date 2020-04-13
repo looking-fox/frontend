@@ -7,7 +7,14 @@ const TaskColumn = ({ title = "Column" }) => {
   const mockData = [
     {
       taskTitle: "Cull Photos",
-      client: "Jordan Riley",
+      taskPriority: "low",
+      taskDueDate: new Date(),
+      taskNotes: "",
+      taskActions: [
+        { taskActionId: 405, taskAcionText: "Minor Task", completed: false },
+      ],
+      clientId: 234,
+      clientName: "Jordan Riley",
       taskId: Math.floor(Math.random() * 500),
     },
     {

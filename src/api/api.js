@@ -37,4 +37,7 @@ export default {
       client.put(`/forms/${formId}`, updatedForm),
     publishForm: (formId) => client.put(`/forms/publish/${formId}`),
   },
+  task: {
+    getTasks: () => client.get("/tasks/"),
+  },
 };
