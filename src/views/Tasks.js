@@ -5,6 +5,7 @@ import ViewTasks from "../components/Tasks/ViewTasks/ViewTasks";
 const Tasks = () => (
   <Switch>
     <Route exact path="/" component={ViewTasks} />
+    <Route default path="/" component={ViewTasks} />
   </Switch>
 );
 

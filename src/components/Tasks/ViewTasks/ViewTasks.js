@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import TaskColumn from "./TaskColumn";
 
 class ViewTasks extends Component {
   render() {
     return (
       <Container>
-        <p>View Tasks</p>
+        <TaskColumn title="Backlog" />
+        <TaskColumn title="Next Up" />
+        <TaskColumn title="In Progress" />
+        <TaskColumn title="Completed" />
       </Container>
     );
   }
@@ -14,8 +18,8 @@ class ViewTasks extends Component {
 const Container = styled.div`
   height: calc(100vh - 60px);
   background: ${(p) => p.theme.lightGrey};
-  overflow-y: auto;
-  padding: 0 20vw;
+  display: flex;
+  padding: 0px 50px;
 `;
 
 export default ViewTasks;
