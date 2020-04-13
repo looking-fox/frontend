@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { Text } from "../ui/StyledComponents";
 import Logo from "../assets/images/logo.png";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -9,11 +8,14 @@ import { defaultProfileUrl } from "../config/config";
 import DropDownMenu from "./DropDownMenu";
 import { IoMdPeople, IoIosGitCompare } from "react-icons/io";
 import { FaWpforms } from "react-icons/fa";
+import { FiCheckSquare } from "react-icons/fi";
+import HeaderItem from "./HeaderItem";
 
-const Header = props => {
+const Header = (props) => {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const menuRef = useRef(null);
-  const handleToggleMenu = visible => setShowUserMenu(visible || !showUserMenu);
+  const handleToggleMenu = (visible) =>
+    setShowUserMenu(visible || !showUserMenu);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -22,7 +24,7 @@ const Header = props => {
     };
   });
 
-  const handleClickOutside = e => {
+  const handleClickOutside = (e) => {
     //Close menu if mouse clicked outside of Avatar Icon
     if (
       menuRef.current &&
@@ -42,24 +44,21 @@ const Header = props => {
       </LogoLink>
 
       <Navigation>
-        <NavLink to="/">
-          <Text link withIcon>
-            <IoMdPeople />
-            Clients
-          </Text>
-        </NavLink>
-        <NavLink to="/workflows/">
-          <Text link withIcon>
-            <IoIosGitCompare />
-            Workflows
-          </Text>
-        </NavLink>
-        <NavLink to="/forms/">
-          <Text link withIcon>
-            <FaWpforms />
-            Forms
-          </Text>
-        </NavLink>
+        <HeaderItem text="Clients" link="/">
+          <IoMdPeople />
+        </HeaderItem>
+
+        <HeaderItem text="Workflows" link="/workflows/">
+          <IoIosGitCompare />
+        </HeaderItem>
+
+        <HeaderItem text="Forms" link="/forms/">
+          <FaWpforms />
+        </HeaderItem>
+
+        <HeaderItem text="Tasks" link="/tasks/">
+          <FiCheckSquare />
+        </HeaderItem>
       </Navigation>
 
       <AvatarContainer ref={menuRef}>
@@ -86,21 +85,13 @@ const Container = styled.div`
 
 const LogoLink = styled(Link)`
   width: 15vw;
-  ${p => p.theme.flexAllCenter}
+  ${(p) => p.theme.flexAllCenter}
 `;
 
 const Navigation = styled.nav`
   width: 70vw;
   padding: 0px 20%;
-  ${p => p.theme.flexEvenly}
-`;
-
-const NavLink = styled(Link)`
-  text-decoration: none;
-  &:link,
-  &:visited {
-    color: inherit;
-  }
+  ${(p) => p.theme.flexEvenly}
 `;
 
 const Image = styled.img`
@@ -123,7 +114,7 @@ const Avatar = styled.img`
   cursor: pointer;
 `;
 
-const mapState = state => {
+const mapState = (state) => {
   return { user: state.user };
 };
 
