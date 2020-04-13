@@ -87,10 +87,6 @@ class ViewForm extends Component {
   };
 
   handleValidation = async (values = {}) => {
-    //if no changes onBlur return
-    // const noFormChanges = isEqual(values, this.state.initialFormState);
-    // if (noFormChanges) return;
-
     const errors = {};
     Object.keys(values).map((item) => {
       // Titles are required for all input fields
