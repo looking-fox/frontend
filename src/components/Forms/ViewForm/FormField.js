@@ -15,11 +15,13 @@ const FormField = ({
   lastField = false,
   handleUpdateForm,
   handleDeleteField,
+  errors,
 }) => {
   const [hover, setHover] = useState(false);
   const didMount = useRef(false);
   const fieldString = `formFieldRequired-${field.formFieldId}`;
   const fieldValue = values[fieldString];
+  const titleError = errors[`formFieldTitle-${field.formFieldId}`];
 
   useEffect(() => {
     // Hook saves draft on checkbox value change
@@ -38,7 +40,7 @@ const FormField = ({
       <StyledImage src={DragIcon} alt="drag icon" />
 
       <ActionContainer>
-        {hover ? (
+        {hover && (
           <>
             <CheckboxField
               name={`formFieldRequired-${field.formFieldId}`}
@@ -49,9 +51,9 @@ const FormField = ({
               <TrashIcon onClick={() => handleDeleteField(field.formFieldId)} />
             )}
           </>
-        ) : (
-          <StyledText>* Required</StyledText>
         )}
+
+        {!hover && fieldValue && <StyledText>* Required</StyledText>}
       </ActionContainer>
       <Field
         name={`formFieldTitle-${field.formFieldId}`}
@@ -60,11 +62,16 @@ const FormField = ({
         transparent
       />
 
-      <FormErrorText
+      {/* <FormErrorText
         name={`formFieldTitle-${field.formFieldId}`}
         component="div"
         withSpacing
-      />
+      /> */}
+      {titleError && (
+        <div>
+          <ErrorText>Field Required</ErrorText>
+        </div>
+      )}
 
       <Field
         name={`formFieldDescription-${field.formFieldId}`}
@@ -125,17 +132,12 @@ const StyledText = styled(Text)`
   opacity: 0.7;
 `;
 
-export default FormField;
+const ErrorText = styled(Text)`
+  color: ${(p) => p.theme.red};
+  font-size: 0.8em;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  padding-left: 15px;
+`;
 
-// formFieldId: 2
-// uid:
-// formId: 2
-// formFieldTitle: "What is your partner's name?"
-// formFieldType: "SHORT_ANSWER"
-// formFieldDescription: "Catherine Zeta, by chance?"
-// formFieldPlaceholder: "CZ Jones"
-// formFieldSelectOptions: null
-// formFieldRadioOptions: null
-// formFieldOrder: 1
-// createdAt: "2020-03-30T03:47:10.042156+02:00"
-// updatedAt: "2020-03-30T03:47:"
+export default FormField;

@@ -74,26 +74,8 @@ class ViewForm extends Component {
     });
   };
 
-  generateFormCopy = () => {
-    let newForm = JSON.parse(JSON.stringify(this.state.form));
-    const { formFields: newFormFields } = newForm;
-    return [newForm, newFormFields];
-  };
-
-  generateNewField = (type = "SHORT_ANSWER") => {
-    const formFieldOrder = this.state.form.formFields.length;
-    const newField = {
-      formFieldTitle: "",
-      formFieldDescription: "",
-      formFieldPlaceholder: "",
-      formFieldRequired: false,
-      formFieldType: type,
-      formFieldId: parseInt(`00${formFieldOrder}`),
-      formFieldOrder,
-      uid: this.props.userId,
-      formId: this.state.form.formId,
-    };
-    return newField;
+  handlePublishNewField = (form, initialFormState) => {
+    this.setState({ form, initialFormState, unpublishedChanges: true });
   };
 
   handleDeleteField = (formFieldId) => {
@@ -104,31 +86,17 @@ class ViewForm extends Component {
     this.setState({ form: newForm }, () => this.handlePublishDraft());
   };
 
-  handleAddField = async () => {
-    let [newForm, newFormFields] = this.generateFormCopy();
-    let newField = this.generateNewField();
-    newFormFields.push(newField);
-    newForm.formFields = newFormFields;
-    const initialFormState = generateFormState(newForm);
-    await this.setState({
-      form: newForm,
-      initialFormState,
-      unpublishedChanges: true,
-    });
-  };
-
   handleValidation = async (values = {}) => {
     //if no changes onBlur return
-    const noFormChanges = isEqual(values, this.state.initialFormState);
-    if (noFormChanges) return;
+    // const noFormChanges = isEqual(values, this.state.initialFormState);
+    // if (noFormChanges) return;
 
     const errors = {};
     Object.keys(values).map((item) => {
       // Titles are required for all input fields
-      if (item.includes("Title") && !values[item].length) {
+      if (item.includes("Title") && !values[item])
         return (errors[item] = "Required");
-      }
-      return item;
+      else return item;
     });
     // Save draft if no form errors
     if (!Object.keys(errors).length) await this.handlePublishDraft(values);
@@ -179,6 +147,7 @@ class ViewForm extends Component {
 
   render() {
     const { form, initialFormState, unpublishedChanges } = this.state;
+    console.log("Form: ", form);
     // Do not render form without initial values
     if (Object.keys(initialFormState).length === 0) return null;
     else
@@ -196,6 +165,7 @@ class ViewForm extends Component {
             >
               {({
                 values,
+                errors,
                 isSubmitting,
                 isValid,
                 isValidating,
@@ -246,6 +216,7 @@ class ViewForm extends Component {
                                               `field-${idx}`
                                             }
                                             values={values}
+                                            errors={errors}
                                             field={field}
                                             lastField={lastField}
                                             handleUpdateForm={
@@ -265,7 +236,11 @@ class ViewForm extends Component {
                             )}
                           </Droppable>
                         </DragDropContext>
-                        <AddField handleAddField={this.handleAddField} />
+
+                        <AddField
+                          form={form}
+                          handlePublishNewField={this.handlePublishNewField}
+                        />
                       </InnerForm>
                     </Form>
                   </>
@@ -307,7 +282,6 @@ const InnerForm = styled.div`
 const mapState = (state) => ({
   forms: state.forms.forms,
   currentFormLink: state.forms.currentFormLink,
-  userId: state.user.uid,
 });
 
 const mapDispatch = {
