@@ -4,30 +4,31 @@ import { Text, Button } from "../../../ui/StyledComponents";
 import TaskCard from "./TaskCard";
 import { IoIosAdd } from "react-icons/io";
 
-const AddTaskButton = () => {
+const AddTaskButton = ({ onClick }) => {
   return (
-    <StyledButton fullWidth>
+    <StyledButton fullWidth onClick={onClick}>
       <IoIosAdd />
       Task
     </StyledButton>
   );
 };
 
-const TaskColumn = ({ column }) => {
+const TaskColumn = ({ column, handleAddTask }) => {
   const noTasks = column.tasks.length === 0;
+  const handleOnClick = () => handleAddTask(column.taskColumnId);
   return (
     <ColumnContainer>
       <Title>{column.taskColumnName}</Title>
       {column.tasks.map((task, idx) => {
         const displayAddButton = idx === column.tasks.length - 1;
         return (
-          <>
-            <TaskCard task={task} key={task.taskId || idx} />
-            {displayAddButton && <AddTaskButton />}
-          </>
+          <div key={task.taskId || idx}>
+            <TaskCard task={task} />
+            {displayAddButton && <AddTaskButton onClick={handleOnClick} />}
+          </div>
         );
       })}
-      {noTasks && <AddTaskButton />}
+      {noTasks && <AddTaskButton onClick={handleOnClick} />}
     </ColumnContainer>
   );
 };
@@ -53,6 +54,7 @@ const StyledButton = styled(Button)`
   padding: 10px 0px;
   padding-left: 10px;
   justify-content: flex-start;
+  outline: none;
   &:hover {
     opacity: 0.5;
     background: white;

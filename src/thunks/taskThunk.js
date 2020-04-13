@@ -1,5 +1,10 @@
 import api from "../api/api";
-import { getTasksSuccess, getTasksFail } from "../reducers/taskSlice";
+import {
+  getTasksSuccess,
+  getTasksFail,
+  addTaskSuccess,
+  addTaskFail,
+} from "../reducers/taskSlice";
 
 const getTasks = () => async (dispatch) => {
   try {
@@ -10,4 +15,13 @@ const getTasks = () => async (dispatch) => {
   }
 };
 
-export { getTasks };
+const addTask = (columnId) => async (dispatch) => {
+  try {
+    const { data } = await api.task.addTask({ columnId });
+    dispatch(addTaskSuccess(data));
+  } catch (err) {
+    dispatch(addTaskFail(err));
+  }
+};
+
+export { getTasks, addTask };

@@ -39,5 +39,6 @@ export default {
   },
   task: {
     getTasks: () => client.get("/tasks/"),
+    addTask: (columnId) => client.post("/tasks/task", columnId),
   },
 };

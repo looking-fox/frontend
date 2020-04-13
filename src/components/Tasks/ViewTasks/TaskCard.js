@@ -5,7 +5,7 @@ import { Text } from "../../../ui/StyledComponents";
 const TaskCard = ({ task }) => {
   return (
     <CardContainer>
-      <Text>{task.taskTitle}</Text>
+      <Text>{task.taskTitle ? task.taskTitle : "Undefined"}</Text>
     </CardContainer>
   );
 };
