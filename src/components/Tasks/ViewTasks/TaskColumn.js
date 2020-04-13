@@ -13,7 +13,7 @@ const AddTaskButton = ({ onClick }) => {
   );
 };
 
-const TaskColumn = ({ column, handleAddTask }) => {
+const TaskColumn = ({ column, handleAddTask, handleUpdateTask }) => {
   const noTasks = column.tasks.length === 0;
   const handleOnClick = () => handleAddTask(column.taskColumnId);
   return (
@@ -23,7 +23,7 @@ const TaskColumn = ({ column, handleAddTask }) => {
         const displayAddButton = idx === column.tasks.length - 1;
         return (
           <div key={task.taskId || idx}>
-            <TaskCard task={task} />
+            <TaskCard task={task} handleUpdateTask={handleUpdateTask} />
             {displayAddButton && <AddTaskButton onClick={handleOnClick} />}
           </div>
         );

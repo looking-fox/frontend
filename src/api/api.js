@@ -40,5 +40,6 @@ export default {
   task: {
     getTasks: () => client.get("/tasks/"),
     addTask: (columnId) => client.post("/tasks/task", columnId),
+    updateTask: (taskId, task) => client.put(`/tasks/task/${taskId}`, task),
   },
 };

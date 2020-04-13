@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import TaskColumn from "./TaskColumn";
-import { getTasks, addTask } from "../../../thunks/taskThunk";
+import { getTasks, addTask, updateTask } from "../../../thunks/taskThunk";
 
 class ViewTasks extends Component {
   async componentDidMount() {
@@ -11,6 +11,12 @@ class ViewTasks extends Component {
 
   handleAddTask = async (columnId) => {
     await this.props.addTask(columnId);
+  };
+
+  handleUpdateTask = async (taskId, task) => {
+    console.log("Task ID: ", taskId);
+    console.log("Task: ", task);
+    await this.props.updateTask(taskId, task);
   };
 
   render() {
@@ -23,6 +29,7 @@ class ViewTasks extends Component {
               column={column}
               key={column.taskColumnId || idx}
               handleAddTask={this.handleAddTask}
+              handleUpdateTask={this.handleUpdateTask}
             />
           );
         })}
@@ -39,6 +46,6 @@ const Container = styled.div`
 `;
 
 const mapState = (state) => ({ taskColumns: state.tasks.taskColumns });
-const mapDispatch = { getTasks, addTask };
+const mapDispatch = { getTasks, addTask, updateTask };
 
 export default connect(mapState, mapDispatch)(ViewTasks);

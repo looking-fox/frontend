@@ -25,6 +25,12 @@ const taskSlice = createSlice({
     addTaskFail() {
       console.log("Redux failed to POST task.");
     },
+    updateTaskSuccess(state, action) {
+      console.log("Payload: ", action.payload);
+    },
+    updateTaskFail() {
+      console.log("Redux failed to PUT task.");
+    },
   },
 });
 
@@ -34,6 +40,8 @@ export const {
   getTasksFail,
   addTaskSuccess,
   addTaskFail,
+  updateTaskSuccess,
+  updateTaskFail,
 } = taskSlice.actions;
 // Export actions for dispatch //
 

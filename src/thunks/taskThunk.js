@@ -4,6 +4,8 @@ import {
   getTasksFail,
   addTaskSuccess,
   addTaskFail,
+  updateTaskSuccess,
+  updateTaskFail,
 } from "../reducers/taskSlice";
 
 const getTasks = () => async (dispatch) => {
@@ -24,4 +26,13 @@ const addTask = (columnId) => async (dispatch) => {
   }
 };
 
-export { getTasks, addTask };
+const updateTask = (task) => async (dispatch) => {
+  try {
+    const { data } = await api.task.updateTask({ task });
+    dispatch(updateTaskSuccess(data));
+  } catch (err) {
+    dispatch(updateTaskFail(err));
+  }
+};
+
+export { getTasks, addTask, updateTask };
