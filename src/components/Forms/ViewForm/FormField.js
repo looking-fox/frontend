@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import {
-  Field,
-  FormErrorText,
-  CheckboxField,
-} from "../../../ui/formik/FormikComponents";
+import { Field, CheckboxField } from "../../../ui/formik/FormikComponents";
 import { Text } from "../../../ui/StyledComponents";
 import DragIcon from "../../../assets/images/drag-indicator.svg";
 import { FiTrash2 } from "react-icons/fi";
@@ -62,11 +58,6 @@ const FormField = ({
         transparent
       />
 
-      {/* <FormErrorText
-        name={`formFieldTitle-${field.formFieldId}`}
-        component="div"
-        withSpacing
-      /> */}
       {titleError && (
         <div>
           <ErrorText>Field Required</ErrorText>
