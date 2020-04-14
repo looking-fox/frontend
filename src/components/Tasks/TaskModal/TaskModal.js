@@ -3,12 +3,10 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { updateTask } from "../../../thunks/taskThunk";
 import { toggleModal } from "../../../reducers/taskSlice";
-import { Formik, Form } from "formik";
 import { Text, Textarea, Button } from "../../../ui/StyledComponents";
 import TaskHeader from "./TaskHeader";
 import { ModalBackground, ModalContainer } from "../../../ui/Modal";
 import { useClickOffElement } from "./customHooks";
-import CheckboxField from "../../../ui/formik/CheckboxField";
 import { FaRegStickyNote } from "react-icons/fa";
 import { FiCheckSquare, FiTrash2, FiBookmark } from "react-icons/fi";
 
@@ -77,10 +75,6 @@ const ModalBody = styled.div`
   padding-bottom: 25px;
 `;
 
-const LeftPanel = styled.div`
-  width: 60%;
-`;
-
 const TitleText = styled(Text)`
   padding-left: 10px;
   font-size: 1.1em;
@@ -90,15 +84,6 @@ const TitleText = styled(Text)`
   & svg {
     margin-right: 5px;
   }
-`;
-
-const RightPanel = styled.div`
-  width: 40%;
-  margin-left: 0%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 15px;
 `;
 
 const DetailPanel = styled.div`
