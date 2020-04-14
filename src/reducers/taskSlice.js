@@ -42,8 +42,9 @@ const taskSlice = createSlice({
     },
     toggleModal(state, action) {
       state.showModal = !state.showModal;
-      if (action.payload.task) state.currentTask = action.payload.task;
-      else state.currentTask = {};
+      if (action.payload && action.payload.task) {
+        state.currentTask = action.payload.task;
+      } else state.currentTask = {};
     },
   },
 });
