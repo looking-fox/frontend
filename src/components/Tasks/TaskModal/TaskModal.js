@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { connect } from "react-redux";
 import { updateTask } from "../../../thunks/taskThunk";
 import { toggleModal } from "../../../reducers/taskSlice";
-import { Text, Textarea, Button } from "../../../ui/StyledComponents";
+import { Text, Textarea, Button, Checkbox } from "../../../ui/StyledComponents";
 import TaskHeader from "./TaskHeader";
 import { ModalBackground, ModalContainer } from "../../../ui/Modal";
 import { useClickOffElement } from "./customHooks";
@@ -58,7 +58,7 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
               <FiCheckSquare /> To Do List
             </TitleText>
             <ToDoInnerPanel>
-              <Text>To Do Item</Text>
+              <Checkbox />
             </ToDoInnerPanel>
           </ToDoPanel>
         </ModalBody>

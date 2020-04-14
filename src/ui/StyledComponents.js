@@ -10,8 +10,9 @@ import Toast from "./Toast";
 import Modal from "./Modal";
 import Link from "./Link";
 import Spinner from "./Spinner";
+import Checkbox from "./Checkbox";
 
-const Button = props => {
+const Button = (props) => {
   const { isLoading, children } = props;
   return (
     <SimpleButton {...props}>
@@ -38,5 +39,6 @@ export {
   Toast,
   Modal,
   Link,
-  Spinner
+  Spinner,
+  Checkbox,
 };
