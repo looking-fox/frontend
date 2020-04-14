@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   taskColumns: [],
+  currentTask: {},
+  showModal: false,
 };
 
 const searchIndex = (resource, idString, id) => {
@@ -38,6 +40,11 @@ const taskSlice = createSlice({
     updateTaskFail() {
       console.log("Redux failed to PUT task.");
     },
+    toggleModal(state, action) {
+      state.showModal = !state.showModal;
+      if (action.payload.task) state.currentTask = action.payload.task;
+      else state.currentTask = {};
+    },
   },
 });
 
@@ -49,6 +56,7 @@ export const {
   addTaskFail,
   updateTaskSuccess,
   updateTaskFail,
+  toggleModal,
 } = taskSlice.actions;
 // Export actions for dispatch //
 

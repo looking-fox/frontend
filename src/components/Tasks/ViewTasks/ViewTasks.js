@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import TaskColumn from "./TaskColumn";
+import TaskModal from "../TaskModal/TaskModal";
 import { getTasks, addTask, updateTask } from "../../../thunks/taskThunk";
 
 class ViewTasks extends Component {
@@ -31,6 +32,7 @@ class ViewTasks extends Component {
             />
           );
         })}
+        <TaskModal />
       </Container>
     );
   }

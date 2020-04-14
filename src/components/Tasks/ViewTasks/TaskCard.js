@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import { Text, Input } from "../../../ui/StyledComponents";
+import { toggleModal } from "../../../reducers/taskSlice";
 
-const TaskCard = ({ task, handleUpdateTask }) => {
+const TaskCard = ({ task, handleUpdateTask, toggleModal }) => {
   // TO DO: use context API
   const [input, setInput] = useState("");
   const handleOnChange = (e) => setInput(e.target.value);
@@ -15,8 +17,10 @@ const TaskCard = ({ task, handleUpdateTask }) => {
       handleUpdateTask(taskId, updatedTask);
     }
   };
+  const handleOnClick = () => toggleModal({ task });
+
   return (
-    <CardContainer>
+    <CardContainer onClick={handleOnClick}>
       {task.isNew ? (
         <StyledInput
           placeholder="New"
@@ -52,4 +56,6 @@ const StyledText = styled(Text)`
   padding-left: 10px;
 `;
 
-export default TaskCard;
+const mapDispatch = { toggleModal };
+
+export default connect(null, mapDispatch)(TaskCard);
