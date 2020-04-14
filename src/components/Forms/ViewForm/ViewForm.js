@@ -143,7 +143,6 @@ class ViewForm extends Component {
 
   render() {
     const { form, initialFormState, unpublishedChanges } = this.state;
-    console.log("Form: ", form);
     // Do not render form without initial values
     if (Object.keys(initialFormState).length === 0) return null;
     else

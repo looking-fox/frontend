@@ -26,9 +26,9 @@ const addTask = (columnId) => async (dispatch) => {
   }
 };
 
-const updateTask = (task) => async (dispatch) => {
+const updateTask = (taskId, task) => async (dispatch) => {
   try {
-    const { data } = await api.task.updateTask({ task });
+    const { data } = await api.task.updateTask(taskId, task);
     dispatch(updateTaskSuccess(data));
   } catch (err) {
     dispatch(updateTaskFail(err));

@@ -14,8 +14,6 @@ class ViewTasks extends Component {
   };
 
   handleUpdateTask = async (taskId, task) => {
-    console.log("Task ID: ", taskId);
-    console.log("Task: ", task);
     await this.props.updateTask(taskId, task);
   };
 

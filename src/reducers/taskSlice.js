@@ -4,6 +4,10 @@ const initialState = {
   taskColumns: [],
 };
 
+const searchIndex = (resource, idString, id) => {
+  return resource.findIndex((item) => item[idString] === id);
+};
+
 const taskSlice = createSlice({
   name: "task_columns",
   initialState,
@@ -17,16 +21,19 @@ const taskSlice = createSlice({
     },
     addTaskSuccess(state, action) {
       const { newTask, columnId } = action.payload;
-      const idx = state.taskColumns.findIndex(
-        (col) => col.taskColumnId === columnId
-      );
+      const idx = searchIndex(state.taskColumns, "taskColumnId", columnId);
       state.taskColumns[idx].tasks.push(newTask);
     },
     addTaskFail() {
       console.log("Redux failed to POST task.");
     },
     updateTaskSuccess(state, action) {
-      console.log("Payload: ", action.payload);
+      const { taskColumns } = state;
+      const { taskId, updatedTask } = action.payload;
+      const { taskColumnId } = updatedTask;
+      const columnIdx = searchIndex(taskColumns, "taskColumnId", taskColumnId);
+      const idx = searchIndex(taskColumns[columnIdx].tasks, "taskId", taskId);
+      taskColumns[columnIdx].tasks.splice(idx, 1, updatedTask);
     },
     updateTaskFail() {
       console.log("Redux failed to PUT task.");
