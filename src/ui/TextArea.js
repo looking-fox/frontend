@@ -11,11 +11,18 @@ const Textarea = styled.textarea`
   margin: 10px 0px;
   font-size: 0.9em;
   outline: 1px solid #ededed;
-  ${props =>
+  ${(props) =>
     props.error &&
     css`
       outline: 1px solid #e65f5c;
     `};
+
+  ${(props) =>
+    props.noBorder &&
+    css`
+      outline: none;
+      background: #f9f9f9;
+    `}
 `;
 
 export default Textarea;
