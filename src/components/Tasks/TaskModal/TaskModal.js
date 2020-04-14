@@ -10,62 +10,63 @@ import { ModalBackground, ModalContainer } from "../../../ui/Modal";
 import { useClickOffElement } from "./customHooks";
 import CheckboxField from "../../../ui/formik/CheckboxField";
 import { FaRegStickyNote } from "react-icons/fa";
-import { FiCheckSquare } from "react-icons/fi";
+import { FiCheckSquare, FiTrash2, FiBookmark } from "react-icons/fi";
 
 const TaskModal = ({ currentTask, showModal, toggleModal }) => {
   const { taskTitle } = currentTask;
   const customRef = useRef();
   const [clickedOffElement] = useClickOffElement(customRef, showModal);
   if (clickedOffElement && showModal) toggleModal();
-  const initialFormState = {};
+
   return (
     <ModalBackground show={showModal}>
       <ModalContainer noPadding ref={customRef}>
-        <Formik initialValues={initialFormState}>
-          {({ isSubmitting }) => (
-            <Form>
-              <TaskHeader onClose={toggleModal} taskTitle={taskTitle} />
+        <TaskHeader onClose={toggleModal} taskTitle={taskTitle} />
 
-              <ModalBody>
-                <LeftPanel>
-                  <NotesPanel>
-                    <TitleText>
-                      <FaRegStickyNote /> Notes
-                    </TitleText>
-                    <Textarea noBorder placeholder="Description..." />
-                  </NotesPanel>
-                  <ToDoPanel>
-                    <TitleText>
-                      <FiCheckSquare /> To Do List
-                    </TitleText>
-                    <ToDoInnerPanel>
-                      <CheckboxField description="Cull photos" />
-                      <CheckboxField description="Upload to gallery" />
-                      <CheckboxField description="Ask for review" />
-                    </ToDoInnerPanel>
-                  </ToDoPanel>
-                </LeftPanel>
+        <ModalBody>
+          <DetailPanel>
+            <InnerLeftPanel>
+              <DetailText>
+                <span>Priority:</span> <Bubble>Low</Bubble>
+              </DetailText>
+              <DetailText>
+                <span>Due Date:</span> March 28th, 2020
+              </DetailText>
+              <DetailText>
+                <span>Client:</span> Jessica & John
+              </DetailText>
+            </InnerLeftPanel>
+            <InnerRightPanel>
+              <DetailButton outline color="#417285">
+                <FiBookmark />
+                Bookmark
+              </DetailButton>
 
-                <RightPanel>
-                  <DetailPanel>
-                    <DetailText>
-                      <span>Priority:</span> <Bubble>Low</Bubble>
-                    </DetailText>
-                    <DetailText>
-                      <span>Due Date:</span> March 28th, 2020
-                    </DetailText>
-                    <DetailText>
-                      <span>Client:</span> Jessica & John
-                    </DetailText>
-                  </DetailPanel>
-                </RightPanel>
-              </ModalBody>
-              <ButtonPanel>
-                <Button>Save</Button>
-              </ButtonPanel>
-            </Form>
-          )}
-        </Formik>
+              <DetailButton outline color="#c17258">
+                <FiTrash2 /> Delete
+              </DetailButton>
+            </InnerRightPanel>
+          </DetailPanel>
+
+          <NotesPanel>
+            <TitleText>
+              <FaRegStickyNote /> Notes
+            </TitleText>
+            <Textarea noBorder placeholder="Description..." />
+          </NotesPanel>
+
+          <ToDoPanel>
+            <TitleText>
+              <FiCheckSquare /> To Do List
+            </TitleText>
+            <ToDoInnerPanel>
+              <Text>To Do Item</Text>
+            </ToDoInnerPanel>
+          </ToDoPanel>
+        </ModalBody>
+        <ButtonPanel>
+          <Button>Save</Button>
+        </ButtonPanel>
       </ModalContainer>
     </ModalBackground>
   );
@@ -74,7 +75,6 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
 const ModalBody = styled.div`
   padding: 10px 25px;
   padding-bottom: 25px;
-  display: flex;
 `;
 
 const LeftPanel = styled.div`
@@ -102,18 +102,43 @@ const RightPanel = styled.div`
 `;
 
 const DetailPanel = styled.div`
-  height: 50px;
+  height: fit-content;
   padding: 0px 10px;
+  display: flex;
 `;
 
 const DetailText = styled(Text)`
   display: flex;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   & span {
     font-weight: bold;
     margin-right: 5px;
   }
+`;
+
+const DetailButton = styled(Button)`
+  font-size: 0.8em;
+  margin: 0;
+  margin-bottom: 10px;
+  justify-content: flex-start;
+  width: 100px;
+  border: none;
+  color: ${(p) => (p.color ? p.color : "inherit")};
+  &:hover {
+    box-shadow: none;
+  }
+`;
+
+const InnerLeftPanel = styled.div`
+  width: 70%;
+`;
+
+const InnerRightPanel = styled.div`
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
 const Bubble = styled(Text)`
@@ -128,9 +153,12 @@ const Bubble = styled(Text)`
 
 const NotesPanel = styled.div`
   height: 150px;
+  margin-top: 35px;
 `;
 
-const ToDoPanel = styled.div``;
+const ToDoPanel = styled.div`
+  margin-top: 10px;
+`;
 
 const ToDoInnerPanel = styled.div`
   padding-top: 20px;
