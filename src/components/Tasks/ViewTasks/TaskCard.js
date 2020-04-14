@@ -42,6 +42,7 @@ const CardContainer = styled.div`
   ${(p) => p.theme.sideBoxShadow};
   margin: 15px 0px;
   padding: 10px;
+  cursor: pointer;
 `;
 
 const StyledInput = styled(Input)`

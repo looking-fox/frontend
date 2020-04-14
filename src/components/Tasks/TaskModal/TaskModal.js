@@ -1,18 +1,27 @@
 import React from "react";
-// import styled from "styled-components";
+import styled from "styled-components";
 import { connect } from "react-redux";
 import { updateTask } from "../../../thunks/taskThunk";
 import { toggleModal } from "../../../reducers/taskSlice";
-// import { Formik, Form } from "formik";
-import { Modal } from "../../../ui/StyledComponents";
+import { Text } from "../../../ui/StyledComponents";
+import TaskHeader from "./TaskHeader";
+import { ModalBackground, ModalContainer } from "../../../ui/Modal";
 
-const TaskModal = ({ showModal, toggleModal }) => {
+const TaskModal = ({ currentTask, showModal, toggleModal }) => {
+  const { taskTitle } = currentTask;
   return (
-    <Modal showModal={showModal} onClose={toggleModal}>
-      <p>Modal Pop up!</p>
-    </Modal>
+    <ModalBackground show={showModal}>
+      <ModalContainer noPadding>
+        <TaskHeader onClose={toggleModal} taskTitle={taskTitle} />
+        <Text>Modal Info</Text>
+      </ModalContainer>
+    </ModalBackground>
   );
 };
+
+const ModalBody = styled.div`
+  padding: 10px 25px;
+`;
 
 const mapState = (state) => {
   return {

@@ -7,17 +7,19 @@ const Modal = ({
   children,
   showModal,
   simpleModal,
+  noPadding,
   onClose,
   onConfirm,
   title = "Are you sure?",
-  description = null
+  description = null,
 }) => {
   return (
     <ModalBackground show={showModal}>
-      <ModalContainer simpleModal={simpleModal}>
+      <ModalContainer simpleModal={simpleModal} noPadding={noPadding}>
         <ModalHeader>
           <CloseIcon onClick={onClose} />
         </ModalHeader>
+
         {simpleModal ? (
           <>
             <ModalBody>
@@ -38,7 +40,7 @@ const Modal = ({
   );
 };
 
-const ModalBackground = styled.div`
+export const ModalBackground = styled.div`
   background: rgba(0, 0, 0, 0.2);
   height: 100%;
   width: 100%;
@@ -46,21 +48,21 @@ const ModalBackground = styled.div`
   top: 0;
   left: 0;
   z-index: 5;
-  display: ${p => (p.show ? "inherit" : "none")};
+  display: ${(p) => (p.show ? "inherit" : "none")};
 `;
 
-const ModalContainer = styled.div`
+export const ModalContainer = styled.div`
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: white;
   border-radius: 3px;
-  ${p => p.theme.boxShadow};
-  max-width: ${p => (p.simpleModal ? "350px" : "80vw")};
+  ${(p) => p.theme.boxShadow};
+  max-width: ${(p) => (p.simpleModal ? "350px" : "80vw")};
   min-width: 300px;
   min-height: 20vh;
-  padding: 10px 25px;
+  padding: ${(p) => (p.noPadding ? "0px" : "10px 25px")};
   overflow: hidden;
   animation: fadeIn 200ms ease-in-out;
   @keyframes fadeIn {
