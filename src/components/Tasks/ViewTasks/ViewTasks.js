@@ -41,6 +41,8 @@ const Container = styled.div`
   background: ${(p) => p.theme.lightGrey};
   display: flex;
   padding: 0px 50px;
+  box-sizing: border-box;
+  overflow-y: auto;
 `;
 
 const mapState = (state) => ({ taskColumns: state.tasks.taskColumns });

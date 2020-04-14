@@ -55,6 +55,7 @@ const StyledButton = styled(Button)`
   padding-left: 10px;
   justify-content: flex-start;
   outline: none;
+  margin-bottom: 100px;
   &:hover {
     opacity: 0.5;
     background: white;

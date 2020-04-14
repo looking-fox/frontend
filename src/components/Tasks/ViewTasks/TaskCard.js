@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Text, Input } from "../../../ui/StyledComponents";
 
 const TaskCard = ({ task, handleUpdateTask }) => {
+  // TO DO: use context API
   const [input, setInput] = useState("");
   const handleOnChange = (e) => setInput(e.target.value);
   const handleOnBlur = () => {
@@ -24,7 +25,7 @@ const TaskCard = ({ task, handleUpdateTask }) => {
           onBlur={handleOnBlur}
         />
       ) : (
-        <Text>{task.taskTitle ? task.taskTitle : "Undefined"}</Text>
+        <StyledText>{task.taskTitle ? task.taskTitle : "Undefined"}</StyledText>
       )}
     </CardContainer>
   );
@@ -44,6 +45,11 @@ const StyledInput = styled(Input)`
   outline: none;
   margin: 0;
   font-size: 0.9em;
+`;
+
+const StyledText = styled(Text)`
+  padding: 10px 0px;
+  padding-left: 10px;
 `;
 
 export default TaskCard;
