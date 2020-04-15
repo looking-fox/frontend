@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import { FiList } from "react-icons/fi";
+import { Text, Input } from "../../../ui/StyledComponents";
+import { useClickOffElement } from "./customHooks";
 
-import { Text } from "../../../ui/StyledComponents";
+const TaskHeader = ({ taskTitle, handleUpdate, onClose }) => {
+  const customRef = useRef();
+  const [editMode, setEditMode] = useState(false);
+  useClickOffElement(customRef, editMode, () => setEditMode(false));
 
-const TaskHeader = ({ taskTitle, onClose }) => {
+  const handleClick = (e) => {
+    e.stopPropagation();
+    setEditMode(true);
+  };
+
   return (
-    <HeaderContainer>
-      <StyledText>
-        <FiList />
-        {taskTitle}
-      </StyledText>
+    <HeaderContainer onClick={handleClick} ref={customRef}>
+      {editMode ? (
+        <>
+          <FiList /> <Input value={taskTitle} onChange={handleUpdate} />
+        </>
+      ) : (
+        <StyledText>
+          <FiList />
+          {taskTitle}
+        </StyledText>
+      )}
       <CloseIcon onClick={onClose} />
     </HeaderContainer>
   );

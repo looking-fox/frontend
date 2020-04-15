@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { updateTask } from "../../../thunks/taskThunk";
@@ -12,15 +12,34 @@ import { FaRegStickyNote } from "react-icons/fa";
 import { FiCheckSquare } from "react-icons/fi";
 
 const TaskModal = ({ currentTask, showModal, toggleModal }) => {
-  const { taskTitle, taskDueDate, taskPriority } = currentTask;
+  const {
+    taskTitle,
+    taskDueDate,
+    taskPriority,
+    taskNotes: notes,
+  } = currentTask;
+
   const customRef = useRef();
-  const [clickedOffElement] = useClickOffElement(customRef, showModal);
-  if (clickedOffElement && showModal) toggleModal();
+  useClickOffElement(customRef, showModal, toggleModal);
+
+  const [task, setTask] = useState({});
+
+  useEffect(() => {
+    setTask(currentTask);
+  }, [currentTask]);
+
+  const handleUpdate = (item, value) => {
+    setTask({ ...task, [item]: value });
+  };
 
   return (
     <ModalBackground show={showModal}>
       <ModalContainer noPadding ref={customRef}>
-        <TaskHeader onClose={toggleModal} taskTitle={taskTitle} />
+        <TaskHeader
+          onClose={toggleModal}
+          taskTitle={taskTitle}
+          handleUpdate={handleUpdate}
+        />
 
         <ModalBody>
           <LeftPanel>
@@ -28,7 +47,12 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
               <TitleText>
                 <FaRegStickyNote /> Notes
               </TitleText>
-              <Textarea noBorder placeholder="Description..." />
+              <Textarea
+                noBorder
+                value={task.taskNotes || ""}
+                onChange={(e) => handleUpdate("taskNotes", e.target.value)}
+                placeholder="Description..."
+              />
             </NotesPanel>
 
             <ToDoPanel>

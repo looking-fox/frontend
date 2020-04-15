@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 
-export const useClickOffElement = (customRef, showModal) => {
+export const useClickOffElement = (customRef, toggle, cb) => {
   const [clickedOffElement, setClick] = useState(false);
   const didMount = useRef(false);
 
@@ -18,7 +18,11 @@ export const useClickOffElement = (customRef, showModal) => {
       setClick(false);
       window.removeEventListener("click", handleClick);
     };
-  }, [customRef, showModal]);
+  }, [customRef, toggle]);
 
-  return [clickedOffElement];
+  if (clickedOffElement && toggle && cb) {
+    return cb();
+  } else {
+    return [clickedOffElement];
+  }
 };
