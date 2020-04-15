@@ -21,6 +21,7 @@ export const useClickOffElement = (customRef, toggle, cb) => {
   }, [customRef, toggle]);
 
   if (clickedOffElement && toggle && cb) {
+    // customRef.current = null;
     return cb();
   } else {
     return [clickedOffElement];

@@ -12,12 +12,7 @@ import { FaRegStickyNote } from "react-icons/fa";
 import { FiCheckSquare } from "react-icons/fi";
 
 const TaskModal = ({ currentTask, showModal, toggleModal }) => {
-  const {
-    taskTitle,
-    taskDueDate,
-    taskPriority,
-    taskNotes: notes,
-  } = currentTask;
+  const { taskDueDate, taskPriority } = currentTask;
 
   const customRef = useRef();
   useClickOffElement(customRef, showModal, toggleModal);
@@ -36,9 +31,9 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
     <ModalBackground show={showModal}>
       <ModalContainer noPadding ref={customRef}>
         <TaskHeader
-          onClose={toggleModal}
-          taskTitle={taskTitle}
+          taskTitle={task.taskTitle}
           handleUpdate={handleUpdate}
+          onClose={toggleModal}
         />
 
         <ModalBody>
@@ -49,8 +44,8 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
               </TitleText>
               <Textarea
                 noBorder
-                value={task.taskNotes || ""}
-                onChange={(e) => handleUpdate("taskNotes", e.target.value)}
+                // value={task.taskNotes || ""}
+                // onChange={(e) => handleUpdate("taskNotes", e.target.value)}
                 placeholder="Description..."
               />
             </NotesPanel>
