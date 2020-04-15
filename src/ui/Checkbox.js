@@ -1,7 +1,30 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState } from "react";
+import { Input } from "./StyledComponents";
+import styled, { css } from "styled-components";
 
-const Input = styled.input`
+const Checkbox = (props) => {
+  const { label, checked } = props;
+  const [editMode, setEditMode] = useState(false);
+  const handleClick = (e) => {
+    e.stopPropagation();
+    setEditMode(true);
+  };
+  return (
+    <Container onClick={handleClick} onBlur={() => setEditMode(false)}>
+      <CheckboxInput
+        type="checkbox"
+        id="2342"
+        checked={checked}
+        readOnly
+        {...props}
+      />
+      <StyledInput showInput={editMode} />
+      {!editMode && <Label htmlFor="2342">{label}</Label>}
+    </Container>
+  );
+};
+
+const CheckboxInput = styled.input`
   background: ${(p) => p.theme.lightGrey};
   border: none;
   width: fit-content;
@@ -18,18 +41,27 @@ const Label = styled.label`
   padding-top: 0.2em;
 `;
 
+const StyledInput = styled(Input)`
+  font-family: "Avenir" !important;
+  margin: 0;
+  padding-left: 10px;
+  width: 100%;
+  margin-left: 10px;
+  font-size: 0.9em;
+  outline: none;
+  ${(p) =>
+    !p.showInput &&
+    css`
+      position: absolute;
+      top: -1000px;
+      left: -1000px;
+      visibility: hidden;
+    `}
+`;
+
 const Container = styled.div`
   display: flex;
   align-items: center;
 `;
-
-const Checkbox = (props) => {
-  return (
-    <Container>
-      <Input type="checkbox" id="2342" {...props} />
-      <Label for="2342">First name</Label>
-    </Container>
-  );
-};
 
 export default Checkbox;

@@ -22,8 +22,26 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
         <TaskHeader onClose={toggleModal} taskTitle={taskTitle} />
 
         <ModalBody>
-          <DetailPanel>
-            <InnerLeftPanel>
+          <LeftPanel>
+            <NotesPanel>
+              <TitleText>
+                <FaRegStickyNote /> Notes
+              </TitleText>
+              <Textarea noBorder placeholder="Description..." />
+            </NotesPanel>
+
+            <ToDoPanel>
+              <TitleText>
+                <FiCheckSquare /> To Do List
+              </TitleText>
+              <ToDoInnerPanel>
+                <Checkbox label="Get groceries!" checked={true} />
+              </ToDoInnerPanel>
+            </ToDoPanel>
+          </LeftPanel>
+
+          <RightPanel>
+            <DetailPanel>
               <DetailText>
                 <span>Priority:</span> <Bubble>Low</Bubble>
               </DetailText>
@@ -33,34 +51,8 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
               <DetailText>
                 <span>Client:</span> Jessica & John
               </DetailText>
-            </InnerLeftPanel>
-            <InnerRightPanel>
-              <DetailButton outline color="#417285">
-                <FiBookmark />
-                Bookmark
-              </DetailButton>
-
-              <DetailButton outline color="#c17258">
-                <FiTrash2 /> Delete
-              </DetailButton>
-            </InnerRightPanel>
-          </DetailPanel>
-
-          <NotesPanel>
-            <TitleText>
-              <FaRegStickyNote /> Notes
-            </TitleText>
-            <Textarea noBorder placeholder="Description..." />
-          </NotesPanel>
-
-          <ToDoPanel>
-            <TitleText>
-              <FiCheckSquare /> To Do List
-            </TitleText>
-            <ToDoInnerPanel>
-              <Checkbox />
-            </ToDoInnerPanel>
-          </ToDoPanel>
+            </DetailPanel>
+          </RightPanel>
         </ModalBody>
         <ButtonPanel>
           <Button>Save</Button>
@@ -73,6 +65,7 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
 const ModalBody = styled.div`
   padding: 10px 25px;
   padding-bottom: 25px;
+  display: flex;
 `;
 
 const TitleText = styled(Text)`
@@ -86,16 +79,24 @@ const TitleText = styled(Text)`
   }
 `;
 
+const LeftPanel = styled.div`
+  width: 60%;
+`;
+
+const RightPanel = styled.div`
+  width: 35%;
+  padding-left: 5%;
+`;
+
 const DetailPanel = styled.div`
   height: fit-content;
   padding: 0px 10px;
-  display: flex;
 `;
 
 const DetailText = styled(Text)`
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   & span {
     font-weight: bold;
     margin-right: 5px;
@@ -115,17 +116,6 @@ const DetailButton = styled(Button)`
   }
 `;
 
-const InnerLeftPanel = styled.div`
-  width: 70%;
-`;
-
-const InnerRightPanel = styled.div`
-  width: 30%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-`;
-
 const Bubble = styled(Text)`
   background: ${(p) => p.theme.red};
   color: white;
@@ -138,23 +128,23 @@ const Bubble = styled(Text)`
 
 const NotesPanel = styled.div`
   height: 150px;
-  margin-top: 35px;
 `;
 
 const ToDoPanel = styled.div`
-  margin-top: 10px;
+  margin-bottom: 50px;
+  border: 2px dotted grey;
 `;
 
 const ToDoInnerPanel = styled.div`
   padding-top: 20px;
-  padding-left: 10px;
+  padding-left: 20px;
 `;
 
 const ButtonPanel = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding: 0px 10px;
-  padding-bottom: 10px;
+  padding: 0px 20px;
+  padding-bottom: 20px;
 `;
 
 const mapState = (state) => {
