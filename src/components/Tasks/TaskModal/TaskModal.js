@@ -7,11 +7,12 @@ import { Text, Textarea, Button, Checkbox } from "../../../ui/StyledComponents";
 import TaskHeader from "./TaskHeader";
 import { ModalBackground, ModalContainer } from "../../../ui/Modal";
 import { useClickOffElement } from "./customHooks";
+import DetailPanel from "./DetailPanel";
 import { FaRegStickyNote } from "react-icons/fa";
-import { FiCheckSquare, FiTrash2, FiBookmark } from "react-icons/fi";
+import { FiCheckSquare } from "react-icons/fi";
 
 const TaskModal = ({ currentTask, showModal, toggleModal }) => {
-  const { taskTitle } = currentTask;
+  const { taskTitle, taskDueDate, taskPriority } = currentTask;
   const customRef = useRef();
   const [clickedOffElement] = useClickOffElement(customRef, showModal);
   if (clickedOffElement && showModal) toggleModal();
@@ -41,17 +42,10 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
           </LeftPanel>
 
           <RightPanel>
-            <DetailPanel>
-              <DetailText>
-                <span>Priority:</span> <Bubble>Low</Bubble>
-              </DetailText>
-              <DetailText>
-                <span>Due Date:</span> March 28th, 2020
-              </DetailText>
-              <DetailText>
-                <span>Client:</span> Jessica & John
-              </DetailText>
-            </DetailPanel>
+            <DetailPanel
+              taskDueDate={taskDueDate}
+              taskPriority={taskPriority}
+            />
           </RightPanel>
         </ModalBody>
         <ButtonPanel>
@@ -88,51 +82,12 @@ const RightPanel = styled.div`
   padding-left: 5%;
 `;
 
-const DetailPanel = styled.div`
-  height: fit-content;
-  padding: 0px 10px;
-`;
-
-const DetailText = styled(Text)`
-  display: flex;
-  align-items: center;
-  margin-bottom: 25px;
-  & span {
-    font-weight: bold;
-    margin-right: 5px;
-  }
-`;
-
-const DetailButton = styled(Button)`
-  font-size: 0.8em;
-  margin: 0;
-  margin-bottom: 10px;
-  justify-content: flex-start;
-  width: 100px;
-  border: none;
-  color: ${(p) => (p.color ? p.color : "inherit")};
-  &:hover {
-    box-shadow: none;
-  }
-`;
-
-const Bubble = styled(Text)`
-  background: ${(p) => p.theme.red};
-  color: white;
-  padding: 2px 5px;
-  font-weight: bold;
-  border-radius: 3px;
-  margin-left: 5px;
-  height: fit-content;
-`;
-
 const NotesPanel = styled.div`
   height: 150px;
 `;
 
 const ToDoPanel = styled.div`
   margin-bottom: 50px;
-  border: 2px dotted grey;
 `;
 
 const ToDoInnerPanel = styled.div`
