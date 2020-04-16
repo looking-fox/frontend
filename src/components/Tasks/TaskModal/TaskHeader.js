@@ -21,14 +21,19 @@ const TaskHeader = ({ taskTitle, handleUpdate, onClose }) => {
   return (
     <HeaderContainer ref={customRef}>
       <StyledContainer showContainer={editMode}>
-        <FiList />
-        <Input value={taskTitle} name="taskTitle" onChange={handleUpdate} />
+        <StyledIcon />
+        <StyledInput
+          value={taskTitle}
+          name="taskTitle"
+          placeholder="Task"
+          onChange={handleUpdate}
+        />
       </StyledContainer>
 
       {!editMode && (
         <StyledText onClick={handleClick}>
           <FiList />
-          {taskTitle}
+          {taskTitle || "Task"}
         </StyledText>
       )}
 
@@ -45,6 +50,8 @@ const HeaderContainer = styled.div`
   padding: 20px 25px;
   padding-top: 25px;
   margin-bottom: 20px;
+  box-sizing: border-box;
+  height: 60px;
 `;
 
 const StyledText = styled(Text)`
@@ -57,7 +64,30 @@ const StyledText = styled(Text)`
   }
 `;
 
+const StyledInput = styled(Input)`
+  font-size: 1.3em;
+  font-weight: bold;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  margin-left: 10px;
+  width: 100%;
+  border-bottom: 1px solid #b8b8b8;
+  & svg {
+    margin-right: 10px;
+  }
+`;
+
+const StyledIcon = styled(FiList)`
+  font-size: 1.4em;
+`;
+
 const StyledContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-right: 50px;
+
   ${(p) =>
     !p.showContainer &&
     css`
