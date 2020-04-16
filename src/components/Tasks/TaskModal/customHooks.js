@@ -1,15 +1,11 @@
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useClickOffElement = (customRef, toggle, cb) => {
   const [clickedOffElement, setClick] = useState(false);
-  const didMount = useRef(false);
 
   useEffect(() => {
     const handleClick = (e) => {
-      if (!didMount.current) {
-        // avoid first click setting click to true
-        return (didMount.current = true);
-      } else if (customRef.current && !customRef.current.contains(e.target)) {
+      if (customRef.current && !customRef.current.contains(e.target)) {
         setClick(true);
       }
     };
@@ -21,9 +17,7 @@ export const useClickOffElement = (customRef, toggle, cb) => {
   }, [customRef, toggle]);
 
   if (clickedOffElement && toggle && cb) {
-    // customRef.current = null;
+    // Run callback when user clicks off element and toggle enabled
     return cb();
-  } else {
-    return [clickedOffElement];
   }
 };

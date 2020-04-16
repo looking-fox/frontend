@@ -19,7 +19,7 @@ class ViewTasks extends Component {
   };
 
   render() {
-    const { taskColumns } = this.props;
+    const { taskColumns, showModal } = this.props;
     return (
       <Container>
         {taskColumns.map((column, idx) => {
@@ -32,7 +32,7 @@ class ViewTasks extends Component {
             />
           );
         })}
-        <TaskModal />
+        {showModal && <TaskModal />}
       </Container>
     );
   }
@@ -47,7 +47,10 @@ const Container = styled.div`
   overflow-y: auto;
 `;
 
-const mapState = (state) => ({ taskColumns: state.tasks.taskColumns });
+const mapState = (state) => ({
+  taskColumns: state.tasks.taskColumns,
+  showModal: state.tasks.showModal,
+});
 const mapDispatch = { getTasks, addTask, updateTask };
 
 export default connect(mapState, mapDispatch)(ViewTasks);

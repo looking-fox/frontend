@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import { FiList } from "react-icons/fi";
@@ -8,16 +8,26 @@ import { useClickOffElement } from "./customHooks";
 const TaskHeader = ({ taskTitle, handleUpdate, onClose }) => {
   const customRef = useRef();
   const [editMode, setEditMode] = useState(false);
-  useClickOffElement(customRef, editMode, () => setEditMode(false));
+
+  useClickOffElement(customRef, editMode, () => {
+    if (editMode) setEditMode(false);
+  });
+
+  const handleClick = (e) => {
+    e.stopPropagation();
+    setEditMode(true);
+  };
+
   const handleChange = (e) => handleUpdate("taskTitle", e.target.value);
+
   return (
-    <HeaderContainer onClick={() => setEditMode(true)} ref={customRef}>
+    <HeaderContainer ref={customRef}>
       <StyledContainer showContainer={editMode}>
         <FiList /> <Input value={taskTitle || ""} onChange={handleChange} />
       </StyledContainer>
 
       {!editMode && (
-        <StyledText>
+        <StyledText onClick={handleClick}>
           <FiList />
           {taskTitle}
         </StyledText>
@@ -65,4 +75,4 @@ const CloseIcon = styled(IoMdClose)`
   font-size: 1.5em;
 `;
 
-export default TaskHeader;
+export default React.memo(TaskHeader);
