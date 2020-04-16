@@ -1,27 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Input } from "./StyledComponents";
 import styled, { css } from "styled-components";
-import { FiTrash2, FiEdit, FiTrash } from "react-icons/fi";
+import { FiTrash2, FiEdit } from "react-icons/fi";
+import { useClickOffElement } from "../components/Tasks/TaskModal/customHooks";
 
 const Checkbox = (props) => {
   const { taskActionName, taskCompleted, taskActionId } = props.item || {};
   const [editMode, setEditMode] = useState(false);
 
-  const handleClick = (e) => {
-    e.stopPropagation();
-    setEditMode(true);
-  };
-
   const handleUpdate = () => {
     props.handleCheckboxChange(taskActionId, !taskCompleted);
   };
+
+  const handleToggleEdit = () => {
+    setEditMode(!editMode);
+  };
+
+  const checkBoxRef = useRef();
+  useClickOffElement(checkBoxRef, () => setEditMode(false));
 
   const handleDelete = () => {
     props.handleCheckboxDelete(taskActionId);
   };
 
   return (
-    <Container>
+    <Container ref={checkBoxRef}>
       <CheckboxInput
         id={taskActionId}
         type="checkbox"
@@ -34,7 +37,7 @@ const Checkbox = (props) => {
       {!editMode && <Label htmlFor={taskActionId}>{taskActionName}</Label>}
 
       <Actions>
-        <StyledIcon>
+        <StyledIcon onClick={handleToggleEdit}>
           <FiEdit />
         </StyledIcon>
 
