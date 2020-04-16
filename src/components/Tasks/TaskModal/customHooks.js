@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
-export const useClickOffElement = (customRef, cb) => {
+export const useClickOffElement = (ref, cb) => {
   useEffect(() => {
     const handleClick = (e) => {
-      if (customRef.current && !customRef.current.contains(e.target)) {
+      if (ref.current && !ref.current.contains(e.target)) {
         return cb();
       }
     };
@@ -11,5 +11,5 @@ export const useClickOffElement = (customRef, cb) => {
     return () => {
       window.removeEventListener("click", handleClick);
     };
-  }, [customRef, cb]);
+  }, [ref, cb]);
 };

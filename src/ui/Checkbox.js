@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Input } from "./StyledComponents";
 import styled, { css } from "styled-components";
+import { FiTrash2, FiEdit, FiTrash } from "react-icons/fi";
 
 const Checkbox = (props) => {
   const { taskActionName, taskCompleted, taskActionId } = props.item || {};
@@ -8,15 +9,19 @@ const Checkbox = (props) => {
 
   const handleClick = (e) => {
     e.stopPropagation();
-    // setEditMode(true);
+    setEditMode(true);
   };
 
   const handleUpdate = () => {
     props.handleCheckboxChange(taskActionId, !taskCompleted);
   };
 
+  const handleDelete = () => {
+    props.handleCheckboxDelete(taskActionId);
+  };
+
   return (
-    <Container onBlur={() => setEditMode(false)}>
+    <Container>
       <CheckboxInput
         id={taskActionId}
         type="checkbox"
@@ -27,6 +32,16 @@ const Checkbox = (props) => {
 
       <StyledInput showInput={editMode} />
       {!editMode && <Label htmlFor={taskActionId}>{taskActionName}</Label>}
+
+      <Actions>
+        <StyledIcon>
+          <FiEdit />
+        </StyledIcon>
+
+        <StyledIcon onClick={handleDelete}>
+          <FiTrash2 />
+        </StyledIcon>
+      </Actions>
     </Container>
   );
 };
@@ -69,6 +84,26 @@ const StyledInput = styled(Input)`
 const Container = styled.div`
   display: flex;
   align-items: center;
+  &:hover ~ #jaguar {
+    display: block;
+  }
+`;
+
+const Actions = styled.div`
+  display: none;
+  ${Container}:hover & {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+`;
+
+const StyledIcon = styled.div`
+  margin: 0px 5px;
+  &:hover {
+    opacity: 0.5;
+  }
 `;
 
 export default Checkbox;
