@@ -5,7 +5,7 @@ import { FiList } from "react-icons/fi";
 import { Text, Input } from "../../../ui/StyledComponents";
 import { useClickOffElement } from "./customHooks";
 
-const TaskHeader = ({ taskTitle, handleUpdate, onClose }) => {
+const TaskHeader = ({ taskTitle, textElement, onClose }) => {
   const customRef = useRef();
   const [editMode, setEditMode] = useState(false);
 
@@ -22,12 +22,7 @@ const TaskHeader = ({ taskTitle, handleUpdate, onClose }) => {
     <HeaderContainer ref={customRef}>
       <StyledContainer showContainer={editMode}>
         <StyledIcon />
-        <StyledInput
-          value={taskTitle}
-          name="taskTitle"
-          placeholder="Task"
-          onChange={handleUpdate}
-        />
+        <StyledInput placeholder="Task" {...textElement("taskTitle")} />
       </StyledContainer>
 
       {!editMode && (

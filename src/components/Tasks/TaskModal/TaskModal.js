@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useReducer } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { updateTask } from "../../../thunks/taskThunk";
@@ -6,32 +6,25 @@ import { toggleModal } from "../../../reducers/taskSlice";
 import { Text, Textarea, Button, Checkbox } from "../../../ui/StyledComponents";
 import TaskHeader from "./TaskHeader";
 import { ModalBackground, ModalContainer } from "../../../ui/Modal";
-import { useClickOffElement, enhancedReducer } from "./customHooks";
+import { useClickOffElement } from "./customHooks";
 import DetailPanel from "./DetailPanel";
 import { FaRegStickyNote } from "react-icons/fa";
 import { FiCheckSquare } from "react-icons/fi";
+import { useFormState } from "react-use-form-state";
 
 const TaskModal = ({ currentTask, showModal, toggleModal }) => {
   const { taskDueDate, taskPriority } = currentTask;
+  const [formState, { text }] = useFormState(currentTask);
 
   const customRef = useRef();
   useClickOffElement(customRef, toggleModal);
-
-  const [store, dispatch] = useReducer(enhancedReducer, currentTask);
-
-  const handleFormChange = React.useCallback(
-    ({ target: { value, name, type } }) => {
-      dispatch({ key: name, value });
-    },
-    []
-  );
 
   return (
     <ModalBackground show={showModal}>
       <ModalContainer noPadding ref={customRef}>
         <TaskHeader
-          taskTitle={store.taskTitle}
-          handleUpdate={handleFormChange}
+          taskTitle={formState.values.taskTitle}
+          textElement={text}
           onClose={toggleModal}
         />
 
@@ -43,9 +36,8 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
               </TitleText>
               <Textarea
                 noBorder
-                name="taskNotes"
-                value={store.taskNotes || ""}
-                onChange={handleFormChange}
+                {...text("taskNotes")}
+                value={formState.values.taskNotes}
                 placeholder="Description..."
               />
             </NotesPanel>
