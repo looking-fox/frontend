@@ -15,15 +15,28 @@ import { useFormState } from "react-use-form-state";
 const TaskModal = ({ currentTask, showModal, toggleModal }) => {
   const { taskDueDate, taskPriority } = currentTask;
   const [formState, { text }] = useFormState(currentTask);
+  const { values: form } = formState;
 
   const customRef = useRef();
   useClickOffElement(customRef, toggleModal);
+
+  const handleCheckboxChange = (taskActionId, newValue) => {
+    const newFormActions = [...form.taskActions];
+    const idx = newFormActions.findIndex(
+      (item) => item.taskActionId === taskActionId
+    );
+    const newAction = { ...newFormActions[idx] };
+    newAction["taskCompleted"] = newValue;
+    newFormActions.splice(idx, 1, newAction);
+    formState.setField("taskActions", newFormActions);
+    // setField resets validation. not using validation for this form.
+  };
 
   return (
     <ModalBackground show={showModal}>
       <ModalContainer noPadding ref={customRef}>
         <TaskHeader
-          taskTitle={formState.values.taskTitle}
+          taskTitle={form.taskTitle}
           textElement={text}
           onClose={toggleModal}
         />
@@ -37,7 +50,7 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
               <Textarea
                 noBorder
                 {...text("taskNotes")}
-                value={formState.values.taskNotes}
+                value={form.taskNotes || ""}
                 placeholder="Description..."
               />
             </NotesPanel>
@@ -47,7 +60,15 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
                 <FiCheckSquare /> To Do List
               </TitleText>
               <ToDoInnerPanel>
-                <Checkbox label="Get groceries!" checked={true} />
+                {form.taskActions.map((item, idx) => {
+                  return (
+                    <Checkbox
+                      key={item.taskActionId || idx}
+                      item={item}
+                      handleCheckboxChange={handleCheckboxChange}
+                    />
+                  );
+                })}
               </ToDoInnerPanel>
             </ToDoPanel>
           </LeftPanel>

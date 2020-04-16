@@ -3,23 +3,30 @@ import { Input } from "./StyledComponents";
 import styled, { css } from "styled-components";
 
 const Checkbox = (props) => {
-  const { label, checked } = props;
+  const { taskActionName, taskCompleted, taskActionId } = props.item || {};
   const [editMode, setEditMode] = useState(false);
+
   const handleClick = (e) => {
     e.stopPropagation();
-    setEditMode(true);
+    // setEditMode(true);
   };
+
+  const handleUpdate = () => {
+    props.handleCheckboxChange(taskActionId, !taskCompleted);
+  };
+
   return (
-    <Container onClick={handleClick} onBlur={() => setEditMode(false)}>
+    <Container onBlur={() => setEditMode(false)}>
       <CheckboxInput
+        id={taskActionId}
         type="checkbox"
-        id="2342"
-        checked={checked}
-        readOnly
+        checked={taskCompleted}
+        onChange={handleUpdate}
         {...props}
       />
+
       <StyledInput showInput={editMode} />
-      {!editMode && <Label htmlFor="2342">{label}</Label>}
+      {!editMode && <Label htmlFor={taskActionId}>{taskActionName}</Label>}
     </Container>
   );
 };
