@@ -44,7 +44,7 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
               <Textarea
                 noBorder
                 name="taskNotes"
-                value={store.taskNotes}
+                value={store.taskNotes || ""}
                 onChange={handleFormChange}
                 placeholder="Description..."
               />

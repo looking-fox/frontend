@@ -12,6 +12,7 @@ export const useClickOffElement = (customRef, toggle, cb) => {
 
   useEffect(() => {
     const handleClick = (e) => {
+      e.preventDefault();
       if (customRef.current && !customRef.current.contains(e.target)) {
         setClick(true);
       }
