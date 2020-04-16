@@ -15,7 +15,7 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
   const { taskDueDate, taskPriority } = currentTask;
 
   const customRef = useRef();
-  useClickOffElement(customRef, showModal, toggleModal);
+  useClickOffElement(customRef, toggleModal);
 
   const [store, dispatch] = useReducer(enhancedReducer, currentTask);
 

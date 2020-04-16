@@ -9,7 +9,7 @@ const TaskHeader = ({ taskTitle, handleUpdate, onClose }) => {
   const customRef = useRef();
   const [editMode, setEditMode] = useState(false);
 
-  useClickOffElement(customRef, editMode, () => {
+  useClickOffElement(customRef, () => {
     if (editMode) setEditMode(false);
   });
 

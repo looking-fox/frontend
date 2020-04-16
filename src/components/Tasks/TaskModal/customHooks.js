@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import produce from "immer";
 
 export const enhancedReducer = (state, action) => {
@@ -7,25 +7,16 @@ export const enhancedReducer = (state, action) => {
   });
 };
 
-export const useClickOffElement = (customRef, toggle, cb) => {
-  const [clickedOffElement, setClick] = useState(false);
-
+export const useClickOffElement = (customRef, cb) => {
   useEffect(() => {
     const handleClick = (e) => {
-      e.preventDefault();
       if (customRef.current && !customRef.current.contains(e.target)) {
-        setClick(true);
+        return cb();
       }
     };
-    window.addEventListener("click", handleClick);
+    window.addEventListener("mousedown", handleClick);
     return () => {
-      setClick(false);
       window.removeEventListener("click", handleClick);
     };
-  }, [customRef, toggle]);
-
-  if (clickedOffElement && toggle && cb) {
-    // Run callback when user clicks off element and toggle enabled
-    return cb();
-  }
+  }, [customRef, cb]);
 };
