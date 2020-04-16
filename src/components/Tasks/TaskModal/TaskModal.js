@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useReducer } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { updateTask } from "../../../thunks/taskThunk";
@@ -6,7 +6,7 @@ import { toggleModal } from "../../../reducers/taskSlice";
 import { Text, Textarea, Button, Checkbox } from "../../../ui/StyledComponents";
 import TaskHeader from "./TaskHeader";
 import { ModalBackground, ModalContainer } from "../../../ui/Modal";
-import { useClickOffElement } from "./customHooks";
+import { useClickOffElement, enhancedReducer } from "./customHooks";
 import DetailPanel from "./DetailPanel";
 import { FaRegStickyNote } from "react-icons/fa";
 import { FiCheckSquare } from "react-icons/fi";
@@ -17,22 +17,21 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
   const customRef = useRef();
   useClickOffElement(customRef, showModal, toggleModal);
 
-  const [task, setTask] = useState({});
+  const [store, dispatch] = useReducer(enhancedReducer, currentTask);
 
-  useEffect(() => {
-    setTask(currentTask);
-  }, [currentTask]);
-
-  const handleUpdate = (item, value) => {
-    setTask({ ...task, [item]: value });
-  };
+  const handleFormChange = React.useCallback(
+    ({ target: { value, name, type } }) => {
+      dispatch({ key: name, value });
+    },
+    []
+  );
 
   return (
     <ModalBackground show={showModal}>
       <ModalContainer noPadding ref={customRef}>
         <TaskHeader
-          taskTitle={task.taskTitle}
-          handleUpdate={handleUpdate}
+          taskTitle={store.taskTitle}
+          handleUpdate={handleFormChange}
           onClose={toggleModal}
         />
 
@@ -44,8 +43,9 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
               </TitleText>
               <Textarea
                 noBorder
-                // value={task.taskNotes || ""}
-                // onChange={(e) => handleUpdate("taskNotes", e.target.value)}
+                name="taskNotes"
+                value={store.taskNotes}
+                onChange={handleFormChange}
                 placeholder="Description..."
               />
             </NotesPanel>

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import { FiList } from "react-icons/fi";
@@ -18,12 +18,11 @@ const TaskHeader = ({ taskTitle, handleUpdate, onClose }) => {
     setEditMode(true);
   };
 
-  const handleChange = (e) => handleUpdate("taskTitle", e.target.value);
-
   return (
     <HeaderContainer ref={customRef}>
       <StyledContainer showContainer={editMode}>
-        <FiList /> <Input value={taskTitle || ""} onChange={handleChange} />
+        <FiList />
+        <Input value={taskTitle} name="taskTitle" onChange={handleUpdate} />
       </StyledContainer>
 
       {!editMode && (

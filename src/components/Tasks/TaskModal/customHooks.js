@@ -1,4 +1,11 @@
 import { useEffect, useState } from "react";
+import produce from "immer";
+
+export const enhancedReducer = (state, action) => {
+  return produce(state, (draftState) => {
+    draftState[action.key] = action.value;
+  });
+};
 
 export const useClickOffElement = (customRef, toggle, cb) => {
   const [clickedOffElement, setClick] = useState(false);
