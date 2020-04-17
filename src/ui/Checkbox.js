@@ -37,6 +37,7 @@ const Checkbox = (props) => {
 
       <StyledInput
         name="taskActionName"
+        value={taskActionName}
         showInput={editMode}
         onChange={handleUpdateCheckbox}
       />
