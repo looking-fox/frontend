@@ -8,8 +8,9 @@ const Checkbox = (props) => {
   const { taskActionName, taskCompleted, taskActionId } = props.item || {};
   const [editMode, setEditMode] = useState(false);
 
-  const handleUpdate = () => {
-    props.handleCheckboxChange(taskActionId, !taskCompleted);
+  const handleUpdateCheckbox = ({ target: t }) => {
+    const value = t.name === "taskCompleted" ? t.checked : t.value;
+    props.handleCheckboxChange(taskActionId, t.name, value);
   };
 
   const handleToggleEdit = () => {
@@ -28,12 +29,17 @@ const Checkbox = (props) => {
       <CheckboxInput
         id={taskActionId}
         type="checkbox"
+        name="taskCompleted"
         checked={taskCompleted}
-        onChange={handleUpdate}
+        onChange={handleUpdateCheckbox}
         {...props}
       />
 
-      <StyledInput showInput={editMode} />
+      <StyledInput
+        name="taskActionName"
+        showInput={editMode}
+        onChange={handleUpdateCheckbox}
+      />
       {!editMode && <Label htmlFor={taskActionId}>{taskActionName}</Label>}
 
       <Actions>
@@ -61,7 +67,7 @@ const CheckboxInput = styled.input`
 
 const Label = styled.label`
   font-family: "Avenir";
-  margin-left: 10px;
+  margin-left: 15px;
   font-size: 1em;
   padding-top: 0.2em;
 `;
@@ -69,6 +75,7 @@ const Label = styled.label`
 const StyledInput = styled(Input)`
   font-family: "Avenir" !important;
   margin: 0;
+  padding: 5px 0px;
   padding-left: 10px;
   width: 100%;
   margin-left: 10px;

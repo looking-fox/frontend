@@ -31,10 +31,10 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
     // setField resets validation. not using validation for this form.
   };
 
-  const handleCheckboxChange = (taskActionId, newValue) => {
+  const handleCheckboxChange = (taskActionId, key, newValue) => {
     const [newFormActions, idx] = generateFormCopy(taskActionId);
     const newAction = { ...newFormActions[idx] };
-    newAction["taskCompleted"] = newValue;
+    newAction[key] = newValue;
     newFormActions.splice(idx, 1, newAction);
     setForm(newFormActions);
   };
