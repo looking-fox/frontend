@@ -13,7 +13,7 @@ import { FiCheckSquare } from "react-icons/fi";
 import { useFormState } from "react-use-form-state";
 
 const TaskModal = ({ currentTask, showModal, toggleModal }) => {
-  const { taskDueDate, taskPriority } = currentTask;
+  const { taskDueDate, taskPriority, taskColumnId } = currentTask;
   const [formState, { text }] = useFormState(currentTask);
   const { values: form } = formState;
 
@@ -83,6 +83,7 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
                     />
                   );
                 })}
+                <AddTaskButton>+ Add Task</AddTaskButton>
               </ToDoInnerPanel>
             </ToDoPanel>
           </LeftPanel>
@@ -139,6 +140,18 @@ const ToDoPanel = styled.div`
 const ToDoInnerPanel = styled.div`
   padding-top: 20px;
   padding-left: 20px;
+`;
+
+const AddTaskButton = styled(Button)`
+  background: transparent;
+  border: none;
+  color: black;
+  margin-left: 0px;
+  opacity: 0.5;
+  &:hover {
+    box-shadow: none;
+    opacity: 1;
+  }
 `;
 
 const ButtonPanel = styled.div`
