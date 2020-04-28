@@ -45,6 +45,10 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
     setForm(newFormActions);
   };
 
+  const handleAddTaskAction = () => {
+    // logic
+  };
+
   return (
     <ModalBackground show={showModal}>
       <ModalContainer noPadding ref={customRef}>
@@ -83,7 +87,9 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
                     />
                   );
                 })}
-                <AddTaskButton>+ Add Task</AddTaskButton>
+                <AddTaskButton onClick={handleAddTaskAction}>
+                  + Add Task
+                </AddTaskButton>
               </ToDoInnerPanel>
             </ToDoPanel>
           </LeftPanel>
