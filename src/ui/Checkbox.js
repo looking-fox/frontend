@@ -1,12 +1,27 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Input } from "./StyledComponents";
 import styled, { css } from "styled-components";
 import { FiTrash2, FiEdit } from "react-icons/fi";
 import { useClickOffElement } from "../components/Tasks/TaskModal/customHooks";
 
 const Checkbox = (props) => {
-  const { taskActionName, taskCompleted, taskActionId } = props.item || {};
+  const { taskActionName, taskCompleted, taskActionId, createdAt } =
+    props.item || {};
+  const { isLastItem } = props;
   const [editMode, setEditMode] = useState(false);
+
+  const checkBoxRef = useRef();
+  useClickOffElement(checkBoxRef, () => setEditMode(false));
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (!createdAt && isLastItem && !editMode) {
+      setEditMode(true);
+      setTimeout(() => {
+        inputRef.current && inputRef.current.focus();
+      }, 0);
+    }
+  }, []);
 
   const handleUpdateCheckbox = ({ target: t }) => {
     const value = t.name === "taskCompleted" ? t.checked : t.value;
@@ -16,9 +31,6 @@ const Checkbox = (props) => {
   const handleToggleEdit = () => {
     setEditMode(!editMode);
   };
-
-  const checkBoxRef = useRef();
-  useClickOffElement(checkBoxRef, () => setEditMode(false));
 
   const handleDelete = () => {
     props.handleCheckboxDelete(taskActionId);
@@ -37,11 +49,14 @@ const Checkbox = (props) => {
 
       <StyledInput
         name="taskActionName"
+        ref={inputRef}
         value={taskActionName}
         showInput={editMode}
         onChange={handleUpdateCheckbox}
       />
-      {!editMode && <Label htmlFor={taskActionId}>{taskActionName}</Label>}
+      {!editMode && (
+        <Label htmlFor={taskActionId}>{taskActionName || "Task"}</Label>
+      )}
 
       <Actions>
         <StyledIcon onClick={handleToggleEdit}>

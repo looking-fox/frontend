@@ -12,7 +12,7 @@ import { FaRegStickyNote } from "react-icons/fa";
 import { FiCheckSquare } from "react-icons/fi";
 import { useFormState } from "react-use-form-state";
 
-const TaskModal = ({ currentTask, showModal, toggleModal }) => {
+const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
   const { taskDueDate, taskPriority, taskColumnId } = currentTask;
   const [formState, { text }] = useFormState(currentTask);
   const { values: form } = formState;
@@ -22,8 +22,11 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
 
   const generateFormCopy = (id) => {
     const newFormActions = [...form.taskActions];
-    const idx = newFormActions.findIndex((item) => item.taskActionId === id);
-    return [newFormActions, idx];
+    let index = null;
+    if (id) {
+      index = newFormActions.findIndex((item) => item.taskActionId === id);
+    }
+    return [newFormActions, index];
   };
 
   const setForm = (form) => {
@@ -46,7 +49,18 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
   };
 
   const handleAddTaskAction = () => {
-    // logic
+    const [newFormActions] = generateFormCopy();
+    let newTaskAction = {
+      taskId: form.taskId,
+      taskActionName: "",
+      taskCompleted: false,
+      taskActionId: Math.random(),
+      uid,
+    };
+    newFormActions.push(newTaskAction);
+    setForm(newFormActions);
+    // Set Field Input to Edit Mode Right Away
+    // How do we determine new fields on the backend?
   };
 
   return (
@@ -78,10 +92,12 @@ const TaskModal = ({ currentTask, showModal, toggleModal }) => {
               </TitleText>
               <ToDoInnerPanel>
                 {form.taskActions.map((item, idx) => {
+                  const isLastItem = form.taskActions.length - 1 === idx;
                   return (
                     <Checkbox
                       key={item.taskActionId || idx}
                       item={item}
+                      isLastItem={isLastItem}
                       handleCheckboxChange={handleCheckboxChange}
                       handleCheckboxDelete={handleCheckboxDelete}
                     />
@@ -171,6 +187,7 @@ const mapState = (state) => {
   return {
     currentTask: state.tasks.currentTask,
     showModal: state.tasks.showModal,
+    uid: state.user.uid,
   };
 };
 
