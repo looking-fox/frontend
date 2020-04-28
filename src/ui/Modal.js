@@ -64,15 +64,6 @@ export const ModalContainer = styled.div`
   min-height: 20vh;
   padding: ${(p) => (p.noPadding ? "0px" : "10px 25px")};
   overflow: hidden;
-  animation: fadeIn 200ms ease-in-out;
-  @keyframes fadeIn {
-    from {
-      transform: translate(-50%, -40%);
-    }
-    to {
-      transform: translate(-50%, -50%);
-    }
-  }
 `;
 
 const ModalHeader = styled.div`
