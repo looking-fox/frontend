@@ -17,7 +17,10 @@ const TaskCard = ({ task, handleUpdateTask, toggleModal }) => {
       handleUpdateTask(taskId, updatedTask);
     }
   };
-  const handleOnClick = () => toggleModal({ task });
+  const handleOnClick = () => {
+    if (task.isNew) return;
+    else toggleModal({ task });
+  };
 
   return (
     <CardContainer onClick={handleOnClick}>
