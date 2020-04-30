@@ -18,11 +18,19 @@ const TaskHeader = ({ taskTitle, textElement, onClose }) => {
     setEditMode(true);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") setEditMode(false);
+  };
+
   return (
     <HeaderContainer ref={customRef}>
       <StyledContainer showContainer={editMode}>
         <StyledIcon />
-        <StyledInput placeholder="Task" {...textElement("taskTitle")} />
+        <StyledInput
+          placeholder="Task"
+          {...textElement("taskTitle")}
+          onKeyDown={handleKeyDown}
+        />
       </StyledContainer>
 
       {!editMode && (
