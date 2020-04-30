@@ -30,7 +30,6 @@ const TaskCard = ({ task, handleUpdateTask, toggleModal }) => {
         <StyledInput
           placeholder="New"
           value={input}
-          ref={inputRef}
           autoFocus={true}
           onChange={handleOnChange}
           onBlur={handleOnBlur}
