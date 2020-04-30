@@ -10,7 +10,6 @@ import Toast from "./Toast";
 import Modal from "./Modal";
 import Link from "./Link";
 import Spinner from "./Spinner";
-import Checkbox from "./Checkbox";
 
 const Button = (props) => {
   const { isLoading, children } = props;
@@ -40,5 +39,4 @@ export {
   Modal,
   Link,
   Spinner,
-  Checkbox,
 };

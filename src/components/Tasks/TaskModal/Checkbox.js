@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Input } from "./StyledComponents";
+import { Input } from "../../../ui/StyledComponents";
 import styled, { css } from "styled-components";
 import { FiTrash2, FiEdit } from "react-icons/fi";
-import { useClickOffElement } from "../components/Tasks/TaskModal/customHooks";
+import { useClickOffElement } from "./customHooks";
 
 const Checkbox = (props) => {
   const { taskActionName, taskCompleted, taskActionId, createdAt } =
@@ -26,6 +26,10 @@ const Checkbox = (props) => {
   const handleUpdateCheckbox = ({ target: t }) => {
     const value = t.name === "taskCompleted" ? t.checked : t.value;
     props.handleCheckboxChange(taskActionId, t.name, value);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleToggleEdit();
   };
 
   const handleToggleEdit = () => {
@@ -53,6 +57,7 @@ const Checkbox = (props) => {
         value={taskActionName}
         showInput={editMode}
         onChange={handleUpdateCheckbox}
+        onKeyDown={handleKeyDown}
       />
       {!editMode && (
         <Label htmlFor={taskActionId}>{taskActionName || "Task"}</Label>
