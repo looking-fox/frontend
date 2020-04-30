@@ -7,6 +7,7 @@ import { toggleModal } from "../../../reducers/taskSlice";
 const TaskCard = ({ task, handleUpdateTask, toggleModal }) => {
   // TO DO: use context API
   const [input, setInput] = useState("");
+
   const handleOnChange = (e) => setInput(e.target.value);
   const handleOnBlur = () => {
     if (input) {
@@ -17,6 +18,7 @@ const TaskCard = ({ task, handleUpdateTask, toggleModal }) => {
       handleUpdateTask(taskId, updatedTask);
     }
   };
+
   const handleOnClick = () => {
     if (task.isNew) return;
     else toggleModal({ task });
@@ -28,6 +30,8 @@ const TaskCard = ({ task, handleUpdateTask, toggleModal }) => {
         <StyledInput
           placeholder="New"
           value={input}
+          ref={inputRef}
+          autoFocus={true}
           onChange={handleOnChange}
           onBlur={handleOnBlur}
         />
