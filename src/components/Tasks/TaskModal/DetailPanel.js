@@ -1,13 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { Text } from "../../../ui/StyledComponents";
+import PriorityMenu from "./PriorityMenu";
 
 const DetailPanel = ({ taskPriority, taskDueDate }) => {
   // TO DO: Still need to query for client info to pass in
   return (
     <InnerPanel>
+      <PriorityMenu taskPriority={taskPriority} />
       <DetailText>
-        <span>Priority:</span> <Bubble>Low</Bubble>
+        {/* <span>Priority:</span> <Bubble>Low</Bubble> */}
       </DetailText>
       <DetailText>
         <span>Due Date:</span> March 28th, 2020

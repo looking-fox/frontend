@@ -15,6 +15,7 @@ import { useFormState } from "react-use-form-state";
 
 const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
   const { taskDueDate, taskPriority, taskColumnId } = currentTask;
+
   const [formState, { text }] = useFormState(currentTask);
   const { values: form } = formState;
 
