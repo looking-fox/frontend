@@ -251,7 +251,7 @@ class ViewForm extends Component {
 const Container = styled.div`
   width: 80vw;
   height: calc(100vh - 60px);
-  background: ${(p) => p.theme.lightGrey};
+  background: ${(p) => p.theme.colors.lightGrey};
   display: flex;
   flex-direction: column;
 `;

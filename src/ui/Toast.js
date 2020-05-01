@@ -42,7 +42,11 @@ const Toast = ({
 const ToastContainer = styled.div`
   width: fit-content;
   background: ${(p) =>
-    p.success ? p.theme.green : p.error ? p.theme.red : p.theme.primaryColor};
+    p.success
+      ? p.theme.green
+      : p.error
+      ? p.theme.colors.red
+      : p.theme.colors.primary};
   color: white;
   font-size: 1.1em;
   border-radius: 3px;

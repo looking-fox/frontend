@@ -54,7 +54,7 @@ class ViewClients extends Component {
 
 const Container = styled.div`
   height: calc(100vh - 120px);
-  background: ${(p) => p.theme.lightGrey};
+  background: ${(p) => p.theme.colors.lightGrey};
   overflow-y: auto;
   padding: 0 15vw;
   box-sizing: border-box;

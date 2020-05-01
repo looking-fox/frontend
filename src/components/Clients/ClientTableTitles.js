@@ -24,7 +24,7 @@ const Container = styled.div`
 
 const Title = styled(Text)`
   font-size: 0.7em;
-  color: ${p => p.theme.darkGrey};
+  color: ${(p) => p.theme.colors.darkGrey};
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 0px 25px;

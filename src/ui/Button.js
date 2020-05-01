@@ -1,14 +1,14 @@
 import styled, { css } from "styled-components";
 
 const Button = styled.button`
-  background: ${p =>
+  background: ${(p) =>
     p.backgroundColor
       ? p.backgroundColor
       : p.success
       ? p.theme.green
       : p.error
-      ? p.theme.red
-      : p.theme.primaryColor};
+      ? p.theme.colors.red
+      : p.theme.colors.primary};
   color: #fff;
   border-radius: 3px;
   font-size: 0.9em;
@@ -24,50 +24,50 @@ const Button = styled.button`
   justify-content: center;
   &:hover {
     opacity: 0.7;
-    ${p => p.theme.boxShadow};
+    ${(p) => p.theme.boxShadow};
   }
   & svg {
     margin-right: 0.25em;
     font-size: 1.2em;
   }
 
-  ${props =>
+  ${(props) =>
     props.outline &&
     css`
       background: transparent;
-      color: ${p =>
+      color: ${(p) =>
         p.success
           ? p.theme.green
           : p.error
-          ? p.theme.red
-          : p.theme.primaryColor};
+          ? p.theme.colors.red
+          : p.theme.colors.primary};
       border: 1.2px solid
-        ${p =>
+        ${(p) =>
           p.success
             ? p.theme.green
             : p.error
-            ? p.theme.red
-            : p.theme.primaryColor};
+            ? p.theme.colors.red
+            : p.theme.colors.primary};
     `};
 
-  ${props =>
+  ${(props) =>
     props.fullWidth &&
     css`
       width: 100%;
       margin: 0.5em 0em;
     `};
 
-  ${props =>
+  ${(props) =>
     props.withIcon &&
     css`
       padding-right: 0.75em;
     `}
 
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       opacity: 0.7;
-      ${p => p.theme.boxShadow};
+      ${(p) => p.theme.boxShadow};
       cursor: inherit;
     `}
 `;

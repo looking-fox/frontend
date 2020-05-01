@@ -37,7 +37,7 @@ const DetailText = styled(Text)`
 `;
 
 const Bubble = styled.span`
-  background: ${(p) => p.theme.red};
+  background: ${(p) => p.theme.colors.red};
   color: white;
   padding: 2px 5px;
   font-weight: bold;

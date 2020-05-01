@@ -36,7 +36,7 @@ class LoadForms extends Component {
 const Container = styled.div`
   height: calc(100vh - 60px);
   width: 80vw;
-  background: ${(p) => p.theme.lightGrey};
+  background: ${(p) => p.theme.colors.lightGrey};
   box-sizing: border-box;
   ${(p) => p.theme.flexAllCenter}
   flex-direction: column;

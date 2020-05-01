@@ -40,7 +40,7 @@ class ViewTasks extends Component {
 
 const Container = styled.div`
   height: calc(100vh - 60px);
-  background: ${(p) => p.theme.lightGrey};
+  background: ${(p) => p.theme.colors.lightGrey};
   display: flex;
   padding: 0px 50px;
   box-sizing: border-box;

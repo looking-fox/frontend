@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 const Input = styled.input`
-  background: ${(p) => p.theme.lightGrey};
+  background: ${(p) => p.theme.colors.lightGrey};
   border: none;
   width: 100%;
   box-sizing: border-box;

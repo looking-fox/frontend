@@ -49,7 +49,7 @@ const MenuItem = styled(Text)`
   cursor: pointer;
   transition: all 50ms ease-in-out;
   &:hover {
-    background: ${(p) => p.theme.lightGrey};
+    background: ${(p) => p.theme.colors.lightGrey};
   }
 `;
 

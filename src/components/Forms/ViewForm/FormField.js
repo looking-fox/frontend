@@ -124,7 +124,7 @@ const StyledText = styled(Text)`
 `;
 
 const ErrorText = styled(Text)`
-  color: ${(p) => p.theme.red};
+  color: ${(p) => p.theme.colors.red};
   font-size: 0.8em;
   margin-top: -10px;
   margin-bottom: 20px;

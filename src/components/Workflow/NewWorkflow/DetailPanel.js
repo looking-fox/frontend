@@ -9,7 +9,7 @@ const DetailPanel = ({
   wfTagColor,
   wfActionsLength,
   handleInput,
-  handleSelectNewColor
+  handleSelectNewColor,
 }) => {
   const activePreview = wfName.length || wfActionsLength > 1;
   return (
@@ -81,8 +81,8 @@ const PreviewTitle = styled(Text)`
 const PreviewBar = styled.div`
   background: white;
   border-radius: 3px;
-  ${p => p.theme.sideBoxShadow};
-  opacity: ${p => (p.activePreview ? 1 : 0.6)};
+  ${(p) => p.theme.sideBoxShadow};
+  opacity: ${(p) => (p.activePreview ? 1 : 0.6)};
   display: flex;
   padding: 1em;
   display: flex;
@@ -91,7 +91,7 @@ const PreviewBar = styled.div`
 `;
 
 const PreviewTagColor = styled(Text)`
-  background: ${p => (p.color ? p.color : p.theme.primaryColor)};
+  background: ${(p) => (p.color ? p.color : p.theme.colors.primary)};
   color: white;
   font-weight: bold;
   border-radius: 3px;
@@ -120,7 +120,7 @@ const ColorPickerContainer = styled.div`
   min-width: fit-content;
   width: 90%;
   box-sizing: border-box;
-  ${p => p.theme.sideBoxShadow};
+  ${(p) => p.theme.sideBoxShadow};
 `;
 
 const ColorSelector = styled.div`
@@ -132,14 +132,14 @@ const ColorText = styled(Text)`
   font-size: 1em;
   text-align: center;
   margin-bottom: 25px;
-  ${p => p.theme.flexAllCenter};
+  ${(p) => p.theme.flexAllCenter};
   & svg {
     margin-right: 5px;
   }
 `;
 
 const ColorIcon = styled.div`
-  background: ${p => p.color || p.theme.primaryColor};
+  background: ${(p) => p.color || p.theme.colors.primary};
   border-radius: 50%;
   height: 25px;
   min-height: 25px;
@@ -149,10 +149,10 @@ const ColorIcon = styled.div`
   cursor: pointer;
   transition: all 150ms ease-in-out;
   &:hover {
-    ${p => p.theme.sideBoxShadow};
+    ${(p) => p.theme.sideBoxShadow};
     transform: scale(1.1);
   }
-  ${p =>
+  ${(p) =>
     p.selected
       ? css`
           opacity: 1;

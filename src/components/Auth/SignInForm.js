@@ -18,7 +18,7 @@ class SignInForm extends Component {
     error: false,
     errorMessage: "",
     isLoggingIn: false,
-    isLoggingInWithFacebook: false
+    isLoggingInWithFacebook: false,
   };
 
   signUp = async () => {
@@ -76,7 +76,7 @@ class SignInForm extends Component {
       error: true,
       errorMessage,
       isLoggingIn: false,
-      isLoggingInWithFacebook: false
+      isLoggingInWithFacebook: false,
     });
   };
 
@@ -85,11 +85,11 @@ class SignInForm extends Component {
     return pathname === "/signup";
   }
 
-  handleInput = e => {
+  handleInput = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleKeyPress = e => {
+  handleKeyPress = (e) => {
     if (e.key === "Enter") {
       const isSignUpForm = this.handleSignUpStatus();
       isSignUpForm ? this.signUp() : this.signIn();
@@ -171,8 +171,8 @@ class SignInForm extends Component {
 
 const Container = styled.div`
   min-height: 100vh;
-  background: ${p => p.theme.lightGrey};
-  ${p => p.theme.flexAllCenter}
+  background: ${(p) => p.theme.colors.lightGrey};
+  ${(p) => p.theme.flexAllCenter}
 `;
 
 const AuthContainer = styled.div`
@@ -180,7 +180,7 @@ const AuthContainer = styled.div`
   height: fit-content;
   min-width: 300px;
   background: white;
-  ${p => p.theme.boxShadow}
+  ${(p) => p.theme.boxShadow}
   padding: 25px;
   padding-bottom: 10px;
   border-radius: 3px;
@@ -227,7 +227,7 @@ const StyledLink = styled(Link)`
 `;
 
 const ErrorMessage = styled(Text)`
-  color: ${p => p.theme.red};
+  color: ${(p) => p.theme.colors.red};
   text-align: center;
   font-weight: bold;
   line-height: 150%;

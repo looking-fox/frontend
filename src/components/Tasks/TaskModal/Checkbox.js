@@ -77,7 +77,7 @@ const Checkbox = (props) => {
 };
 
 const CheckboxInput = styled.input`
-  background: ${(p) => p.theme.lightGrey};
+  background: ${(p) => p.theme.colors.lightGrey};
   border: none;
   width: fit-content;
   box-sizing: border-box;

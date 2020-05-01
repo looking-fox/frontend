@@ -5,8 +5,8 @@ import theme from "../../../ui/theme/theme";
 const options = [
   { value: null, label: "None", color: "#ADA296" },
   { value: "LOW", label: "Low", color: "#88A2AA" },
-  { value: "MEDIUM", label: "Medium", color: "#E2856E" },
-  { value: "HIGH", label: "High", color: "#c17258" },
+  { value: "MEDIUM", label: "Medium", color: "#B7918C" },
+  { value: "HIGH", label: "High", color: "#E2856E" },
 ];
 
 const customStyles = {
@@ -26,7 +26,7 @@ const customStyles = {
 
   option: (provided, state) => ({
     ...provided,
-    background: state.isFocused ? theme.lightGrey : "white",
+    background: state.isFocused ? theme.colors.lightGrey : "white",
     color: "#777777",
   }),
 

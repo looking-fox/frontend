@@ -10,7 +10,7 @@ class PasswordReset extends Component {
     pending: false,
     error: false,
     errorMessage: "",
-    success: false
+    success: false,
   };
 
   handleForgotPassword = async () => {
@@ -28,7 +28,7 @@ class PasswordReset extends Component {
       resetEmail: "",
       success: true,
       error: false,
-      errorMessage: ""
+      errorMessage: "",
     });
   };
 
@@ -36,11 +36,11 @@ class PasswordReset extends Component {
     this.setState({
       error: true,
       errorMessage,
-      pending: false
+      pending: false,
     });
   };
 
-  handleInput = e => {
+  handleInput = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
@@ -88,8 +88,8 @@ class PasswordReset extends Component {
 
 const Container = styled.div`
   min-height: 100vh;
-  background: ${p => p.theme.lightGrey};
-  ${p => p.theme.flexAllCenter}
+  background: ${(p) => p.theme.colors.lightGrey};
+  ${(p) => p.theme.flexAllCenter}
 `;
 
 const PasswordResetContainer = styled.div`
@@ -97,7 +97,7 @@ const PasswordResetContainer = styled.div`
   height: fit-content;
   min-width: 300px;
   background: white;
-  ${p => p.theme.boxShadow}
+  ${(p) => p.theme.boxShadow}
   padding: 25px;
   border-radius: 3px;
 `;
@@ -131,7 +131,7 @@ const SubTitle = styled.p`
 `;
 
 const ErrorMessage = styled(Text)`
-  color: ${p => p.theme.red};
+  color: ${(p) => p.theme.colors.red};
   text-align: center;
   font-weight: bold;
   line-height: 150%;
@@ -140,7 +140,7 @@ const ErrorMessage = styled(Text)`
 `;
 
 const SuccessMessage = styled(Text)`
-  color: ${p => p.theme.green};
+  color: ${(p) => p.theme.green};
   text-align: center;
   font-weight: bold;
   line-height: 150%;

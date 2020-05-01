@@ -46,7 +46,7 @@ const TaskHeader = ({ taskTitle, textElement, onClose }) => {
 };
 
 const HeaderContainer = styled.div`
-  background: ${(p) => p.theme.lightGrey};
+  background: ${(p) => p.theme.colors.lightGrey};
   width: 45vw;
   display: flex;
   align-items: center;

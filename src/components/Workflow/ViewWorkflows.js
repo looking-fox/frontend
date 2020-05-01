@@ -88,7 +88,7 @@ class ViewWorkflows extends Component {
 
 const Container = styled.div`
   height: calc(100vh - 60px);
-  background: ${(p) => p.theme.lightGrey};
+  background: ${(p) => p.theme.colors.lightGrey};
   overflow-y: auto;
   padding: 0 20vw;
 `;

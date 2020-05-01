@@ -15,7 +15,7 @@ const ViewClientsHeader = ({ handleToggleModal }) => {
 
 const HeaderContainer = styled.div`
   height: 60px;
-  background: ${p => p.theme.lightGrey};
+  background: ${(p) => p.theme.colors.lightGrey};
   display: flex;
   align-items: center;
 `;

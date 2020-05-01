@@ -3,7 +3,7 @@ import { ErrorMessage } from "formik";
 import styled from "styled-components";
 import theme from "../theme/theme";
 
-const FormErrorText = props => {
+const FormErrorText = (props) => {
   const { withSpacing, ...rest } = props;
   if (withSpacing) {
     return <StyledFormErrorTextWithSpacing {...rest} />;
@@ -15,7 +15,7 @@ const FormErrorText = props => {
 const StyledFormErrorText = styled(ErrorMessage)`
   font-size: 0.9em;
   font-family: "Avenir";
-  color: ${theme.red};
+  color: ${theme.colors.red};
   padding-left: 10px;
   margin-bottom: 10px;
 `;
@@ -23,7 +23,7 @@ const StyledFormErrorText = styled(ErrorMessage)`
 const StyledFormErrorTextWithSpacing = styled(ErrorMessage)`
   font-size: 0.9em;
   font-family: "Avenir";
-  color: ${theme.red};
+  color: ${theme.colors.red};
   padding-left: 10px;
   margin-top: -10px;
   margin-bottom: 25px;

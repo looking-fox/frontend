@@ -8,17 +8,17 @@ const customStyles = {
   option: (provided, state) => ({
     ...provided,
     background: state.isSelected ? state.selectProps.menuColor : "inherit",
-    fontSize: 14
+    fontSize: 14,
   }),
   singleValue: (provided, state) => {
     const opacity = state.isDisabled ? 0.5 : 1;
     const transition = "opacity 300ms";
     const fontSize = 14;
     return { ...provided, opacity, transition, fontSize };
-  }
+  },
 };
 
-const generateOptions = wfActions => {
+const generateOptions = (wfActions) => {
   return wfActions.map((action, idx) => {
     return { label: action.wfActionName, value: idx };
   });
@@ -70,7 +70,7 @@ const Container = styled.div`
   margin: 25px 0px;
   padding: 1em;
   border-radius: 3px;
-  ${p => p.theme.sideBoxShadow};
+  ${(p) => p.theme.sideBoxShadow};
   min-width: fit-content;
   display: grid;
   position: relative;
@@ -81,8 +81,8 @@ const Container = styled.div`
 
 const ProgressBar = styled.div`
   height: 4px;
-  width: ${p => (p.progress ? p.progress * 60 : 60)}vw;
-  background: ${p => (p.color ? p.color : p.theme.darkGrey)};
+  width: ${(p) => (p.progress ? p.progress * 60 : 60)}vw;
+  background: ${(p) => (p.color ? p.color : p.theme.colors.darkGrey)};
   position: absolute;
   bottom: 0px;
   opacity: 0.5;
@@ -105,7 +105,7 @@ const PanelText = styled(Text)`
 const WorkflowBubble = styled(Text)`
   width: fit-content;
   height: fit-content;
-  background: ${p => p.bubbleColor};
+  background: ${(p) => p.bubbleColor};
   color: white;
   font-weight: bold;
   margin: 0px 10px;
