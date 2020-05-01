@@ -10,12 +10,11 @@ const options = [
 ];
 
 const customStyles = {
-  container: (provided, state) => ({
-    ...provided,
-    width: "150px",
+  container: (base) => ({
+    ...base,
+    // width: "150px",
   }),
-
-  control: (base, state) => ({
+  control: (base) => ({
     ...base,
     border: "1px solid #CCCCCC",
     boxShadow: "none",
@@ -23,15 +22,13 @@ const customStyles = {
       border: "1px solid #CCCCCC",
     },
   }),
-
-  option: (provided, state) => ({
-    ...provided,
+  option: (base, state) => ({
+    ...base,
     background: state.isFocused ? theme.colors.lightGrey : "white",
     color: "#777777",
   }),
-
-  singleValue: (provided, state) => ({
-    ...provided,
+  singleValue: (base, state) => ({
+    ...base,
     opacity: state.isDisabled ? 0.5 : 1,
     transition: "opacity 300ms",
     background: state.data.color,

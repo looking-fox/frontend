@@ -7,16 +7,20 @@ const DetailPanel = ({ taskPriority, taskDueDate }) => {
   // TO DO: Still need to query for client info to pass in
   return (
     <InnerPanel>
-      <PriorityMenu taskPriority={taskPriority} />
-      <DetailText>
-        {/* <span>Priority:</span> <Bubble>Low</Bubble> */}
-      </DetailText>
-      <DetailText>
-        <span>Due Date:</span> March 28th, 2020
-      </DetailText>
-      <DetailText>
-        <span>Client:</span> Jessica & John
-      </DetailText>
+      <DetailBox>
+        <DetailTitle>Priority:</DetailTitle>
+        <PriorityMenu taskPriority={taskPriority} />
+      </DetailBox>
+
+      <DetailBox>
+        <DetailTitle>Due Date:</DetailTitle>
+        <DetailInfo>March 28th, 2021</DetailInfo>
+      </DetailBox>
+
+      <DetailBox>
+        <DetailTitle>Client:</DetailTitle>
+        <DetailInfo>Jessica & John</DetailInfo>
+      </DetailBox>
     </InnerPanel>
   );
 };
@@ -26,24 +30,19 @@ const InnerPanel = styled.div`
   padding: 0px 10px;
 `;
 
-const DetailText = styled(Text)`
-  display: flex;
-  align-items: center;
-  margin-bottom: 25px;
-  & span {
-    font-weight: bold;
-    margin-right: 5px;
-  }
+const DetailBox = styled.div`
+  margin-bottom: 35px;
 `;
 
-const Bubble = styled.span`
-  background: ${(p) => p.theme.colors.red};
-  color: white;
-  padding: 2px 5px;
+const DetailTitle = styled(Text)`
   font-weight: bold;
-  border-radius: 3px;
-  margin-left: 5px;
-  height: fit-content;
+  margin-bottom: 10px;
+  padding-left: 5px;
+`;
+
+const DetailInfo = styled(Text)`
+  font-size: 0.9em;
+  padding-left: 5px;
 `;
 
 export default DetailPanel;
