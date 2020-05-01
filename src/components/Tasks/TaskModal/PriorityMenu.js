@@ -3,10 +3,10 @@ import Select from "react-select";
 import theme from "../../../ui/theme/theme";
 
 const options = [
-  { value: null, label: "None", color: "#ADA296" },
-  { value: "LOW", label: "Low", color: "#88A2AA" },
-  { value: "MEDIUM", label: "Medium", color: "#B7918C" },
-  { value: "HIGH", label: "High", color: "#E2856E" },
+  { value: null, label: "None", color: theme.colors.neutral },
+  { value: "LOW", label: "Low", color: theme.colors.blue },
+  { value: "MEDIUM", label: "Medium", color: theme.colors.purple },
+  { value: "HIGH", label: "High", color: theme.colors.red },
 ];
 
 const customStyles = {
