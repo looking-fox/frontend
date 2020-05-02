@@ -18,7 +18,11 @@ const DetailPanel = ({ taskPriority, taskDueDate, handleDetailPanel }) => {
 
       <DetailBox>
         <DetailTitle>Due Date:</DetailTitle>
-        <Calendar value={taskDueDate} handleOnChange={handleDateChange} />
+        <Calendar
+          value={taskDueDate}
+          defaultText="No Due Date"
+          handleOnChange={handleDateChange}
+        />
       </DetailBox>
 
       <DetailBox>

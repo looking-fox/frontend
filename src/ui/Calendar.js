@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 const advancedFormat = require("dayjs/plugin/advancedFormat");
 dayjs.extend(advancedFormat);
 
-const CustomCalendar = ({ value, handleOnChange }) => {
+const CustomCalendar = ({ value, defaultText = "No Date", handleOnChange }) => {
   const [displayCalendar, setDisplayCalendar] = useState(false);
 
   const calendarRef = useRef();
@@ -24,7 +24,7 @@ const CustomCalendar = ({ value, handleOnChange }) => {
 
   const actualDate = dayjs(value).format("ddd, MMM Do, YYYY");
   const validDate = dayjs(value).isValid();
-  const displayDate = validDate ? String(actualDate) : "No Due Date";
+  const displayDate = validDate ? String(actualDate) : defaultText;
 
   return displayCalendar ? (
     <Container ref={calendarRef}>
