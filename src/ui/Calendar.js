@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import { Text } from "./StyledComponents";
 import { FiCalendar } from "react-icons/fi";
 import dayjs from "dayjs";
@@ -22,11 +23,13 @@ const CustomCalendar = ({ value, handleOnChange }) => {
   const displayDate = validDate ? String(actualDate) : "No Due Date";
 
   return displayCalendar ? (
-    <Calendar
-      onChange={handleCalendarChange}
-      defaultValue={new Date()}
-      value={value}
-    />
+    <Container>
+      <Calendar
+        onChange={handleCalendarChange}
+        defaultValue={new Date()}
+        value={value}
+      />
+    </Container>
   ) : (
     <StyledText withIcon onClick={handleOnClick}>
       <FiCalendar /> {displayDate}
@@ -34,6 +37,11 @@ const CustomCalendar = ({ value, handleOnChange }) => {
   );
 };
 
+const Container = styled.div`
+  position: absolute;
+  z-index: 10;
+  box-shadow: ${(p) => p.theme.boxShadow};
+`;
 const StyledText = styled(Text)`
   padding: 5px;
   cursor: pointer;

@@ -63,7 +63,6 @@ export const ModalContainer = styled.div`
   min-width: 300px;
   min-height: 20vh;
   padding: ${(p) => (p.noPadding ? "0px" : "10px 25px")};
-  overflow: hidden;
 `;
 
 const ModalHeader = styled.div`

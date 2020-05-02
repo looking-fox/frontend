@@ -66,7 +66,7 @@ const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
     setForm(newFormActions);
     // How do we determine new fields on the backend?
   };
-  console.log("Form: ", form);
+
   return (
     <ModalBackground show={showModal}>
       <ModalContainer noPadding ref={customRef}>
