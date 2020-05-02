@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Text } from "./StyledComponents";
+import { useClickOffElement } from "../components/Tasks/TaskModal/customHooks";
 import { FiCalendar } from "react-icons/fi";
 import dayjs from "dayjs";
 const advancedFormat = require("dayjs/plugin/advancedFormat");
@@ -10,6 +11,9 @@ dayjs.extend(advancedFormat);
 
 const CustomCalendar = ({ value, handleOnChange }) => {
   const [displayCalendar, setDisplayCalendar] = useState(false);
+
+  const calendarRef = useRef();
+  useClickOffElement(calendarRef, () => setDisplayCalendar(false));
 
   const handleCalendarChange = (date) => {
     setDisplayCalendar(!displayCalendar);
@@ -23,7 +27,7 @@ const CustomCalendar = ({ value, handleOnChange }) => {
   const displayDate = validDate ? String(actualDate) : "No Due Date";
 
   return displayCalendar ? (
-    <Container>
+    <Container ref={calendarRef}>
       <Calendar
         onChange={handleCalendarChange}
         defaultValue={new Date()}
