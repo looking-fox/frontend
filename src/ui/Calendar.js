@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Calendar from "react-calendar";
 import { Text } from "./StyledComponents";
+import { FiCalendar } from "react-icons/fi";
 import dayjs from "dayjs";
 const advancedFormat = require("dayjs/plugin/advancedFormat");
 dayjs.extend(advancedFormat);
@@ -27,13 +28,23 @@ const CustomCalendar = ({ value, handleOnChange }) => {
       value={value}
     />
   ) : (
-    <StyledText onClick={handleOnClick}>{displayDate}</StyledText>
+    <StyledText withIcon onClick={handleOnClick}>
+      <FiCalendar /> {displayDate}
+    </StyledText>
   );
 };
 
 const StyledText = styled(Text)`
-  padding-left: 5px;
+  padding: 5px;
   cursor: pointer;
+  & svg {
+    margin-right: 5px;
+    margin-bottom: 3px;
+  }
+  &:hover {
+    opacity: 0.7;
+    transition: all 100ms ease-in-out;
+  }
 `;
 
 export default CustomCalendar;
