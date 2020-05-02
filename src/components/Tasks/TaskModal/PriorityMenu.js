@@ -40,14 +40,17 @@ const customStyles = {
   }),
 };
 
-const PriorityMenu = ({ taskPriority }) => {
+const PriorityMenu = ({ taskPriority, handlePriorityChange }) => {
   const label = taskPriority
     ? taskPriority.charAt(0) + taskPriority.slice(1).toLowerCase()
     : "None";
 
   const defaultOption = { value: taskPriority, label, color: "#ADA296" };
   const [option, setOption] = useState(defaultOption);
-  const handleChange = (option) => setOption(option);
+  const handleChange = (option) => {
+    setOption(option);
+    handlePriorityChange(option.value);
+  };
 
   return (
     <Select

@@ -9,11 +9,18 @@ const DetailPanel = ({ taskPriority, taskDueDate, handleDetailPanel }) => {
     handleDetailPanel("taskDueDate", date);
   };
 
+  const handlePriorityChange = (taskPriority) => {
+    handleDetailPanel("taskPriority", taskPriority);
+  };
+
   return (
     <InnerPanel>
       <DetailBox>
         <DetailTitle>Priority:</DetailTitle>
-        <PriorityMenu taskPriority={taskPriority} />
+        <PriorityMenu
+          taskPriority={taskPriority}
+          handlePriorityChange={handlePriorityChange}
+        />
       </DetailBox>
 
       <DetailBox>
