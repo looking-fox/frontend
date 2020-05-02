@@ -9,13 +9,13 @@ import {
   Field,
   FormErrorText,
   CustomSelect,
-  CustomTextarea
+  CustomTextarea,
 } from "../../../ui/formik/FormikComponents";
 
 class AddOrEditClientModal extends Component {
   state = {
     workflowOptions: [],
-    newClient: true
+    newClient: true,
   };
 
   async componentDidMount() {
@@ -30,7 +30,7 @@ class AddOrEditClientModal extends Component {
     this.setState({ workflowOptions });
   };
 
-  handleValidation = values => {
+  handleValidation = (values) => {
     const errors = {};
     if (!values.clientFullName) {
       errors.clientFullName = "Required";
@@ -70,7 +70,7 @@ class AddOrEditClientModal extends Component {
       clientDate: "",
       clientPrivateNote: "",
       clientLocation: "",
-      wfId: null
+      wfId: null,
     };
 
     return (
@@ -143,7 +143,7 @@ const StySubmitButton = styled(Button)`
   margin-left: auto;
 `;
 
-const mapState = state => {
+const mapState = (state) => {
   return { workflows: state.workflows.workflows };
 };
 

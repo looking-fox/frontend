@@ -10,6 +10,7 @@ import Toast from "./Toast";
 import Modal from "./Modal";
 import Link from "./Link";
 import Spinner from "./Spinner";
+import Calendar from "./Calendar";
 
 const Button = (props) => {
   const { isLoading, children } = props;
@@ -39,4 +40,5 @@ export {
   Modal,
   Link,
   Spinner,
+  Calendar,
 };

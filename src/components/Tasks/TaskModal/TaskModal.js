@@ -14,10 +14,9 @@ import { FiCheckSquare } from "react-icons/fi";
 import { useFormState } from "react-use-form-state";
 
 const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
-  const { taskDueDate, taskPriority, taskColumnId } = currentTask;
-
   const [formState, { text }] = useFormState(currentTask);
   const { values: form } = formState;
+  const { taskDueDate, taskPriority } = form;
 
   const customRef = useRef();
   useClickOffElement(customRef, toggleModal);
@@ -31,9 +30,13 @@ const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
     return [newFormActions, index];
   };
 
-  const setForm = (form) => {
-    formState.setField("taskActions", form);
+  const setForm = (taskActions) => {
+    formState.setField("taskActions", taskActions);
     // setField resets validation. not using validation for this form.
+  };
+
+  const handleDetailPanel = (item, value) => {
+    formState.setField(item, value);
   };
 
   const handleCheckboxChange = (taskActionId, key, newValue) => {
@@ -61,10 +64,9 @@ const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
     };
     newFormActions.push(newTaskAction);
     setForm(newFormActions);
-    // Set Field Input to Edit Mode Right Away
     // How do we determine new fields on the backend?
   };
-
+  console.log("Form: ", form);
   return (
     <ModalBackground show={showModal}>
       <ModalContainer noPadding ref={customRef}>
@@ -114,6 +116,7 @@ const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
 
           <RightPanel>
             <DetailPanel
+              handleDetailPanel={handleDetailPanel}
               taskDueDate={taskDueDate}
               taskPriority={taskPriority}
             />

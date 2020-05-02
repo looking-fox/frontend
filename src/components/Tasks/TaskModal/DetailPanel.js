@@ -1,10 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import { Text } from "../../../ui/StyledComponents";
+import { Text, Calendar } from "../../../ui/StyledComponents";
 import PriorityMenu from "./PriorityMenu";
 
-const DetailPanel = ({ taskPriority, taskDueDate }) => {
+const DetailPanel = ({ taskPriority, taskDueDate, handleDetailPanel }) => {
   // TO DO: Still need to query for client info to pass in
+  const handleDateChange = (date) => {
+    handleDetailPanel("taskDueDate", date);
+  };
+
   return (
     <InnerPanel>
       <DetailBox>
@@ -14,7 +18,7 @@ const DetailPanel = ({ taskPriority, taskDueDate }) => {
 
       <DetailBox>
         <DetailTitle>Due Date:</DetailTitle>
-        <DetailInfo>March 28th, 2021</DetailInfo>
+        <Calendar value={taskDueDate} handleOnChange={handleDateChange} />
       </DetailBox>
 
       <DetailBox>
