@@ -56,7 +56,6 @@ const PriorityMenu = ({ taskPriority, handlePriorityChange }) => {
     <Select
       value={option}
       options={options}
-      color="red"
       onChange={handleChange}
       styles={customStyles}
     />

@@ -16,7 +16,6 @@ import { useFormState } from "react-use-form-state";
 const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
   const [formState, { text }] = useFormState(currentTask);
   const { values: form } = formState;
-  const { taskDueDate, taskPriority } = form;
 
   const customRef = useRef();
   useClickOffElement(customRef, toggleModal);
@@ -35,7 +34,7 @@ const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
     // setField resets validation. not using validation for this form.
   };
 
-  const handleDetailPanel = (item, value) => {
+  const handleFormChange = (item, value) => {
     formState.setField(item, value);
   };
 
@@ -66,6 +65,9 @@ const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
     setForm(newFormActions);
     // How do we determine new fields on the backend?
   };
+
+  const { taskDueDate, taskPriority } = form;
+  const clientForTask = { value: form.clientId, label: form.clientFullName };
 
   return (
     <ModalBackground show={showModal}>
@@ -116,9 +118,10 @@ const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
 
           <RightPanel>
             <DetailPanel
-              handleDetailPanel={handleDetailPanel}
               taskDueDate={taskDueDate}
               taskPriority={taskPriority}
+              clientForTask={clientForTask}
+              handleFormChange={handleFormChange}
             />
           </RightPanel>
         </ModalBody>

@@ -2,15 +2,24 @@ import React from "react";
 import styled from "styled-components";
 import { Text, Calendar } from "../../../ui/StyledComponents";
 import PriorityMenu from "./PriorityMenu";
+import ClientMenu from "./ClientMenu";
 
-const DetailPanel = ({ taskPriority, taskDueDate, handleDetailPanel }) => {
-  // TO DO: Still need to query for client info to pass in
+const DetailPanel = ({
+  taskPriority,
+  taskDueDate,
+  clientForTask,
+  handleFormChange,
+}) => {
   const handleDateChange = (date) => {
-    handleDetailPanel("taskDueDate", date);
+    handleFormChange("taskDueDate", date);
   };
 
   const handlePriorityChange = (taskPriority) => {
-    handleDetailPanel("taskPriority", taskPriority);
+    handleFormChange("taskPriority", taskPriority);
+  };
+
+  const handleClientChange = (clientId) => {
+    handleFormChange("clientId", clientId);
   };
 
   return (
@@ -34,7 +43,10 @@ const DetailPanel = ({ taskPriority, taskDueDate, handleDetailPanel }) => {
 
       <DetailBox>
         <DetailTitle>Client:</DetailTitle>
-        <DetailInfo>Jessica & John</DetailInfo>
+        <ClientMenu
+          clientForTask={clientForTask}
+          handleClientChange={handleClientChange}
+        />
       </DetailBox>
     </InnerPanel>
   );
