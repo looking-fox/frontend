@@ -9,7 +9,17 @@ const TaskCard = ({ task, handleUpdateTask, toggleModal }) => {
   const [input, setInput] = useState("");
 
   const handleOnChange = (e) => setInput(e.target.value);
-  const handleOnBlur = () => {
+
+  const handleOnClick = () => {
+    if (task.isNew) return;
+    else toggleModal({ task });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") handleSaveCard();
+  };
+
+  const handleSaveCard = () => {
     if (input) {
       const updatedTask = JSON.parse(JSON.stringify(task));
       updatedTask.taskTitle = input;
@@ -17,11 +27,6 @@ const TaskCard = ({ task, handleUpdateTask, toggleModal }) => {
       const { taskId } = updatedTask;
       handleUpdateTask(taskId, updatedTask);
     }
-  };
-
-  const handleOnClick = () => {
-    if (task.isNew) return;
-    else toggleModal({ task });
   };
 
   return (
@@ -32,7 +37,8 @@ const TaskCard = ({ task, handleUpdateTask, toggleModal }) => {
           value={input}
           autoFocus={true}
           onChange={handleOnChange}
-          onBlur={handleOnBlur}
+          onKeyDown={handleKeyDown}
+          onBlur={handleSaveCard}
         />
       ) : (
         <StyledText>{task.taskTitle ? task.taskTitle : "Undefined"}</StyledText>
