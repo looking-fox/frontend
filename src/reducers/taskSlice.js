@@ -46,6 +46,10 @@ const taskSlice = createSlice({
         state.currentTask = action.payload.task;
       } else state.currentTask = {};
     },
+    hideModal(state, action) {
+      state.showModal = false;
+      state.currentTask = {};
+    },
   },
 });
 
@@ -58,6 +62,7 @@ export const {
   updateTaskSuccess,
   updateTaskFail,
   toggleModal,
+  hideModal,
 } = taskSlice.actions;
 // Export actions for dispatch //
 

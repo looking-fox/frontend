@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { updateTask } from "../../../thunks/taskThunk";
-import { toggleModal } from "../../../reducers/taskSlice";
+import { toggleModal, hideModal } from "../../../reducers/taskSlice";
 import { Text, Textarea, Button } from "../../../ui/StyledComponents";
 import Checkbox from "./Checkbox";
 import TaskHeader from "./TaskHeader";
@@ -12,13 +12,28 @@ import DetailPanel from "./DetailPanel";
 import { FaRegStickyNote } from "react-icons/fa";
 import { FiCheckSquare } from "react-icons/fi";
 import { useFormState } from "react-use-form-state";
+import isEqual from "lodash.isequal";
 
-const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
+const TaskModal = ({
+  currentTask,
+  showModal,
+  uid,
+  toggleModal,
+  hideModal,
+  updateTask,
+}) => {
   const [formState, { text }] = useFormState(currentTask);
   const { values: form } = formState;
 
+  const handleCloseTaskModal = async () => {
+    const noFormChanges = isEqual(formState.values, currentTask);
+    if (!noFormChanges) {
+      await updateTask(currentTask.taskId, formState.values);
+    }
+    hideModal();
+  };
   const customRef = useRef();
-  useClickOffElement(customRef, toggleModal);
+  useClickOffElement(customRef, handleCloseTaskModal);
 
   const generateFormCopy = (id) => {
     const newFormActions = [...form.taskActions];
@@ -97,18 +112,19 @@ const TaskModal = ({ currentTask, showModal, uid, toggleModal }) => {
                 <FiCheckSquare /> To Do List
               </TitleText>
               <ToDoInnerPanel>
-                {form.taskActions.map((item, idx) => {
-                  const isLastItem = form.taskActions.length - 1 === idx;
-                  return (
-                    <Checkbox
-                      key={item.taskActionId || idx}
-                      item={item}
-                      isLastItem={isLastItem}
-                      handleCheckboxChange={handleCheckboxChange}
-                      handleCheckboxDelete={handleCheckboxDelete}
-                    />
-                  );
-                })}
+                {form.taskActions &&
+                  form.taskActions.map((item, idx) => {
+                    const isLastItem = form.taskActions.length - 1 === idx;
+                    return (
+                      <Checkbox
+                        key={item.taskActionId || idx}
+                        item={item}
+                        isLastItem={isLastItem}
+                        handleCheckboxChange={handleCheckboxChange}
+                        handleCheckboxDelete={handleCheckboxDelete}
+                      />
+                    );
+                  })}
                 <AddTaskButton onClick={handleAddTaskAction}>
                   + Add Task
                 </AddTaskButton>
@@ -199,6 +215,6 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = { updateTask, toggleModal };
+const mapDispatch = { updateTask, toggleModal, hideModal };
 
 export default connect(mapState, mapDispatch)(TaskModal);
