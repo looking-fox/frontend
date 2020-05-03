@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import styled from "styled-components";
 import { Text, Input } from "../../../ui/StyledComponents";
 import { toggleModal } from "../../../reducers/taskSlice";
+import { useDrag } from "react-dnd";
 
-const TaskCard = ({ task, handleUpdateTask, toggleModal }) => {
-  // TO DO: use context API
+const TaskCard = ({ task, handleUpdateTask, toggleModal, type }) => {
   const [input, setInput] = useState("");
 
   const handleOnChange = (e) => setInput(e.target.value);
@@ -29,8 +29,15 @@ const TaskCard = ({ task, handleUpdateTask, toggleModal }) => {
     }
   };
 
+  const [{ opacity }, drag] = useDrag({
+    item: { taskId: task.taskId, type, currentColumnId: task.taskColumnId },
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
+  });
+
   return (
-    <CardContainer onClick={handleOnClick}>
+    <CardContainer ref={drag} style={{ opacity }} onClick={handleOnClick}>
       {task.isNew ? (
         <StyledInput
           placeholder="New"

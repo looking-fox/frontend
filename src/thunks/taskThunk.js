@@ -6,6 +6,8 @@ import {
   addTaskFail,
   updateTaskSuccess,
   updateTaskFail,
+  updateTaskLocationSuccess,
+  updateTaskLocationFail,
 } from "../reducers/taskSlice";
 
 const getTasks = () => async (dispatch) => {
@@ -17,9 +19,9 @@ const getTasks = () => async (dispatch) => {
   }
 };
 
-const addTask = (columnId) => async (dispatch) => {
+const addTask = (location) => async (dispatch) => {
   try {
-    const { data } = await api.task.addTask({ columnId });
+    const { data } = await api.task.addTask({ location });
     dispatch(addTaskSuccess(data));
   } catch (err) {
     dispatch(addTaskFail(err));
@@ -44,4 +46,19 @@ const updateFullTask = (taskId, task) => async (dispatch) => {
   }
 };
 
-export { getTasks, addTask, updatePartialTask, updateFullTask };
+const updateTaskLocation = (taskId, location) => async (dispatch) => {
+  try {
+    const { data } = await api.task.updateTaskLocation(taskId, location);
+    dispatch(updateTaskLocationSuccess(data));
+  } catch (err) {
+    dispatch(updateTaskLocationFail(err));
+  }
+};
+
+export {
+  getTasks,
+  addTask,
+  updatePartialTask,
+  updateFullTask,
+  updateTaskLocation,
+};

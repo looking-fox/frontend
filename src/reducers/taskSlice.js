@@ -22,8 +22,12 @@ const taskSlice = createSlice({
       console.log("Redux failed to GET tasks.");
     },
     addTaskSuccess(state, action) {
-      const { newTask, columnId } = action.payload;
-      const idx = searchIndex(state.taskColumns, "taskColumnId", columnId);
+      const { newTask } = action.payload;
+      const idx = searchIndex(
+        state.taskColumns,
+        "taskColumnId",
+        newTask.taskColumnId
+      );
       state.taskColumns[idx].tasks.push(newTask);
     },
     addTaskFail() {
@@ -50,6 +54,25 @@ const taskSlice = createSlice({
       state.showModal = false;
       state.currentTask = {};
     },
+    updateTaskLocationSuccess(state, action) {
+      const { taskColumns } = state;
+      const {
+        taskId,
+        newColumnIndex: nIdx,
+        currentColumnId: cId,
+        newColumnId: nId,
+      } = action.payload;
+      // find idx for column and task to splice
+      const cIdx = searchIndex(taskColumns, "taskColumnId", cId);
+      const tIndex = searchIndex(taskColumns[cIdx].tasks, "taskId", taskId);
+      // splice task, update column id
+      const [updatedTask] = taskColumns[cIdx].tasks.splice(tIndex, 1);
+      updatedTask["taskColumnId"] = nId;
+      taskColumns[nIdx].tasks.push(updatedTask);
+    },
+    updateTaskLocationFail(state, action) {
+      console.log("Redux failed to PUT new task location.");
+    },
   },
 });
 
@@ -63,6 +86,8 @@ export const {
   updateTaskFail,
   toggleModal,
   hideModal,
+  updateTaskLocationSuccess,
+  updateTaskLocationFail,
 } = taskSlice.actions;
 // Export actions for dispatch //
 

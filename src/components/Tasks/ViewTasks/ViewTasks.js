@@ -1,46 +1,72 @@
-import React, { Component } from "react";
+import React, { useEffect, useCallback } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import TaskColumn from "./TaskColumn";
 import TaskModal from "../TaskModal/TaskModal";
+import { DndProvider } from "react-dnd";
+import Backend from "react-dnd-html5-backend";
+import ItemTypes from "./ItemTypes";
 import {
   getTasks,
   addTask,
   updatePartialTask,
+  updateTaskLocation,
 } from "../../../thunks/taskThunk";
 
-class ViewTasks extends Component {
-  async componentDidMount() {
-    await this.props.getTasks();
-  }
+const ViewTasks = ({
+  taskColumns,
+  showModal,
+  getTasks,
+  addTask,
+  updatePartialTask,
+  updateTaskLocation,
+}) => {
+  useEffect(() => {
+    async function loadTasks() {
+      await getTasks();
+    }
+    loadTasks();
+  }, []);
 
-  handleAddTask = async (columnId) => {
-    await this.props.addTask(columnId);
+  const handleAddTask = async (location) => await addTask(location);
+
+  const handleUpdateTask = async (taskId, task) => {
+    await updatePartialTask(taskId, task);
   };
 
-  handleUpdateTask = async (taskId, task) => {
-    await this.props.updatePartialTask(taskId, task);
-  };
+  const handleDrop = useCallback(async (task, column) => {
+    const { taskId, currentColumnId } = task;
+    const {
+      taskColumnOrder: newColumnIndex,
+      taskColumnId: newColumnId,
+    } = column;
+    await updateTaskLocation(taskId, {
+      currentColumnId,
+      newColumnId,
+      newColumnIndex,
+    });
+  }, []);
 
-  render() {
-    const { taskColumns, showModal } = this.props;
-    return (
-      <Container>
+  return (
+    <Container>
+      <DndProvider backend={Backend}>
         {taskColumns.map((column, idx) => {
           return (
             <TaskColumn
+              accept={ItemTypes.CARD}
               column={column}
               key={column.taskColumnId || idx}
-              handleAddTask={this.handleAddTask}
-              handleUpdateTask={this.handleUpdateTask}
+              handleAddTask={handleAddTask}
+              handleUpdateTask={handleUpdateTask}
+              onDrop={(item) => handleDrop(item, column)}
             />
           );
         })}
-        {showModal && <TaskModal />}
-      </Container>
-    );
-  }
-}
+      </DndProvider>
+      {showModal && <TaskModal />}
+    </Container>
+  );
+};
 
 const Container = styled.div`
   height: calc(100vh - 60px);
@@ -55,6 +81,11 @@ const mapState = (state) => ({
   taskColumns: state.tasks.taskColumns,
   showModal: state.tasks.showModal,
 });
-const mapDispatch = { getTasks, addTask, updatePartialTask };
+const mapDispatch = {
+  getTasks,
+  addTask,
+  updatePartialTask,
+  updateTaskLocation,
+};
 
 export default connect(mapState, mapDispatch)(ViewTasks);
