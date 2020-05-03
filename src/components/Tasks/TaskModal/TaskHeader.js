@@ -55,6 +55,8 @@ const HeaderContainer = styled.div`
   margin-bottom: 20px;
   box-sizing: border-box;
   height: 60px;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
 `;
 
 const StyledText = styled(Text)`
