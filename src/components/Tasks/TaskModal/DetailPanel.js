@@ -64,9 +64,4 @@ const DetailTitle = styled(Text)`
   padding-left: 5px;
 `;
 
-const DetailInfo = styled(Text)`
-  font-size: 0.9em;
-  padding-left: 5px;
-`;
-
 export default DetailPanel;

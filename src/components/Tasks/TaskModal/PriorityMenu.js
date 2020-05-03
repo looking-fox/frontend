@@ -41,10 +41,6 @@ const customStyles = {
 };
 
 const PriorityMenu = ({ taskPriority, handlePriorityChange }) => {
-  const label = taskPriority
-    ? taskPriority.charAt(0) + taskPriority.slice(1).toLowerCase()
-    : "None";
-
   const idx = options.findIndex((item) => item.value === taskPriority);
   const defaultOption = options[idx];
   const [option, setOption] = useState(defaultOption);
