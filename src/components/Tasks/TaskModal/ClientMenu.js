@@ -53,7 +53,7 @@ const ClientMenu = ({
 
   const handleChange = (option) => {
     setOption(option);
-    handleClientChange(option.value);
+    handleClientChange(option);
   };
 
   return (

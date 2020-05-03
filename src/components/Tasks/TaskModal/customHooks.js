@@ -11,5 +11,5 @@ export const useClickOffElement = (ref, cb) => {
     return () => {
       window.removeEventListener("click", handleClick);
     };
-  }, [ref, cb]);
+  }, []);
 };

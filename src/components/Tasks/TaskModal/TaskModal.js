@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { updateTask } from "../../../thunks/taskThunk";
+import { updateFullTask } from "../../../thunks/taskThunk";
 import { toggleModal, hideModal } from "../../../reducers/taskSlice";
 import { Text, Textarea, Button } from "../../../ui/StyledComponents";
 import Checkbox from "./Checkbox";
@@ -20,7 +20,7 @@ const TaskModal = ({
   uid,
   toggleModal,
   hideModal,
-  updateTask,
+  updateFullTask,
 }) => {
   const [formState, { text }] = useFormState(currentTask);
   const { values: form } = formState;
@@ -28,10 +28,11 @@ const TaskModal = ({
   const handleCloseTaskModal = async () => {
     const noFormChanges = isEqual(formState.values, currentTask);
     if (!noFormChanges) {
-      await updateTask(currentTask.taskId, formState.values);
+      await updateFullTask(currentTask.taskId, formState.values);
     }
     hideModal();
   };
+
   const customRef = useRef();
   useClickOffElement(customRef, handleCloseTaskModal);
 
@@ -51,6 +52,11 @@ const TaskModal = ({
 
   const handleFormChange = (item, value) => {
     formState.setField(item, value);
+  };
+
+  const handleClientChange = ({ value: clientId, label: clientFullName }) => {
+    formState.setField("clientFullName", clientFullName);
+    formState.setField("clientId", clientId);
   };
 
   const handleCheckboxChange = (taskActionId, key, newValue) => {
@@ -138,6 +144,7 @@ const TaskModal = ({
               taskPriority={taskPriority}
               clientForTask={clientForTask}
               handleFormChange={handleFormChange}
+              handleClientChange={handleClientChange}
             />
           </RightPanel>
         </ModalBody>
@@ -215,6 +222,6 @@ const mapState = (state) => {
   };
 };
 
-const mapDispatch = { updateTask, toggleModal, hideModal };
+const mapDispatch = { updateFullTask, toggleModal, hideModal };
 
 export default connect(mapState, mapDispatch)(TaskModal);

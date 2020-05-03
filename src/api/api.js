@@ -40,6 +40,9 @@ export default {
   task: {
     getTasks: () => client.get("/tasks/"),
     addTask: (columnId) => client.post("/tasks/task", columnId),
-    updateTask: (taskId, task) => client.put(`/tasks/task/${taskId}`, { task }),
+    updatePartialTask: (taskId, task) =>
+      client.put(`/tasks/task/partial/${taskId}`, { task }),
+    updateFullTask: (taskId, task) =>
+      client.put(`/tasks/task/full/${taskId}`, { task }),
   },
 };

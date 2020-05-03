@@ -26,13 +26,22 @@ const addTask = (columnId) => async (dispatch) => {
   }
 };
 
-const updateTask = (taskId, task) => async (dispatch) => {
+const updatePartialTask = (taskId, task) => async (dispatch) => {
   try {
-    const { data } = await api.task.updateTask(taskId, task);
+    const { data } = await api.task.updatePartialTask(taskId, task);
     dispatch(updateTaskSuccess(data));
   } catch (err) {
     dispatch(updateTaskFail(err));
   }
 };
 
-export { getTasks, addTask, updateTask };
+const updateFullTask = (taskId, task) => async (dispatch) => {
+  try {
+    const { data } = await api.task.updateFullTask(taskId, task);
+    dispatch(updateTaskSuccess(data));
+  } catch (err) {
+    dispatch(updateTaskFail(err));
+  }
+};
+
+export { getTasks, addTask, updatePartialTask, updateFullTask };

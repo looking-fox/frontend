@@ -9,6 +9,7 @@ const DetailPanel = ({
   taskDueDate,
   clientForTask,
   handleFormChange,
+  handleClientChange,
 }) => {
   const handleDateChange = (date) => {
     handleFormChange("taskDueDate", date);
@@ -16,10 +17,6 @@ const DetailPanel = ({
 
   const handlePriorityChange = (taskPriority) => {
     handleFormChange("taskPriority", taskPriority);
-  };
-
-  const handleClientChange = (clientId) => {
-    handleFormChange("clientId", clientId);
   };
 
   return (
