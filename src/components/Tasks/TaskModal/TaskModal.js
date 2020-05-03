@@ -148,9 +148,6 @@ const TaskModal = ({
             />
           </RightPanel>
         </ModalBody>
-        <ButtonPanel>
-          <Button>Save</Button>
-        </ButtonPanel>
       </ModalContainer>
     </ModalBackground>
   );
@@ -205,13 +202,6 @@ const AddTaskButton = styled(Button)`
     box-shadow: none;
     opacity: 1;
   }
-`;
-
-const ButtonPanel = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 0px 20px;
-  padding-bottom: 20px;
 `;
 
 const mapState = (state) => {
