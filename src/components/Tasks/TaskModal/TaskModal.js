@@ -7,7 +7,7 @@ import { Text, Textarea, Button } from "../../../ui/StyledComponents";
 import Checkbox from "./Checkbox";
 import TaskHeader from "./TaskHeader";
 import { ModalBackground, ModalContainer } from "../../../ui/Modal";
-import { useClickOffElement } from "./customHooks";
+import { useClickOffElement } from "../../../hooks/customHooks";
 import DetailPanel from "./DetailPanel";
 import { FaRegStickyNote } from "react-icons/fa";
 import { FiCheckSquare } from "react-icons/fi";

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Input } from "../../../ui/StyledComponents";
 import styled, { css } from "styled-components";
 import { FiTrash2, FiEdit } from "react-icons/fi";
-import { useClickOffElement } from "./customHooks";
+import { useClickOffElement } from "../../../hooks/customHooks";
 
 const Checkbox = (props) => {
   const { taskActionName, taskCompleted, taskActionId, createdAt } =

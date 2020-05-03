@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Text } from "./StyledComponents";
-import { useClickOffElement } from "../components/Tasks/TaskModal/customHooks";
+import { useClickOffElement } from "../hooks/customHooks";
 import { FiCalendar } from "react-icons/fi";
 import dayjs from "dayjs";
 const advancedFormat = require("dayjs/plugin/advancedFormat");

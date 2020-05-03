@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { IoMdClose } from "react-icons/io";
 import { FiList } from "react-icons/fi";
 import { Text, Input } from "../../../ui/StyledComponents";
-import { useClickOffElement } from "./customHooks";
+import { useClickOffElement } from "../../../hooks/customHooks";
 
 const TaskHeader = ({ taskTitle, textElement, onClose }) => {
   const customRef = useRef();
