@@ -13,7 +13,14 @@ const hoverStyles = {
   cursor: "move",
 };
 
-const TaskCard = ({ task, index, handleUpdateTask, toggleModal }) => {
+const TaskCard = ({
+  task,
+  index,
+  columnIndex,
+  handleDrop,
+  handleUpdateTask,
+  toggleModal,
+}) => {
   const cardRef = useRef(null);
   const [input, setInput] = useState("");
 
@@ -40,51 +47,22 @@ const TaskCard = ({ task, index, handleUpdateTask, toggleModal }) => {
 
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: ItemTypes.CARD,
+    drop: (item) =>
+      handleDrop({ newIndex: index, newColumnIndex: columnIndex, item }),
     collect: (monitor) => ({
       canDrop: monitor.canDrop(),
       isOver: monitor.isOver(),
     }),
-    hover(item, monitor) {
-      if (!cardRef.current) {
-        return;
-      }
-      const dragIndex = item.index;
-      const hoverIndex = index;
-      // Don't replace items with themselves
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-      // Determine rectangle on screen
-      const hoverBoundingRect = cardRef.current.getBoundingClientRect();
-      // Get vertical middle
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      // Determine mouse position
-      const clientOffset = monitor.getClientOffset();
-      // Get pixels to the top
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-      // Only perform the move when the mouse has crossed half of the items height
-      // When dragging downwards, only move when the cursor is below 50%
-      // When dragging upwards, only move when the cursor is above 50%
-      // Dragging downwards
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-      // Dragging upwards
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-      // Time to actually perform the action
-      // moveCard(dragIndex, hoverIndex);
-      // item.index = hoverIndex;
-    },
   });
 
-  const [{ isDragging }, drag] = useDrag({
-    item: { type: ItemTypes.CARD, index, title: task.taskTitle },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+  const [, drag] = useDrag({
+    item: {
+      type: ItemTypes.CARD,
+      prevIndex: index,
+      title: task.taskTitle,
+      prevColumnIndex: columnIndex,
+      task,
+    },
   });
 
   drag(drop(cardRef));

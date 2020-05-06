@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { Text, Button } from "../../../ui/StyledComponents";
 import TaskCard from "./TaskCard";
 import { IoIosAdd } from "react-icons/io";
 import { useDrop } from "react-dnd";
+import ItemTypes from "./ItemTypes";
 
 const AddTaskButton = ({ onClick }) => {
   return (
@@ -16,10 +17,10 @@ const AddTaskButton = ({ onClick }) => {
 
 const TaskColumn = ({
   column,
+  columnIndex,
+  handleDrop,
   handleAddTask,
   handleUpdateTask,
-  accept,
-  onDrop,
 }) => {
   const noTasks = column.tasks.length === 0;
 
@@ -32,8 +33,8 @@ const TaskColumn = ({
   };
 
   const [{ isOver, canDrop }, drop] = useDrop({
-    accept,
-    drop: onDrop,
+    accept: ItemTypes.CARD,
+    drop: (item) => handleDrop({ newColumnIndex: columnIndex, item }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -42,9 +43,9 @@ const TaskColumn = ({
 
   const isActive = isOver && canDrop;
   let opacity = isActive || !canDrop ? 1 : 0.5;
-
+  let border = isActive ? "2px dashed blue" : "inherit";
   return (
-    <ColumnContainer ref={drop} style={{ opacity }}>
+    <ColumnContainer ref={drop} style={{ opacity, border }}>
       <Title>{column.taskColumnName}</Title>
       {column.tasks.map((task, idx) => {
         const displayAddButton = idx === column.tasks.length - 1;
@@ -53,6 +54,8 @@ const TaskColumn = ({
             <TaskCard
               task={task}
               index={idx}
+              columnIndex={columnIndex}
+              handleDrop={handleDrop}
               handleUpdateTask={handleUpdateTask}
             />
             {displayAddButton && <AddTaskButton onClick={handleOnClick} />}

@@ -5,7 +5,6 @@ import TaskColumn from "./TaskColumn";
 import TaskModal from "../TaskModal/TaskModal";
 import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
-import ItemTypes from "./ItemTypes";
 import {
   getTasks,
   addTask,
@@ -34,17 +33,14 @@ const ViewTasks = ({
     await updatePartialTask(taskId, task);
   };
 
-  const handleDrop = useCallback(async (task, column) => {
-    const { taskId, currentColumnId } = task;
-    const {
-      taskColumnOrder: newColumnIndex,
-      taskColumnId: newColumnId,
-    } = column;
-    await updateTaskLocation(taskId, {
-      currentColumnId,
-      newColumnId,
-      newColumnIndex,
-    });
+  const handleDrop = useCallback(async (one) => {
+    console.log("Task: ", one);
+
+    // await updateTaskLocation(taskId, {
+    //   currentColumnId,
+    //   newColumnId,
+    //   newColumnIndex,
+    // });
   }, []);
 
   return (
@@ -53,12 +49,12 @@ const ViewTasks = ({
         {taskColumns.map((column, idx) => {
           return (
             <TaskColumn
-              accept={ItemTypes.CARD}
               column={column}
+              columnIndex={idx}
               key={column.taskColumnId || idx}
               handleAddTask={handleAddTask}
               handleUpdateTask={handleUpdateTask}
-              onDrop={(item) => handleDrop(item, column)}
+              handleDrop={(item) => handleDrop(item, column)}
             />
           );
         })}
