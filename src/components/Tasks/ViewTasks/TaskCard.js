@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Text, Input } from "../../../ui/StyledComponents";
 import { toggleModal } from "../../../reducers/taskSlice";
-import { useDrag } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
+import ItemTypes from "./ItemTypes";
 
-const TaskCard = ({ task, handleUpdateTask, toggleModal, type }) => {
+const hoverStyles = {
+  borderTop: "2px solid #b5b5b5",
+  borderTopRightRadius: 0,
+  borderTopLeftRadius: 0,
+  cursor: "move",
+};
+
+const TaskCard = ({ task, index, handleUpdateTask, toggleModal }) => {
+  const cardRef = useRef(null);
   const [input, setInput] = useState("");
 
   const handleOnChange = (e) => setInput(e.target.value);
@@ -29,15 +38,64 @@ const TaskCard = ({ task, handleUpdateTask, toggleModal, type }) => {
     }
   };
 
-  const [{ opacity }, drag] = useDrag({
-    item: { taskId: task.taskId, type, currentColumnId: task.taskColumnId },
+  const [{ canDrop, isOver }, drop] = useDrop({
+    accept: ItemTypes.CARD,
     collect: (monitor) => ({
-      opacity: monitor.isDragging() ? 0.5 : 1,
+      canDrop: monitor.canDrop(),
+      isOver: monitor.isOver(),
+    }),
+    hover(item, monitor) {
+      if (!cardRef.current) {
+        return;
+      }
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      // Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+      // Determine rectangle on screen
+      const hoverBoundingRect = cardRef.current.getBoundingClientRect();
+      // Get vertical middle
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset();
+      // Get pixels to the top
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      // Only perform the move when the mouse has crossed half of the items height
+      // When dragging downwards, only move when the cursor is below 50%
+      // When dragging upwards, only move when the cursor is above 50%
+      // Dragging downwards
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+      // Dragging upwards
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+      // Time to actually perform the action
+      // moveCard(dragIndex, hoverIndex);
+      // item.index = hoverIndex;
+    },
+  });
+
+  const [{ isDragging }, drag] = useDrag({
+    item: { type: ItemTypes.CARD, index, title: task.taskTitle },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
     }),
   });
 
+  drag(drop(cardRef));
+  const isActive = isOver && canDrop;
+
   return (
-    <CardContainer ref={drag} style={{ opacity }} onClick={handleOnClick}>
+    <CardContainer
+      ref={cardRef}
+      style={isActive ? { ...hoverStyles } : {}}
+      onClick={handleOnClick}
+    >
       {task.isNew ? (
         <StyledInput
           placeholder="New"
@@ -62,6 +120,7 @@ const CardContainer = styled.div`
   margin: 15px 0px;
   padding: 10px;
   cursor: pointer;
+  transition: all 100ms ease-in-out;
 `;
 
 const StyledInput = styled(Input)`

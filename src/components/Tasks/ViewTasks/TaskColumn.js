@@ -4,7 +4,6 @@ import { Text, Button } from "../../../ui/StyledComponents";
 import TaskCard from "./TaskCard";
 import { IoIosAdd } from "react-icons/io";
 import { useDrop } from "react-dnd";
-import ItemTypes from "./ItemTypes";
 
 const AddTaskButton = ({ onClick }) => {
   return (
@@ -53,7 +52,7 @@ const TaskColumn = ({
           <div key={task.taskId || idx}>
             <TaskCard
               task={task}
-              type={ItemTypes.CARD}
+              index={idx}
               handleUpdateTask={handleUpdateTask}
             />
             {displayAddButton && <AddTaskButton onClick={handleOnClick} />}
