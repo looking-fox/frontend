@@ -46,9 +46,9 @@ const updateFullTask = (taskId, task) => async (dispatch) => {
   }
 };
 
-const updateTaskLocation = (taskId, location) => async (dispatch) => {
+const updateTaskLocation = (taskId, taskCard) => async (dispatch) => {
   try {
-    const { data } = await api.task.updateTaskLocation(taskId, location);
+    const { data } = await api.task.updateTaskLocation(taskId, taskCard);
     dispatch(updateTaskLocationSuccess(data));
   } catch (err) {
     dispatch(updateTaskLocationFail(err));

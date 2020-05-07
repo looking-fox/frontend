@@ -55,20 +55,7 @@ const taskSlice = createSlice({
       state.currentTask = {};
     },
     updateTaskLocationSuccess(state, action) {
-      const { taskColumns } = state;
-      const {
-        taskId,
-        newColumnIndex: nIdx,
-        currentColumnId: cId,
-        newColumnId: nId,
-      } = action.payload;
-      // find idx for column and task to splice
-      const cIdx = searchIndex(taskColumns, "taskColumnId", cId);
-      const tIndex = searchIndex(taskColumns[cIdx].tasks, "taskId", taskId);
-      // splice task, update column id
-      const [updatedTask] = taskColumns[cIdx].tasks.splice(tIndex, 1);
-      updatedTask["taskColumnId"] = nId;
-      taskColumns[nIdx].tasks.push(updatedTask);
+      console.log("PAYLOAD: ", action.payload);
     },
     updateTaskLocationFail(state, action) {
       console.log("Redux failed to PUT new task location.");

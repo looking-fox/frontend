@@ -44,7 +44,7 @@ export default {
       client.put(`/tasks/task/partial/${taskId}`, { task }),
     updateFullTask: (taskId, task) =>
       client.put(`/tasks/task/full/${taskId}`, { task }),
-    updateTaskLocation: (taskId, location) =>
-      client.put(`/tasks/task/location/${taskId}`, { location }),
+    updateTaskLocation: (taskId, taskCard) =>
+      client.put(`/tasks/task/location/${taskId}`, { taskCard }),
   },
 };

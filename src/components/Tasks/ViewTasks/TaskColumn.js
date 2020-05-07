@@ -1,19 +1,10 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Text, Button } from "../../../ui/StyledComponents";
+import { Text } from "../../../ui/StyledComponents";
 import TaskCard from "./TaskCard";
-import { IoIosAdd } from "react-icons/io";
 import { useDrop } from "react-dnd";
 import ItemTypes from "./ItemTypes";
-
-const AddTaskButton = ({ onClick }) => {
-  return (
-    <StyledButton fullWidth onClick={onClick}>
-      <IoIosAdd />
-      Task
-    </StyledButton>
-  );
-};
+import AddTaskButton from "./AddTaskButton";
 
 const TaskColumn = ({
   column,
@@ -22,6 +13,7 @@ const TaskColumn = ({
   handleAddTask,
   handleUpdateTask,
 }) => {
+  const [cardHover, setCardHover] = useState(false);
   const noTasks = column.tasks.length === 0;
 
   const handleOnClick = () => {
@@ -32,9 +24,22 @@ const TaskColumn = ({
     handleAddTask(location);
   };
 
+  const handleCardHover = (cardHoverStatus) => {
+    if (cardHoverStatus !== cardHover) setCardHover(cardHoverStatus);
+  };
+
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: ItemTypes.CARD,
-    drop: (item) => handleDrop({ newColumnIndex: columnIndex, item }),
+    drop: (item) => {
+      if (noTasks) {
+        handleDrop({
+          newColumnIndex: columnIndex,
+          newIndex: 0,
+          newColumnId: column.taskColumnId,
+          item,
+        });
+      } else return undefined;
+    },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
@@ -43,26 +48,31 @@ const TaskColumn = ({
 
   const isActive = isOver && canDrop;
   let opacity = isActive || !canDrop ? 1 : 0.5;
-  let border = isActive ? "2px dashed blue" : "inherit";
+
   return (
-    <ColumnContainer ref={drop} style={{ opacity, border }}>
+    <ColumnContainer ref={drop} style={{ opacity }}>
       <Title>{column.taskColumnName}</Title>
       {column.tasks.map((task, idx) => {
-        const displayAddButton = idx === column.tasks.length - 1;
         return (
           <div key={task.taskId || idx}>
             <TaskCard
               task={task}
               index={idx}
               columnIndex={columnIndex}
+              columnId={column.taskColumnId}
               handleDrop={handleDrop}
               handleUpdateTask={handleUpdateTask}
+              handleCardHover={handleCardHover}
             />
-            {displayAddButton && <AddTaskButton onClick={handleOnClick} />}
           </div>
         );
       })}
-      {noTasks && <AddTaskButton onClick={handleOnClick} />}
+      <AddTaskButton
+        isActive={isActive}
+        cardActive={cardHover}
+        onClick={handleOnClick}
+        handleDrop={handleDrop}
+      />
     </ColumnContainer>
   );
 };
@@ -72,31 +82,12 @@ const ColumnContainer = styled.div`
   margin: 0px 15px;
   padding: 25px 0px;
   padding-top: 50px;
-  transition: all 100ms ease-in-out;
 `;
 
 const Title = styled(Text)`
   font-size: 1.2em;
   font-weight: bold;
   margin-bottom: 25px;
-`;
-
-const StyledButton = styled(Button)`
-  background: transparent;
-  color: #777777;
-  font-size: 0.8em;
-  text-align: left;
-  padding: 10px 0px;
-  padding-left: 10px;
-  justify-content: flex-start;
-  outline: none;
-  margin-bottom: 100px;
-  &:hover {
-    opacity: 0.5;
-    background: white;
-    color: black;
-    box-shadow: none;
-  }
 `;
 
 export default TaskColumn;

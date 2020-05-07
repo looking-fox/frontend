@@ -33,15 +33,13 @@ const ViewTasks = ({
     await updatePartialTask(taskId, task);
   };
 
-  const handleDrop = useCallback(async (one) => {
-    console.log("Task: ", one);
-
-    // await updateTaskLocation(taskId, {
-    //   currentColumnId,
-    //   newColumnId,
-    //   newColumnIndex,
-    // });
-  }, []);
+  const handleDrop = useCallback(
+    async (taskCard) => {
+      const { taskId } = taskCard.item || {};
+      await updateTaskLocation(taskId, taskCard);
+    },
+    [updateTaskLocation]
+  );
 
   return (
     <Container>

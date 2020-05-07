@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { Text, Input } from "../../../ui/StyledComponents";
@@ -17,8 +17,10 @@ const TaskCard = ({
   task,
   index,
   columnIndex,
+  columnId,
   handleDrop,
   handleUpdateTask,
+  handleCardHover,
   toggleModal,
 }) => {
   const cardRef = useRef(null);
@@ -48,7 +50,12 @@ const TaskCard = ({
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: ItemTypes.CARD,
     drop: (item) =>
-      handleDrop({ newIndex: index, newColumnIndex: columnIndex, item }),
+      handleDrop({
+        newIndex: index,
+        newColumnIndex: columnIndex,
+        newColumnId: columnId,
+        item,
+      }),
     collect: (monitor) => ({
       canDrop: monitor.canDrop(),
       isOver: monitor.isOver(),
@@ -59,15 +66,19 @@ const TaskCard = ({
     item: {
       type: ItemTypes.CARD,
       prevIndex: index,
+      taskId: task.taskId,
       title: task.taskTitle,
       prevColumnIndex: columnIndex,
       task,
     },
   });
 
-  drag(drop(cardRef));
   const isActive = isOver && canDrop;
+  useEffect(() => {
+    handleCardHover(isActive);
+  }, [isActive]);
 
+  drag(drop(cardRef));
   return (
     <CardContainer
       ref={cardRef}
@@ -98,7 +109,6 @@ const CardContainer = styled.div`
   margin: 15px 0px;
   padding: 10px;
   cursor: pointer;
-  transition: all 100ms ease-in-out;
 `;
 
 const StyledInput = styled(Input)`
